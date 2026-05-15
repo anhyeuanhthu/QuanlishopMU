@@ -1,0 +1,205 @@
+<!-- Tác giả: Nguyễn Thanh Lợi  -->
+<!-- MSSV: B2305586 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập</title>
+
+    <!-- font awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- favicon -->
+    <link
+      rel="icon"
+      type="image/vnd.microsoft.icon"
+      href="../asset/favicon/logo-12.ico"
+    />
+
+    <!-- CSS -->
+    <!-- <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="sanpham.css" /> -->
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="dangnhap.css">
+    <!-- <script src="script.js" defer></script> -->
+  </head>
+  <body>
+    <header class="header">
+        <div class="slogan"><p>Giày thể thao, áo bóng đá chất lượng cao</p></div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item#"><a href="../index.html"><div class="logo"></div></a></li>
+                <li class="nav-item">
+                    <a href="../index.html" target="_self">Trang chủ</a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Trang chủ FB</a></li>
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Shopee</a></li>
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Địa chỉ liên hệ</a></li>
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Đặt quảng cáo</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="../sanpham_giohang/sanpham.html" target="_self">Sản phẩm</a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self">Đồ thể thao nam</a></li>
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self">Đồ thể thao nữ</a></li>
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self">Giày thể thao</a></li>
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self">Vợt cầu lông</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="../gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
+                        <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
+                        <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Lịch sử hình thành</a></li>
+                    </ul>
+                </li>
+            </ul>        
+            <ul class="nav-list">
+                <li class="nav-item"><a href="../sanpham_giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                <li class="nav-item">
+                    <a href="#" target="_self">Đăng ký/Đăng nhập <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i></a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../dangky/dangky.html" target="_self">Đăng ký</a></li>
+                        <li class="sub-menu-item"><a href="../dangnhap/dangnhap.html" target="_self">Đăng nhập</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>  
+    </header>
+<main>
+    <div class="main-login-wrapper">
+        <div class="main-login-container">
+        <span class="close-btn">&times;</span>
+        <div class="content-dn">
+         <h2>Đăng nhập</h2>
+        <form id="loginForm" action="#" method="post">
+            <input type="text" id="login-username" name="username" placeholder="Email" required />
+            <input type="password" id="login-password" name="password" placeholder="Mật khẩu" required />
+
+            <div class="options">
+            <label>
+                <input type="checkbox" name="remember" />
+                Ghi nhớ đăng nhập
+            </label>
+            <a href="#" class="forgot">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit">Đăng nhập</button>
+        </form>
+        
+      
+        
+        <div id="message"></div>
+
+        <div class="register">
+            Chưa có tài khoản? <a href="../dangky/dangky.html">Đăng ký ngay</a>
+        </div>
+
+        
+    </div>
+        </div>
+    </div>
+</main>
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-columns">
+          <div class="footer-column-header">
+            <h2>VỀ CHÚNG TÔI</h2>
+          </div>
+          <div class="column-content">
+            <p>
+              Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng
+              hàng đầu. Cam kết 100% sản phẩm authentic.
+            </p>
+            <div class="media-icon-container">
+              <a href="#" class="media-icon"
+                ><i class="fa-brands fa-facebook"></i
+              ></a>
+              <a href="#" class="media-icon"
+                ><i class="fa-brands fa-shopify"></i
+              ></a>
+              <a href="#" class="media-icon"
+                ><i
+                  class="fa-brands fa-square-twitter"
+                
+                ></i
+              ></a>
+              <a href="#" class="media-icon"
+                ><i class="fa-brands fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-columns">
+          <div class="footer-column-header">
+            <h2>DANH MỤC</h2>
+          </div>
+          <div class="column-content">
+            <ul>
+              <li><a href="#">Giày bóng đá</a></li>
+              <li><a href="#">Giày chạy bộ</a></li>
+              <li><a href="#">Quần áo thể thao</a></li>
+              <li><a href="#">Phụ kiện</a></li>
+              <li><a href="#">Thiết bị luyện tập</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-columns">
+          <div class="footer-column-header">
+            <h2>HỖ TRỢ</h2>
+          </div>
+          <div class="column-content">
+            <ul>
+              <li><a href="#">Chính sách đổi trả</a></li>
+              <li><a href="#">Hướng dẫn mua hàng</a></li>
+              <li><a href="#">Câu hỏi thường gặp</a></li>
+              <li><a href="#">Chính sách bảo mật</a></li>
+              <li><a href="#">Điều khoản sử dụng</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-columns">
+          <div class="footer-column-header">
+            <h2>LIÊN HỆ</h2>
+          </div>
+          <div class="column-content">
+            <ul>
+              <li>
+                <i class="connect-icon fas fa-map-marker-alt"></i> Số 123, Đường
+                ABC, Quận Ninh Kiều, Thành Phố Cần Thơ
+              </li>
+              <li>
+                <i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 -
+                18:00)
+              </li>
+              <li>
+                <i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="dangnhap.js"></script>
+  </body>
+</html>

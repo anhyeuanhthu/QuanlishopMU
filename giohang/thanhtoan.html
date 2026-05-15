@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #f4f4f4;
+        }
+        
+        .header {
+            background: #1a1a2e;
+            color: white;
+            padding: 15px 50px;
+        }
+        
+        .slogan {
+            text-align: center;
+            padding: 8px;
+            background: #e44d2e;
+            font-size: 14px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: #1a1a2e;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-list a:hover {
+            color: #e44d2e;
+        }
+        
+        .checkout-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .checkout-form {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .summary-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #e44d2e;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #e44d2e;
+            box-shadow: 0 0 0 3px rgba(228, 77, 46, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .payment-option {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option:hover {
+            background: #f9f9f9;
+            border-color: #e44d2e;
+        }
+        
+        .payment-option input {
+            width: auto;
+            margin-right: 12px;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        
+        .payment-option label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .payment-option label i {
+            font-size: 24px;
+            color: #e44d2e;
+            width: 35px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .billing-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+        
+        .total {
+            font-weight: bold;
+            font-size: 20px;
+            color: #e44d2e;
+            border-top: 2px solid #e44d2e;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+        
+        .place-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #e44d2e 0%, #c73e1f 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .place-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(228, 77, 46, 0.3);
+        }
+        
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+        
+        .shipping-note {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .shipping-note i {
+            color: #e44d2e;
+        }
+        
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 40px 50px 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-column-header h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #e44d2e;
+            border: none;
+        }
+        
+        .column-content ul {
+            list-style: none;
+        }
+        
+        .column-content ul li {
+            margin-bottom: 8px;
+        }
+        
+        .column-content a {
+            color: #aaa;
+            text-decoration: none;
+        }
+        
+        .column-content a:hover {
+            color: #e44d2e;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            .nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* ===== QR PAYMENT MODAL ===== */
+        .qr-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-overlay.active { display: flex; }
+
+        .qr-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            max-width: 520px;
+            width: 92%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            animation: qrSlideIn 0.35s cubic-bezier(.34,1.56,.64,1);
+            overflow: hidden;
+        }
+        @keyframes qrSlideIn {
+            from { transform: translateY(40px) scale(0.92); opacity: 0; }
+            to   { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .qr-header {
+            padding: 22px 28px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .qr-header-left { display: flex; align-items: center; gap: 12px; }
+        .qr-method-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .qr-header h3 { font-size: 16px; color: #333; margin: 0; }
+        .qr-close-btn {
+            background: #f5f5f5;
+            border: none;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .qr-close-btn:hover { background: #e0e0e0; }
+
+        .qr-body { padding: 0 28px 20px; }
+
+        .qr-image-wrap {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .qr-image-wrap img {
+            width: 100%;
+            max-width: 340px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+        }
+        .qr-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            gap: 14px;
+            color: #666;
+        }
+        .qr-spinner {
+            width: 42px; height: 42px;
+            border: 4px solid #f0f0f0;
+            border-top-color: #e44d2e;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .qr-info-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+        }
+        .qr-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .qr-info-row:last-child { margin-bottom: 0; }
+        .qr-info-row .label { color: #888; }
+        .qr-info-row .value { font-weight: 600; color: #333; }
+        .qr-info-row .value.amount { font-size: 18px; color: #e44d2e; }
+
+        .qr-timer {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .qr-timer span.countdown {
+            font-weight: 700;
+            color: #e44d2e;
+        }
+
+        .qr-confirm-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.5px;
+        }
+        .qr-confirm-btn:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .qr-note {
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+
+<!-- ===== QR PAYMENT MODAL ===== -->
+<div class="qr-overlay" id="qrOverlay">
+    <div class="qr-modal">
+        <div class="qr-header" id="qrHeader">
+            <div class="qr-header-left">
+                <span class="qr-method-badge" id="qrMethodBadge">MoMo</span>
+                <h3>Quét mã QR để thanh toán</h3>
+            </div>
+            <button class="qr-close-btn" onclick="closeQRModal()" title="Đóng">✕</button>
+        </div>
+        <div class="qr-body">
+            <!-- QR Image -->
+            <div class="qr-image-wrap">
+                <div class="qr-loading" id="qrLoading">
+                    <div class="qr-spinner"></div>
+                    <span>Đang tạo mã QR...</span>
+                </div>
+                <img id="qrImage" src="" alt="QR Code" style="display:none;">
+            </div>
+
+            <!-- Order info -->
+            <div class="qr-info-box">
+                <div class="qr-info-row">
+                    <span class="label">Mã đơn hàng</span>
+                    <span class="value" id="qrOrderId">-</span>
+                </div>
+                <div class="qr-info-row">
+                    <span class="label">Khách hàng</span>
+                    <span class="value" id="qrCustomerName">-</span>
+                </div>
+                <div class="qr-info-row">
+                    <span class="label">Số tiền</span>
+                    <span class="value amount" id="qrAmount">-</span>
+                </div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="qr-timer">
+                <i class="fas fa-clock"></i>
+                Mã hết hạn sau <span class="countdown" id="qrCountdown">15:00</span>
+            </div>
+
+            <!-- Confirm button -->
+            <button class="qr-confirm-btn" id="qrConfirmBtn" onclick="confirmQRPayment()">
+                ✓ Tôi đã thanh toán xong
+            </button>
+            <p class="qr-note">Nhấn nút trên sau khi đã quét và thanh toán thành công</p>
+        </div>
+    </div>
+</div>
+<body>
+    <header class="header">
+        <div class="slogan"><p>Giày thể thao, áo bóng đá chất lượng cao</p></div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="../index.html">Trang chủ</a></li>
+                <li><a href="../sanpham_giohang/sanpham.html">Sản phẩm</a></li>
+                <li><a href="../gioithieu/gioithieu.html">Giới thiệu</a></li>
+                <li><a href="../sanpham_giohang/giohang.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+            </ul>
+            <ul class="nav-list">
+                <li id="userMenu">
+                    <a href="/dangky/dangky.html">Đăng ký/Đăng nhập <i class="fa-solid fa-circle-user"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="checkout-container">
+        <!-- LEFT: FORM NHẬP THÔNG TIN -->
+        <div class="checkout-form">
+            <h2>Thông tin giao hàng</h2>
+            
+            <div class="form-group">
+                <label>Họ và tên *</label>
+                <input type="text" id="fullname" placeholder="Nhập họ tên người nhận">
+            </div>
+            
+            <div class="form-group">
+                <label>Số điện thoại *</label>
+                <input type="tel" id="phone" placeholder="Nhập số điện thoại">
+            </div>
+            
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" placeholder="Nhập email">
+            </div>
+            
+            <div class="form-group">
+                <label>Địa chỉ chi tiết *</label>
+                <textarea id="address" rows="3" placeholder="Số nhà, đường, phường/xã, quận/huyện"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Tỉnh/Thành phố *</label>
+                <input type="text" id="city" placeholder="Nhập tỉnh/thành phố">
+            </div>
+            
+            <div class="form-group">
+                <label>Quận/Huyện</label>
+                <input type="text" id="district" placeholder="Nhập quận/huyện (không bắt buộc)">
+            </div>
+            
+            <div class="shipping-note" id="shippingNote">
+                <i class="fas fa-truck"></i> Vui lòng nhập Tỉnh/Thành phố để tính phí vận chuyển
+            </div>
+            
+            <h2 style="margin-top: 30px;">Phương thức thanh toán</h2>
+            
+            <div class="payment-option">
+                <input type="radio" name="payment" value="cod" id="cod" checked>
+                <label for="cod">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Thanh toán khi nhận hàng (COD)</span>
+                </label>
+            </div>
+            
+            <div class="payment-option">
+                <input type="radio" name="payment" value="banking" id="banking">
+                <label for="banking">
+                    <i class="fas fa-university"></i>
+                    <span>Chuyển khoản ngân hàng</span>
+                </label>
+            </div>
+            
+            <div class="payment-option">
+                <input type="radio" name="payment" value="momo" id="momo">
+                <label for="momo">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Ví MoMo</span>
+                </label>
+            </div>
+            
+            <div class="payment-option">
+                <input type="radio" name="payment" value="zalopay" id="zalopay">
+                <label for="zalopay">
+                    <i class="fas fa-qrcode"></i>
+                    <span>ZaloPay</span>
+                </label>
+            </div>
+            
+            <button class="place-btn" onclick="placeOrder()">ĐẶT HÀNG NGAY</button>
+        </div>
+        
+        <!-- RIGHT: ORDER SUMMARY -->
+        <div class="summary-section">
+            <div class="card">
+                <h2>Đơn hàng của bạn</h2>
+                <div id="orderItems"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Thanh toán</h2>
+                <div class="billing-row">
+                    <span>Tạm tính</span>
+                    <span id="itemsTotal">0₫</span>
+                </div>
+                <div class="billing-row">
+                    <span>Phí vận chuyển</span>
+                    <span id="shippingFee">0₫</span>
+                </div>
+                <hr>
+                <div class="billing-row total">
+                    <span>Tổng cộng</span>
+                    <span id="grandTotal">0₫</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>VỀ CHÚNG TÔI</h2>
+                </div>
+                <div class="column-content">
+                    <p>Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng hàng đầu.</p>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>DANH MỤC</h2>
+                </div>
+                <div class="column-content">
+                    <ul>
+                        <li><a href="#">Giày bóng đá</a></li>
+                        <li><a href="#">Giày chạy bộ</a></li>
+                        <li><a href="#">Quần áo thể thao</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>HỖ TRỢ</h2>
+                </div>
+                <div class="column-content">
+                    <ul>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>LIÊN HỆ</h2>
+                </div>
+                <div class="column-content">
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Cần Thơ</li>
+                        <li><i class="fas fa-phone"></i> 123 456 789</li>
+                        <li><i class="fas fa-envelope"></i> nhom2@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="thanhtoan.js"></script>
+</body>
+</html>

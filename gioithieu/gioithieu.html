@@ -1,0 +1,477 @@
+<!-- Tác giả:Tran Nguyen Thanh Dien B2303739 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+
+    <!-- Thư viện icon Font Awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Nhúng font chữ Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- Biểu tượng trang (favicon) -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="../asset/favicon/logo-12.ico">
+
+    <!-- CSS reset và style chính -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="body">
+  <!-- Phần đầu trang: Header gồm slogan, menu, logo, nút burger cho mobile -->
+   <header class="header">
+        <div class="slogan"><p>Giày thể thao, áo bóng đá chất lượng cao</p></div>
+         <!-- Nút burger cho menu di động -->
+        <div class="burger" role="button" tabindex="0" aria-label="Toggle navigation menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <!-- Thanh điều hướng chính (Navigation) -->
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item#"><a href="../index.html"><div class="logo"></div></a></li>
+                <li class="nav-item">
+                    <a href="../index.html" target="_self">Trang chủ</a>
+                    <!-- Menu con của Trang chủ -->
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Trang chủ FB</a></li>
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Shopee</a></li>
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Địa chỉ liên hệ</a></li>
+                        <li class="sub-menu-item"><a href="../index.html" target="_self">Đặt quảng cáo</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="../sanpham_giohang/sanpham.html" target="_self">Sản phẩm</a>
+                    <!-- Menu con của Sản phẩm -->
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self" data-category="đồ thể thao nam">Đồ thể thao nam</a></li>
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self" data-category="đồ thể thao nữ">Đồ thể thao nữ</a></li>
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self" data-category="giày thể thao">Giày thể thao</a></li>
+                        <li class="sub-menu-item"><a href="../sanpham_giohang/sanpham.html" target="_self" data-category="vợt cầu lông">Vợt cầu lông</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="../gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
+                    <!-- Menu con của Giới thiệu -->
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
+                        <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
+                        <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Lịch sử hình thành</a></li>
+                    </ul>
+                </li>
+            </ul>        
+            <ul class="nav-list">
+                <li class="nav-item"><a href="../sanpham_giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                <li class="nav-item">
+                    <a href="../dangky/dangky.html" target="_self">Đăng ký/Đăng nhập <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i></a>
+                    <!-- Menu con của Đăng ký/Đăng nhập -->
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="../dangky/dangky.html" target="_self">Đăng ký</a></li>
+                        <li class="sub-menu-item"><a href="../dangnhap/dangnhap.html" target="_self">Đăng nhập</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav> 
+    </header>
+    <!-- Phần nội dung chính của trang -->
+    <main class="main">
+         <!-- Thanh điều hướng vị trí (Breadcrumb) -->
+         <nav class="breadcrumb" aria-label="Breadcrumb">
+            <div class="breadcrumb-container">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="../index.html" class="breadcrumb-link">
+                            <i class="fa-solid fa-home"></i>
+                            Trang chủ
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-separator">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </span>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current">Giới thiệu</span>
+                    </li>
+                </ol>
+            </div>
+        </nav>
+         <!-- Kết thúc breadcrumb -->
+         
+         <!-- Section: Giới thiệu về Nhen Authentic -->
+   <section class="about-section">
+  <div class="container">
+    <h2 class="section-title">Giới thiệu về <strong>Nhen Authentic</strong></h2>
+  <div class="about-history-row" style="display:flex;align-items:center;gap:48px;margin:48px 0;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <p style="margin:0;font-size:2.1rem;line-height:1.5;"><strong style="font-size:2.3rem;">Lịch sử hình thành:</strong> Được thành lập vào năm 2020, Nhen Authentic bắt đầu từ một cửa hàng nhỏ tại Cần Thơ với niềm đam mê mang đến sản phẩm thể thao chính hãng cho mọi người. Trải qua quá trình phát triển, chúng tôi đã không ngừng mở rộng quy mô, đa dạng hóa mặt hàng và nâng cao chất lượng dịch vụ. Sự tin tưởng và đồng hành của khách hàng là động lực để Nhen Authentic ngày càng hoàn thiện và phát triển bền vững.</p>
+    </div>
+    <div style="flex-shrink:0;text-align:center;display:flex;align-items:center;justify-content:center;">
+      <img src="./asset/img/gioi_thieu/lichsu.jpg" alt="Lịch sử Nhen Authentic" style="width:340px;height:auto;border-radius:18px;box-shadow:0 2px 16px rgba(0,0,0,0.13);">
+    </div>
+  </div>
+  <div class="about-vision-row" style="display:flex;align-items:center;gap:48px;margin:48px 0;">
+    <div style="flex-shrink:0;text-align:center;display:flex;align-items:center;justify-content:center;">
+      <img src="./asset/img/gioi_thieu/vision.jpg" alt="Tầm nhìn Nhen Authentic" style="width:340px;height:auto;border-radius:18px;box-shadow:0 2px 16px rgba(0,0,0,0.13);">
+    </div>
+    <div style="flex:1;display:flex;align-items:center;">
+      <p style="margin:0;font-size:2.1rem;line-height:1.5;"><strong style="font-size:2.3rem;">Tầm nhìn:</strong> Nhen Authentic hướng tới trở thành thương hiệu thời trang thể thao chính hãng hàng đầu tại Việt Nam, không chỉ cung cấp các sản phẩm chất lượng mà còn xây dựng một cộng đồng yêu thể thao năng động, hiện đại. Chúng tôi mong muốn trở thành lựa chọn hàng đầu của khách hàng khi nghĩ đến thời trang thể thao chính hãng, luôn đổi mới để đáp ứng nhu cầu ngày càng cao của thị trường.</p>
+    </div>
+  </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Section: Đánh giá từ khách hàng -->
+<section class="about-section">
+  <div class="container">
+    <!-- Tiêu đề và mô tả đánh giá -->
+    <h2 class="section-title">Đánh giá từ khách hàng</h2>
+    <p class="reviews-subtitle">Những gì khách hàng nói về chúng tôi</p>
+    
+    <div class="reviews-grid">
+      <!-- Review 1: Đánh giá của khách hàng -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Nguyễn Văn An</h4>
+              <div class="review-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="review-date">2 tuần trước</div>
+        </div>
+        <div class="review-content">
+          <p>"Sản phẩm chất lượng rất tốt, đúng như mô tả. Giao hàng nhanh chóng và nhân viên phục vụ rất nhiệt tình. Chắc chắn sẽ mua lại!"</p>
+        </div>
+      </div>
+
+      <!-- Review 2: Đánh giá của khách hàng -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Trần Thị Bình</h4>
+              <div class="review-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="review-date">1 tháng trước</div>
+        </div>
+        <div class="review-content">
+          <p>"Giày đẹp, chất lượng authentic 100%. Giá cả hợp lý và dịch vụ hậu mãi tốt. Rất hài lòng với trải nghiệm mua sắm tại đây."</p>
+        </div>
+      </div>
+
+      <!-- Review 3: Đánh giá của khách hàng -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Lê Hoàng Cường</h4>
+              <div class="review-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="review-date">3 tuần trước</div>
+        </div>
+        <div class="review-content">
+          <p>"Shop có nhiều mẫu giày đẹp, phù hợp với giới trẻ. Nhân viên tư vấn nhiệt tình, giúp mình chọn được đôi giày ưng ý."</p>
+        </div>
+      </div>
+
+      <!-- Review 4: Đánh giá của khách hàng -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Phạm Thị Dung</h4>
+              <div class="review-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="review-date">1 tuần trước</div>
+        </div>
+        <div class="review-content">
+          <p>"Mua áo bóng đá cho chồng, chất lượng vải tốt, form đẹp. Giao hàng đúng hẹn và đóng gói cẩn thận. Sẽ ủng hộ shop dài dài!"</p>
+        </div>
+      </div>
+
+      <!-- Review 5: Đánh giá của khách hàng -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Võ Minh Đức</h4>
+              <div class="review-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="review-date">2 tháng trước</div>
+        </div>
+        <div class="review-content">
+          <p>"Shop uy tín, sản phẩm chính hãng như cam kết. Đã mua nhiều lần và luôn hài lòng. Khuyến mãi thường xuyên và giá cả cạnh tranh."</p>
+        </div>
+      </div>
+
+      <!-- Review 6: Đánh giá của khách hàng -->
+      <div class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="reviewer-details">
+              <h4 class="reviewer-name">Ngô Thị Em</h4>
+              <div class="review-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <div class="review-date">4 tuần trước</div>
+        </div>
+        <div class="review-content">
+          <p>"Dịch vụ khách hàng tuyệt vời! Khi có vấn đề với sản phẩm, shop đã hỗ trợ đổi trả nhanh chóng và nhiệt tình. Rất tin tưởng shop này."</p>
+        </div>
+      </div>
+    </div>
+    <!-- Thống kê đánh giá -->
+    <div class="reviews-stats">
+      <div class="stat-item">
+        <div class="stat-number">4.8</div>
+        <div class="stat-label">Điểm đánh giá trung bình</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Khách hàng đã đánh giá</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Khách hàng hài lòng</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Liên hệ với chúng tôi -->
+<section id="contact">
+    <h1 class="section-title">Liên hệ với chúng tôi</h1>
+  <div class="contact-container">
+    <!-- Bên trái: Thông tin liên hệ và form -->
+    <div class="contact-left">
+        <p><i class="fa fa-map-marker"></i> Địa chỉ: Số 123, Đường ABC, Quận Ninh Kiều, Thành phố Cần Thơ</p>
+        <p><i class="fa fa-envelope"></i> Email: contact@nhenauthentic.vn</p>
+        <p><i class="fa fa-phone"></i> Điện thoại: 0901 234 567</p>
+
+        <div class="contact-form">
+            <h2>Gửi thắc mắc về cho chúng tôi</h2>
+            <form onsubmit="handleSubmit(event)">
+                <div>
+                    <label for="user">Họ tên <span class="required">*</span></label>
+                    <input type="text" name="user" id="user" placeholder="Nhập họ tên" required aria-describedby="user-help" autocomplete="name">
+                    <small id="user-help" class="form-help">Vui lòng nhập họ tên đầy đủ</small>
+                </div>
+                <div>
+                    <label for="tel">Số điện thoại <span class="required">*</span></label>
+                    <input type="tel" name="tel" id="tel" placeholder="Nhập số điện thoại" required aria-describedby="tel-help" autocomplete="tel">
+                    <small id="tel-help" class="form-help">Ví dụ: 0901 234 567</small>
+                </div>
+                <div>
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="text" name="email" id="email" placeholder="Nhập email" required  aria-describedby="email-help" autocomplete="email">
+                    <small id="email-help" class="form-help">Ví dụ: example@email.com</small>
+                </div>
+                <div>
+                    <label for="content">Nội dung <span class="required">*</span></label>
+                    <textarea name="content" id="content" cols="5" rows="5" placeholder="Nhập nội dung" required aria-describedby="content-help"></textarea>
+                    <small id="content-help" class="form-help">Mô tả chi tiết thắc mắc của bạn</small>
+                </div>
+                <div>
+                    <button>
+                        <div class="svg-wrapper-1">
+                            <div class="svg-wrapper">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path
+                                        fill="currentColor"
+                                        d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <span>Gửi</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Bên phải: Bản đồ Google Map -->
+    <div class="contact-map">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.980265002969!2d105.77954137484976!3d10.034965972594824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a089d165b8a66f%3A0x16cc0d3a02eea70b!2sNinh%20Ki%E1%BB%81u%2C%20C%E1%BA%A7n%20Th%C6%A1!5e0!3m2!1svi!2s!4v1719719987423!5m2!1svi!2s" 
+            width="100%" height="530" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</div>
+
+<!-- Các dịch vụ nổi bật của shop -->
+<div class="service-features">
+  <div class="service-feature">
+    <i class="fa fa-box-open"></i>
+    <h4>Giao hàng nhanh chóng</h4>
+    <p>Giao hàng toàn quốc, đảm bảo sản phẩm đến tay khách hàng an toàn, đúng hẹn.</p>
+  </div>
+  <div class="service-feature">
+    <i class="fa fa-undo"></i>
+    <h4>Hoàn trả miễn phí</h4>
+    <p>Miễn phí đổi trả trong 30 ngày đối với sản phẩm lỗi do nhà sản xuất.</p>
+  </div>
+  <div class="service-feature">
+    <i class="fa fa-comments"></i>
+    <h4>Hỗ trợ khách hàng</h4>
+    <p>Tư vấn tận tình qua Zalo, Facebook hoặc hotline: 0901 234 567.</p>
+  </div>
+  <div class="service-feature">
+    <i class="fa fa-credit-card"></i>
+    <h4>Thanh toán linh hoạt</h4>
+    <p>Hỗ trợ chuyển khoản, tiền mặt và trả góp 0% lãi suất cho đơn hàng từ 2 triệu đồng.</p>
+  </div>
+</div>
+
+</section>
+
+</main>
+<!-- Phần chân trang: Footer chứa thông tin, liên hệ, danh mục, hỗ trợ -->
+   <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>VỀ CHÚNG TÔI</h2>
+                </div>
+                <div class="column-content">
+                    <p>Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng hàng đầu. Cam kết 100% sản phẩm authentic.</p>
+                    <div class="media-icon-container">
+                        <a href="#" class="media-icon"><i class="fa-brands fa-facebook" style="margin-top: 10px;"></i></a>
+                        <a href="#" class="media-icon"><i class="fa-brands fa-shopify" style="margin-top: 10px;"></i></a>
+                        <a href="#" class="media-icon"><i class="fa-brands fa-square-twitter" style="margin-top: 10px;"></i></a>
+                        <a href="#" class="media-icon"><i class="fa-brands fa-instagram" style="margin-top: 10px;"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>DANH MỤC</h2>
+                </div>
+                <div class="column-content">
+                    <ul>
+                        <li><a href="#">Giày bóng đá</a></li>
+                        <li><a href="#">Giày chạy bộ</a></li>
+                        <li><a href="#">Quần áo thể thao</a></li>
+                        <li><a href="#">Phụ kiện</a></li>
+                        <li><a href="#">Thiết bị luyện tập</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>HỖ TRỢ</h2>
+                </div>
+                <div class="column-content">
+                    <ul>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header">
+                    <h2>LIÊN HỆ</h2>
+                </div>
+                <div class="column-content">
+                    <ul>
+                        <li><i class="connect-icon fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận Ninh Kiều, Thành Phố Cần Thơ</li>
+                        <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
+                        <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup thông báo gửi thành công khi gửi form liên hệ -->
+    <div id="success-popup" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:10px; box-shadow:0 2px 16px rgba(0,0,0,0.2); padding:48px 64px; z-index:9999; text-align:center; min-width:340px; max-width:90vw;" role="dialog" aria-labelledby="popup-title" aria-describedby="popup-message">
+      <div id="popup-title" style="font-size:2.4rem; color:green; margin-bottom:18px;">✅ Gửi thắc mắc thành công!</div>
+      <div id="popup-message" style="font-size:1.5rem; margin-bottom:22px;">Chúng tôi sẽ phản hồi sớm.</div>
+      <button onclick="closePopup()" style="margin-top:12px; padding:12px 32px; background:#222; color:#fff; border:none; border-radius:6px; font-size:1.2rem; cursor:pointer;" aria-label="Đóng thông báo">Đóng</button>
+    </div>   
+    <div id="error-popup" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:10px; box-shadow:0 2px 16px rgba(0,0,0,0.2); padding:48px 64px; z-index:9999; text-align:center; min-width:340px; max-width:90vw;" role="alertdialog" aria-labelledby="error-title" aria-describedby="error-message">
+      <div id="error-title" style="font-size:2.4rem; color:red; margin-bottom:18px;">❌ Số điện thoại không hợp lệ!</div>
+      <div id="error-message" style="font-size:1.5rem; margin-bottom:22px;">Vui lòng nhập đúng định dạng số điện thoại (ví dụ: 0901 234 567).</div>
+      <button onclick="closeErrorPopup()" style="margin-top:12px; padding:12px 32px; background:#222; color:#fff; border:none; border-radius:6px; font-size:1.2rem; cursor:pointer;" aria-label="Đóng thông báo">Đóng</button>
+    </div>
+    <div id="email-error-popup" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:10px; box-shadow:0 2px 16px rgba(0,0,0,0.2); padding:48px 64px; z-index:9999; text-align:center; min-width:340px; max-width:90vw;" role="alertdialog" aria-labelledby="email-error-title" aria-describedby="email-error-message">
+      <div id="email-error-title" style="font-size:2.4rem; color:red; margin-bottom:18px;">❌ Email không hợp lệ!</div>
+      <div id="email-error-message" style="font-size:1.5rem; margin-bottom:22px;">Vui lòng nhập đúng định dạng email (ví dụ: example@email.com).</div>
+      <button onclick="closeEmailErrorPopup()" style="margin-top:12px; padding:12px 32px; background:#222; color:#fff; border:none; border-radius:6px; font-size:1.2rem; cursor:pointer;" aria-label="Đóng thông báo">Đóng</button>
+    </div>
+    <script src="gioithieu.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả tìm kiếm</title>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Dùng chung CSS với index -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Override nhỏ cho trang search results */
+        .search-results-page {
+            max-width: 1300px;
+            margin: 40px auto 60px;
+            padding: 0 32px;
+        }
+
+        .sr-header {
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .sr-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .sr-header p {
+            color: #777;
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .sr-header p span {
+            color: #1a1d26;
+            font-weight: 700;
+        }
+
+        /* Dùng lại class .product từ styles.css hiện có */
+        .sr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 24px;
+        }
+
+        .sr-empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: #aaa;
+        }
+
+        .sr-empty i {
+            font-size: 52px;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .sr-empty p {
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sr-empty a {
+            display: inline-block;
+            padding: 10px 24px;
+            background: #1a1d26;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sr-empty a:hover { background: #333; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER — copy từ index.html -->
+    <header class="header">
+        <div class="slogan"><p>Ở đây chúng tôi có chất lượng!!!</p></div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item#"><a href="./index.html"><div class="logo"></div></a></li>
+                <li class="nav-item">
+                    <a href="/sanpham/jersey.html">Jerseys</a>
+                </li>
+                <li class="nav-item products">
+                    <a href="#">Products</a>
+                    <div class="mega-menu">
+                        <div class="mega-column">
+                            <h4>Mens</h4>
+                            <a href="./sanpham/teeman.html">T-Shirts</a>
+                            <a href="./sanpham/hoodieman.html">Hoodies & Sweatshirts</a>
+                            <a href="./sanpham/jacketman.html">Jackets</a>
+                            <a href="./sanpham/pantsman.html">Pants & Shorts</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Womens</h4>
+                            <a href="./sanpham/teewoman.html">T-Shirts</a>
+                            <a href="./sanpham/hoodiewoman.html">Hoodies & Sweatshirts</a>
+                            <a href="./sanpham/jacketwomen.html">Jackets</a>
+                            <a href="./sanpham/pantswoman.html">Pants & Shorts</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Accessories</h4>
+                            <a href="./sanpham/non.html">Headwears</a>
+                            <a href="./sanpham/giay.html">Footwears</a>
+                            <a href="./sanpham/chai.html">Bottles</a>
+                            <a href="./sanpham/vo.html">Socks</a>
+                            <a href="./sanpham/bong.html">Footballs</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Collections</h4>
+                            <a href="./sanpham/stoneroses.html">STONE ROSES</a>
+                            <a href="./sanpham/dramacall.html">DRAMACALL</a>
+                            <a href="./sanpham/adidasorg.html">ADIDAS ORIGINAL</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="./gioithieu/gioithieu.html">Giới thiệu</a>
+                </li>
+            </ul>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="./giohang/giohang.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                <li class="nav-item" id="userMenu">
+                    <a href="./dangky/dangky.html">
+                        Đăng ký/Đăng nhập
+                        <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="sub-menu-item"><a href="./dangky/dangky.html">Đăng ký</a></li>
+                        <li class="sub-menu-item"><a href="./dangnhap/dangnhap.html">Đăng nhập</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- KẾT QUẢ TÌM KIẾM -->
+    <main class="main-container" style="padding-top: 0">
+        <div class="search-results-page">
+            <div id="searchResultsContainer">
+                <div style="padding:60px;text-align:center;color:#aaa">
+                    <span style="display:inline-block;width:24px;height:24px;border:2px solid #eee;border-top-color:#888;border-radius:50%;animation:spin 0.7s linear infinite"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-columns">
+                <div class="footer-column-header"><h2>VỀ CHÚNG TÔI</h2></div>
+                <div class="column-content">
+                    <p>Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng hàng đầu.</p>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column-header"><h2>LIÊN HỆ</h2></div>
+                <div class="column-content">
+                    <ul>
+                        <li><i class="connect-icon fas fa-phone"></i> 123 456 789</li>
+                        <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script src="index.js"></script>
+<script src="search.js"></script>
+<script>
+    // basePath = "" vì search.html ở cùng thư mục gốc với index.html
+    initSearch("");
+    initResultsPage();
+</script>
+</body>
+</html>

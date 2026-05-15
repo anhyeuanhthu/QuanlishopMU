@@ -1,0 +1,1171 @@
+
+<!-- Tác giả: Võ Hoài Thông -->
+<!-- MSSV: B2306587 -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+
+    <!-- font awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="./asset/favivon/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="reset.css"> <!-- Xóa bỏ các thuộc tính CSS mặc định của các thẻ HTMl -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+    <!-- .page chứa toàn bộ nội dung trang web -->
+    <div class="page">
+        <!-- Phần Header: .header chứa slogan và thanh nav để link đến các trang còn lại -->
+        <header class="header">
+            <div class="slogan"><p>Ở đây chúng tôi có chất lượng!!!</p></div> <!-- slogan -->
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item#"><a href="./index.html"><div class="logo"></div></a></li>
+                    <!-- link đến trang chủ -->
+                    <li class="nav-item">
+                        <a href="/sanpham/jersey.html" target="_self">Jerseys</a>
+                        <!-- <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Trang chủ FB</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Shopee</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Địa chỉ liên hệ</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Đặt quảng cáo</a></li>
+                        </ul> -->
+                    </li>
+                    <!-- link đến trang sản phẩm -->
+                   <li class="nav-item products">
+    <a href="#">Products</a>
+
+    <!-- Mega Menu -->
+    <div class="mega-menu">
+
+        <div class="mega-column">
+            <h4>Mens</h4>
+            <a href="./sanpham/teeman.html">T-Shirts</a>
+            <a href="./sanpham/hoodieman.html">Hoodies & Sweatshirts</a>
+            <a href="./sanpham/jacketman.html">Jackets</a>
+            <a href="./sanpham/pantsman.html">Pants & Shorts</a>
+        </div>
+
+        <div class="mega-column">
+            <h4>Womens</h4>
+            <a href="./sanpham/teewoman.html">T-Shirts</a>
+            <a href="./sanpham/hoodiewoman.html">Hoodies & Sweatshirts</a>
+            <a href="./sanpham/jacketwomen.html">Jackets</a>
+            <a href="./sanpham/pantswoman.html">Pants & Shorts</a>
+        </div>
+
+        <div class="mega-column">
+            <h4>Accessories</h4>
+            <a href="./sanpham/non.html">Headwears</a>
+            <a href="./sanpham/giay.html">Footwears</a>
+            <a href="./sanpham/chai.html">Bottles</a>
+            <a href="./sanpham/vo.html">Socks</a>
+            <a href="./sanpham/bong.html">Footballs</a>
+        </div>
+
+         <div class="mega-column">
+            <h4>Collections</h4>
+            <a href="./sanpham/stoneroses.html">STONE ROSES</a>
+            <a href="./sanpham/dramacall.html">DRAMACALL</a>
+            <a href="./sanpham/adidasorg.html">ADIDAS ORIGINAL</a>
+        </div>
+    </div>
+</li>
+                    <!-- link đến trang giới thiệu -->
+                    <li class="nav-item">
+                        <a href="./gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Lịch sử hình thành</a></li>
+                        </ul>
+                    </li>
+                </ul>   
+                <ul class="nav-list">
+                    <!-- link đến trang giỏ hàng -->
+                    <li class="nav-item"><a href="./giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                    <!-- link đến trang đăng ký và đăng nhập -->
+                   <li class="nav-item" id="userMenu">
+                        <a href="./dangky/dangky.html" target="_self">
+                            Đăng ký/Đăng nhập 
+                            <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item">
+                                <a href="./dangky/dangky.html">Đăng ký</a>
+                            </li>
+                            <li class="sub-menu-item">
+                                <a href="./dangnhap/dangnhap.html">Đăng nhập</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>           
+        </header>
+        <!-- Phần Banner cùng cấp với .header, .main-container và .footer-->
+        <div class="banner-container">
+            <div class="banner-slider">
+                <div class="slide" style="background-image: url('./asset/banner/filters_quality\(70\).webp')"><p>LUNAR NEW YEAR SALE 70% OFF!!! <a href="./sanpham/sanphamgiamgia.html" target="_self">Mua ngay</a></p></div>
+                <div class="slide" style="background-image: url('./asset/banner/filters_quality\(70\)\ \(1\).webp')"><p>BỘ SƯU TẬP HÈ 2024 - 2025 <a href="./sanpham/stoneroses.html" target="_self">Mua ngay</a></p></div>
+                <div class="slide" style="background-image: url('./asset/banner/filters_quality\(70\)\ \(2\).webp')"><p>UY TÍN LÀM NÊN THƯƠNG HIỆU <a href="./sanpham/adidasorg.html" target="_self">Mua ngay</a></p></div>
+                <div class="slide" style="background-image: url('./asset/banner/filters_quality\(70\)\ \(3\).webp')"><p>TỰ TIN CHIẾN THẮNG <a href="./sanpham/dramacall.html" target="_self">Mua ngay</a></p></div>
+                <!-- <div class="slide" style="background-image: url('./asset/banner/filters_quality\(75\)\ \(4\).webp')"><p>ĐỒ THỂ THAO CHẤT LƯỢNG CAO <a href="./sanpham/sanpham.html" target="_self">Mua ngay</a></p></div> -->
+            </div>
+        </div>
+        <!-- Phần Main cùng cấp với .header, .banner-container và .footer, chứa 4 main con-->
+        <main class="main-container">
+            <!-- main con thứ 1 chứa giới thiệu các sản phẩm đang được sales-->
+            <!-- main con thứ 1 chứa giới thiệu các sản phẩm đang được sales-->
+<div class="main main-1">
+    <!-- header của main con thứ 1 -->
+    <div class="main-header">
+        <h1>DEAL HOT THIS SEASON 🤑🤑🤑</h1>
+        <a href="./sanpham/sanphamgiamgia.html" class="more">XEM TẤT CẢ</a>
+    </div>
+    <!-- Danh sách các sản phẩm -->
+    <div class="product">
+        <!-- Thẻ sản phẩm 1 -->
+        <div class="product-card" data-id="1067" onclick="window.location.href='./product-detail.html?id=1067'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_10/ao3.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_10/ao33.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1067">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Long Sleeve Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">3.109.000đ</p>
+                    <p class="new-price">932.700đ</p>
+                </div>
+            </div>
+        </div>
+        <!-- Thẻ sản phẩm 2 -->
+        <div class="product-card" data-id="1065" onclick="window.location.href='./product-detail.html?id=1065'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_8/ao1.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_8/ao11.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1065">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Long Sleeve Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">4.756.000đ</p>
+                    <p class="new-price">1.426.800đ</p>
+                </div>
+            </div>
+        </div>
+        <!-- Thẻ sản phẩm 3 -->
+        <div class="product-card" data-id="1066" onclick="window.location.href='./product-detail.html?id=1066'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_9/ao2.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_9/ao22.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1066">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">3.109.000đ</p>
+                    <p class="new-price">932.700đ</p>
+                </div>
+            </div>
+        </div>
+        <!-- Thẻ sản phẩm 4 -->
+        <div class="product-card" data-id="1068" onclick="window.location.href='./product-detail.html?id=1068'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_11/ao4.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_11/ao44.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1068">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">4.109.000đ</p>
+                    <p class="new-price">1.232.700đ</p>
+                </div>
+            </div>
+        </div>
+        <!-- Thẻ sản phẩm 5 -->
+        <div class="product-card" data-id="1010" onclick="window.location.href='./product-detail.html?id=1010'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/T_shirts_polo/pic_75/ao111.avif');">
+                    <div class="sale-percentage">-66%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/T_shirts_polo/pic_75/ao1111.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-66%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1010">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United Womens Back Print T-Shirt Cream</p>
+                <div class="price">
+                    <p class="old-price">1.023.000đ</p>
+                    <p class="new-price">347.820đ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
+            <!-- Thẻ main con thứ 2, cùng cấp main con thứ 1, dùng để giới thiệu các sản phẩm bán chạy 2025 -->
+            <div class="main main-2">
+                <!-- Header của main con thứ 2 -->
+                <h1 class="top-seller-header">TOP COLLECTIONS 2025-2026🔥🔥🔥🔥</h1>
+                <!-- .top-seller-container chứa danh mục các sản phẩm bán chạy -->
+                <div class="top-seller-container">
+                    <div class="top-seller-card">
+                        <div class="top-seller-image" style="background-image: url(./asset/collections/filters_quality\(70\).webp);"></div>
+                        <div class="top-seller-infor">
+                            <div class="top-seller-title">DRAMA CALL</div>
+                            <a href="./sanpham/dramacall.html" class="more">XEM THÊM</a>
+
+                        </div>
+                    </div>
+                    <div class="top-seller-card">
+                        <div class="top-seller-image" style="background-image: url(./asset/collections/filters_quality\(70\)\ \(1\).webp);"></div>
+                        <div class="top-seller-infor">
+                            <div class="top-seller-title">ADIDAS ORIGINALS</div>
+                            <a href="./sanpham/adidasorg.html" class="more">XEM THÊM</a>
+
+                        </div>
+                    </div>
+                    <div class="top-seller-card">
+                        <div class="top-seller-image" style="background-image: url(./asset/collections/filters_quality\(70\)\ \(2\).webp);"></div>
+                        <div class="top-seller-infor">
+                            <div class="top-seller-title">STONE ROSES</div>
+                            <a href="./sanpham/stoneroses.html" class="more">XEM THÊM</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear: both; height: 150px;"></div>
+            <!-- main con thứ 3, giới thiệu bộ sưu tập mùa hè, cấu trúc tương tự main con thứ 1 -->
+            <div class="main main-3">
+                <div class="main-header">
+                    <h1>THỨ MÀ BẠN KHÔNG THỂ MUA Ở CÂU LẠC BỘ KHÁC 👹</h1>
+                    <!-- <div class="filter-container">
+                        <label for="">Lọc theo giá:</label>
+                        <select class="price-filter">
+                            <option value="all">Tất cả</option>
+                            <option value="under-100">Dưới 100.000đ</option>
+                            <option value="100-200">100.000đ - 200.000đ</option>
+                            <option value="above-200">Trên 200.000đ</option>
+                        </select>
+                    </div> -->
+
+                    <a href="./sanpham/jersey.html" class="more">XEM TẤT CẢ</a>
+                </div>
+                <div class="product">
+                    <div class="product-card" data-id="1067" onclick="window.location.href='./product-detail.html?id=1067'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_10/ao3.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_10/ao33.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1067">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Long Sleeve Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">3.109.000đ</p>
+                    <p class="new-price">932.700đ</p>
+                </div>
+            </div>
+        </div>
+                   <div class="product-card" data-id="1065" onclick="window.location.href='./product-detail.html?id=1065'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_8/ao1.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_8/ao11.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1065">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Long Sleeve Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">4.756.000đ</p>
+                    <p class="new-price">1.426.800đ</p>
+                </div>
+            </div>
+        </div>
+        <!-- Thẻ sản phẩm 3 -->
+        <div class="product-card" data-id="1066" onclick="window.location.href='./product-detail.html?id=1066'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_9/ao2.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_9/ao22.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1066">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">3.109.000đ</p>
+                    <p class="new-price">932.700đ</p>
+                </div>
+            </div>
+        </div>
+        <!-- Thẻ sản phẩm 4 -->
+        <div class="product-card" data-id="1068" onclick="window.location.href='./product-detail.html?id=1068'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_11/ao4.avif');">
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_11/ao44.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <div class="sale-percentage">-70%</div>
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1068">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Authentic Jersey</p>
+                <div class="price">
+                    <p class="old-price">4.109.000đ</p>
+                    <p class="new-price">1.232.700đ</p>
+                </div>
+            </div>
+        </div>
+                    <div class="product-card" data-id="1069" onclick="window.location.href='./product-detail.html?id=1069'" style="cursor:pointer">
+            <div class="image-container">
+                <div class="product-image" style="background-image: url('/sanpham/MU_jerseys/pic_12/ao5.avif');">
+                    <!-- <div class="sale-percentage">-50%</div> -->
+                </div>
+                <div class="sub-image" style="background-image: url('/sanpham/MU_jerseys/pic_12/ao55.avif');">
+                    <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
+                    <!-- <div class="sale-percentage">-50%</div> -->
+                </div>
+                <a class="buy-btn" href="./product-detail.html?id=1069">Mua ngay</a>
+            </div>
+            <div class="product-infor">
+                <p class="title">Manchester United 25/26 Home Jersey with Amad 16 EPL Printing & Badge</p>
+                <div class="price">
+                                    <p class="price-org">4.207.000đ</p>
+                                    
+                                    <!-- <p class="new-price">800.000đ</p> -->
+                                </div>
+            </div>
+        </div>
+                    
+                </div>
+            </div>
+            <!-- main con thứ 4 — Đánh giá khách hàng -->
+            <div class="main main-4" id="reviewSection">
+                <div class="review-section-header">
+                    <div>
+                        <h1 class="top-seller-header" style="margin-bottom:6px">ĐÁNH GIÁ TỪ KHÁCH HÀNG ⭐</h1>
+                        <p style="color:#888;font-size:14px;font-family:'Open Sans',sans-serif">Ý kiến thật từ những người đã mua hàng tại ShopMU</p>
+                    </div>
+                    <button class="review-write-btn" id="openReviewFormBtn" onclick="openReviewForm()">
+                        <i class="fa-solid fa-pen-to-square"></i> Viết đánh giá
+                    </button>
+                </div>
+
+                <!-- Stats bar -->
+                <div class="review-stats-bar" id="reviewStatsBar">
+                    <div class="review-avg-score">
+                        <div class="review-big-score" id="reviewAvgNum">—</div>
+                        <div class="review-stars-display" id="reviewAvgStars"></div>
+                        <div style="font-size:12px;color:#999;margin-top:4px" id="reviewTotalCount">0 đánh giá</div>
+                    </div>
+                    <div class="review-bar-list" id="reviewBarList"></div>
+                </div>
+
+                <!-- Danh sách review -->
+                <div class="review-list" id="reviewList">
+                    <div style="text-align:center;padding:40px;color:#aaa;font-size:14px">
+                        <span class="review-spinner"></span> Đang tải đánh giá...
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL VIẾT ĐÁNH GIÁ -->
+            <div class="review-modal-overlay" id="reviewModal">
+                <div class="review-modal">
+                    <div class="review-modal-header">
+                        <h3>Viết đánh giá của bạn</h3>
+                        <button class="review-modal-close" onclick="closeReviewForm()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="review-modal-body">
+                        <div class="review-form-group">
+                            <label>Sản phẩm đã mua *</label>
+                            <select id="reviewProductId" class="review-select">
+                                <option value="">-- Chọn sản phẩm --</option>
+                            </select>
+                        </div>
+                        <div class="review-form-group">
+                            <label>Đánh giá của bạn *</label>
+                            <div class="star-picker" id="starPicker">
+                                <i class="fa-regular fa-star" data-val="1"></i>
+                                <i class="fa-regular fa-star" data-val="2"></i>
+                                <i class="fa-regular fa-star" data-val="3"></i>
+                                <i class="fa-regular fa-star" data-val="4"></i>
+                                <i class="fa-regular fa-star" data-val="5"></i>
+                            </div>
+                            <span class="star-label" id="starLabel">Chưa chọn</span>
+                        </div>
+                        <div class="review-form-group">
+                            <label>Nội dung đánh giá *</label>
+                            <textarea id="reviewContent" class="review-textarea"
+                                placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..." maxlength="500"></textarea>
+                            <div style="text-align:right;font-size:11px;color:#bbb;margin-top:4px">
+                                <span id="reviewCharCount">0</span>/500
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-modal-footer">
+                        <button class="review-cancel-btn" onclick="closeReviewForm()">Huỷ</button>
+                        <button class="review-submit-btn" onclick="submitReview()">
+                            <i class="fa-solid fa-paper-plane"></i> Gửi đánh giá
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+            /* ===== REVIEW SECTION ===== */
+            .review-section-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-bottom: 28px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .review-write-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 20px;
+                background: #1a1d26;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 700;
+                font-family: 'Montserrat', sans-serif;
+                cursor: pointer;
+                transition: background 0.2s, transform 0.15s;
+                letter-spacing: 0.3px;
+                flex-shrink: 0;
+            }
+
+            .review-write-btn:hover { background: #333; transform: translateY(-1px); }
+
+            /* Stats bar */
+            .review-stats-bar {
+                display: flex;
+                align-items: center;
+                gap: 40px;
+                background: #f8f8f8;
+                border-radius: 14px;
+                padding: 20px 28px;
+                margin-bottom: 28px;
+            }
+
+            .review-avg-score { text-align: center; flex-shrink: 0; }
+
+            .review-big-score {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 48px;
+                font-weight: 800;
+                line-height: 1;
+                color: #1a1d26;
+            }
+
+            .review-stars-display { display: flex; gap: 3px; justify-content: center; margin-top: 6px; }
+            .review-stars-display i { color: #f4a61e; font-size: 16px; }
+
+            .review-bar-list { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+            .review-bar-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 12px;
+                color: #666;
+            }
+
+            .review-bar-row .star-num {
+                width: 14px;
+                text-align: right;
+                font-weight: 700;
+                color: #1a1d26;
+                flex-shrink: 0;
+            }
+
+            .review-bar-track {
+                flex: 1;
+                height: 8px;
+                background: #e0e0e0;
+                border-radius: 99px;
+                overflow: hidden;
+            }
+
+            .review-bar-fill {
+                height: 100%;
+                background: #f4a61e;
+                border-radius: 99px;
+                transition: width 0.6s ease;
+            }
+
+            .review-bar-count { width: 28px; color: #aaa; font-size: 11px; }
+
+            /* Review cards */
+            .review-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+                gap: 18px;
+            }
+
+            .review-card {
+                background: #fff;
+                border: 1px solid #f0f0f0;
+                border-radius: 14px;
+                padding: 18px 20px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                transition: box-shadow 0.2s;
+            }
+
+            .review-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+
+            .review-card-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 10px;
+            }
+
+            .review-avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #6c63ff, #00d4aa);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                font-weight: 700;
+                color: #fff;
+                flex-shrink: 0;
+            }
+
+            .review-meta { flex: 1; min-width: 0; }
+
+            .review-meta .rname {
+                font-weight: 700;
+                font-size: 14px;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .review-meta .rproduct {
+                font-size: 11px;
+                color: #999;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-top: 1px;
+            }
+
+            .review-stars { display: flex; gap: 2px; flex-shrink: 0; }
+            .review-stars i { color: #f4a61e; font-size: 13px; }
+            .review-stars i.empty { color: #ddd; }
+
+            .review-content {
+                font-size: 13px;
+                color: #444;
+                line-height: 1.65;
+                margin-bottom: 10px;
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            .review-date {
+                font-size: 11px;
+                color: #bbb;
+                margin-bottom: 10px;
+            }
+
+            /* Shop reply */
+            .review-reply {
+                background: #f7f8ff;
+                border-left: 3px solid #6c63ff;
+                border-radius: 0 8px 8px 0;
+                padding: 10px 14px;
+                margin-top: 8px;
+            }
+
+            .review-reply .reply-label {
+                font-size: 11px;
+                font-weight: 700;
+                color: #6c63ff;
+                letter-spacing: 0.5px;
+                margin-bottom: 4px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .review-reply .reply-text {
+                font-size: 13px;
+                color: #555;
+                line-height: 1.55;
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            /* Spinner */
+            .review-spinner {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                border: 2px solid #eee;
+                border-top-color: #888;
+                border-radius: 50%;
+                animation: rspin 0.7s linear infinite;
+                vertical-align: middle;
+                margin-right: 6px;
+            }
+
+            @keyframes rspin { to { transform: rotate(360deg); } }
+
+            /* ===== MODAL ===== */
+            .review-modal-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.55);
+                backdrop-filter: blur(4px);
+                z-index: 9000;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .review-modal-overlay.open { display: flex; }
+
+            .review-modal {
+                background: #fff;
+                border-radius: 18px;
+                width: 100%;
+                max-width: 500px;
+                max-height: 90vh;
+                overflow-y: auto;
+                animation: rmDrop 0.22s ease;
+                box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+            }
+
+            @keyframes rmDrop {
+                from { opacity: 0; transform: translateY(16px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+
+            .review-modal-header {
+                padding: 20px 22px 16px;
+                border-bottom: 1px solid #f0f0f0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .review-modal-header h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 16px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: -0.3px;
+            }
+
+            .review-modal-close {
+                width: 30px; height: 30px;
+                border-radius: 8px;
+                background: #f5f5f5;
+                border: none;
+                cursor: pointer;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 14px;
+                color: #666;
+                transition: background 0.2s;
+            }
+
+            .review-modal-close:hover { background: #ffe0e0; color: #e05; }
+
+            .review-modal-body { padding: 20px 22px; }
+            .review-modal-footer {
+                padding: 14px 22px;
+                border-top: 1px solid #f0f0f0;
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+            }
+
+            .review-form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                margin-bottom: 16px;
+            }
+
+            .review-form-group label {
+                font-size: 12px;
+                font-weight: 700;
+                color: #555;
+                letter-spacing: 0.3px;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .review-select, .review-textarea {
+                background: #f8f8f8;
+                border: 1.5px solid #e8e8e8;
+                border-radius: 8px;
+                padding: 10px 14px;
+                font-size: 13px;
+                font-family: 'Open Sans', sans-serif;
+                color: #333;
+                outline: none;
+                transition: border-color 0.2s;
+                width: 100%;
+            }
+
+            .review-select:focus, .review-textarea:focus { border-color: #6c63ff; }
+            .review-textarea { resize: vertical; min-height: 100px; }
+
+            /* Star picker */
+            .star-picker {
+                display: flex;
+                gap: 6px;
+                cursor: pointer;
+            }
+
+            .star-picker i {
+                font-size: 26px;
+                color: #ddd;
+                transition: color 0.15s, transform 0.1s;
+            }
+
+            .star-picker i:hover,
+            .star-picker i.active { color: #f4a61e; transform: scale(1.1); }
+
+            .star-label {
+                font-size: 12px;
+                color: #999;
+                margin-top: 4px;
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            .review-cancel-btn {
+                padding: 9px 18px;
+                border-radius: 8px;
+                background: #f5f5f5;
+                border: none;
+                font-size: 13px;
+                font-weight: 600;
+                color: #666;
+                cursor: pointer;
+                font-family: 'Montserrat', sans-serif;
+                transition: background 0.2s;
+            }
+
+            .review-cancel-btn:hover { background: #ebebeb; }
+
+            .review-submit-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 9px 20px;
+                background: #1a1d26;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 700;
+                font-family: 'Montserrat', sans-serif;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+            .review-submit-btn:hover { background: #333; }
+
+            /* Toast nhỏ */
+            .r-toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: #1a1d26;
+                color: #fff;
+                padding: 12px 20px;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 600;
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+                animation: rToast 0.3s ease;
+            }
+
+            @keyframes rToast {
+                from { opacity: 0; transform: translateX(20px); }
+                to   { opacity: 1; transform: translateX(0); }
+            }
+
+            .r-toast.success { border-left: 3px solid #00d4aa; }
+            .r-toast.error   { border-left: 3px solid #ff6b6b; }
+            .r-toast.success i { color: #00d4aa; }
+            .r-toast.error   i { color: #ff6b6b; }
+
+            @media (max-width: 768px) {
+                .review-stats-bar { flex-direction: column; gap: 16px; }
+                .review-list { grid-template-columns: 1fr; }
+                .review-section-header { flex-direction: column; }
+            }
+            </style>
+
+            <script>
+            // ================================================================
+            //  REVIEWS — Frontend logic (index.html)
+            // ================================================================
+            const REVIEW_API = "http://localhost:8888";
+            let selectedRating = 0;
+
+            // ---- Load reviews ----
+            function loadReviews() {
+                fetch(`${REVIEW_API}/reviews`)
+                    .then(r => r.json())
+                    .then(data => {
+                        renderStatsBar(data);
+                        renderReviewList(data);
+                    })
+                    .catch(() => {
+                        document.getElementById("reviewList").innerHTML =
+                            `<div style="text-align:center;padding:40px;color:#aaa;font-size:14px">Không thể tải đánh giá. Vui lòng thử lại sau.</div>`;
+                    });
+            }
+
+            function renderStatsBar(reviews) {
+                const total = reviews.length;
+                const avg = total > 0
+                    ? (reviews.reduce((s, r) => s + r.Rating, 0) / total)
+                    : 0;
+
+                document.getElementById("reviewAvgNum").textContent = avg > 0 ? avg.toFixed(1) : "—";
+                document.getElementById("reviewTotalCount").textContent = `${total} đánh giá`;
+
+                // Stars
+                const starsEl = document.getElementById("reviewAvgStars");
+                starsEl.innerHTML = [1,2,3,4,5].map(i =>
+                    `<i class="fa-${i <= Math.round(avg) ? 'solid' : 'regular'} fa-star"></i>`
+                ).join("");
+
+                // Bar
+                const counts = [5,4,3,2,1].map(s => reviews.filter(r => r.Rating === s).length);
+                document.getElementById("reviewBarList").innerHTML = [5,4,3,2,1].map((s, i) => `
+                    <div class="review-bar-row">
+                        <span class="star-num">${s}</span>
+                        <i class="fa-solid fa-star" style="color:#f4a61e;font-size:11px;flex-shrink:0"></i>
+                        <div class="review-bar-track">
+                            <div class="review-bar-fill" style="width:${total > 0 ? (counts[i]/total*100).toFixed(1) : 0}%"></div>
+                        </div>
+                        <span class="review-bar-count">${counts[i]}</span>
+                    </div>
+                `).join("");
+            }
+
+            function renderReviewList(reviews) {
+                const el = document.getElementById("reviewList");
+                if (!reviews.length) {
+                    el.innerHTML = `<div style="text-align:center;padding:40px;color:#aaa;font-size:14px;grid-column:1/-1">
+                        <i class="fa-regular fa-comment-dots" style="font-size:36px;display:block;margin-bottom:12px;opacity:0.3"></i>
+                        Chưa có đánh giá nào. Hãy là người đầu tiên!
+                    </div>`;
+                    return;
+                }
+
+                el.innerHTML = reviews.map(r => {
+                    const stars = [1,2,3,4,5].map(i =>
+                        `<i class="fa-${i <= r.Rating ? 'solid' : 'regular'} fa-star${i > r.Rating ? ' empty' : ''}"></i>`
+                    ).join("");
+
+                    const date = new Date(r.CreatedAt).toLocaleDateString("vi-VN");
+                    const initial = (r.Username || r.CustomerName || "K").charAt(0).toUpperCase();
+
+                    const replyHTML = r.Reply ? `
+                        <div class="review-reply">
+                            <div class="reply-label">
+                                <i class="fa-solid fa-store"></i> ShopMU phản hồi
+                            </div>
+                            <div class="reply-text">${escHtml(r.Reply)}</div>
+                        </div>
+                    ` : "";
+
+                    return `
+                        <div class="review-card">
+                            <div class="review-card-header">
+                                <div class="review-avatar">${initial}</div>
+                                <div class="review-meta">
+                                    <div class="rname">${escHtml(r.Username || r.CustomerName || "Khách hàng")}</div>
+                                    <div class="rproduct">${escHtml(r.ProductName || "")}</div>
+                                </div>
+                                <div class="review-stars">${stars}</div>
+                            </div>
+                            <div class="review-content">${escHtml(r.Content)}</div>
+                            <div class="review-date"><i class="fa-regular fa-calendar" style="margin-right:4px"></i>${date}</div>
+                            ${replyHTML}
+                        </div>
+                    `;
+                }).join("");
+            }
+
+            function escHtml(s) {
+                return String(s || "")
+                    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+                    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+            }
+
+            // ---- Modal ----
+            function openReviewForm() {
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (!user) {
+                    rToast("Vui lòng đăng nhập để viết đánh giá!", "error");
+                    setTimeout(() => window.location.href = "./dangnhap/dangnhap.html", 1500);
+                    return;
+                }
+
+                // Load products vào select
+                fetch(`${REVIEW_API}/products/list`)
+                    .then(r => r.json())
+                    .then(list => {
+                        const sel = document.getElementById("reviewProductId");
+                        sel.innerHTML = `<option value="">-- Chọn sản phẩm --</option>` +
+                            list.map(p => `<option value="${p.Id}">${escHtml(p.Name)}</option>`).join("");
+                    });
+
+                selectedRating = 0;
+                updateStarPicker(0);
+                document.getElementById("reviewContent").value = "";
+                document.getElementById("reviewCharCount").textContent = "0";
+                document.getElementById("reviewModal").classList.add("open");
+            }
+
+            function closeReviewForm() {
+                document.getElementById("reviewModal").classList.remove("open");
+            }
+
+            // Star picker
+            document.querySelectorAll("#starPicker i").forEach(star => {
+                star.addEventListener("click", function() {
+                    selectedRating = parseInt(this.dataset.val);
+                    updateStarPicker(selectedRating);
+                });
+                star.addEventListener("mouseover", function() {
+                    updateStarPicker(parseInt(this.dataset.val), true);
+                });
+            });
+
+            document.getElementById("starPicker").addEventListener("mouseleave", function() {
+                updateStarPicker(selectedRating);
+            });
+
+            function updateStarPicker(val, hover) {
+                const labels = ["", "Tệ", "Không hài lòng", "Bình thường", "Hài lòng", "Rất hài lòng"];
+                document.querySelectorAll("#starPicker i").forEach((s, i) => {
+                    s.className = i < val ? "fa-solid fa-star active" : "fa-regular fa-star";
+                });
+                if (!hover) {
+                    document.getElementById("starLabel").textContent = val > 0 ? labels[val] : "Chưa chọn";
+                }
+            }
+
+            // Char counter
+            document.getElementById("reviewContent").addEventListener("input", function() {
+                document.getElementById("reviewCharCount").textContent = this.value.length;
+            });
+
+            // Submit
+            function submitReview() {
+                const user = JSON.parse(localStorage.getItem("user"));
+                const productId = document.getElementById("reviewProductId").value;
+                const content   = document.getElementById("reviewContent").value.trim();
+
+                if (!productId) { rToast("Vui lòng chọn sản phẩm!", "error"); return; }
+                if (!selectedRating) { rToast("Vui lòng chọn số sao!", "error"); return; }
+                if (!content) { rToast("Vui lòng nhập nội dung đánh giá!", "error"); return; }
+
+                const btn = document.querySelector(".review-submit-btn");
+                btn.disabled = true;
+                btn.innerHTML = `<span class="review-spinner"></span> Đang gửi...`;
+
+                fetch(`${REVIEW_API}/reviews`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        userId: user.Id,
+                        productId: parseInt(productId),
+                        rating: selectedRating,
+                        content
+                    })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Gửi đánh giá`;
+                    if (data.success) {
+                        closeReviewForm();
+                        rToast("Cảm ơn bạn đã đánh giá! 🎉", "success");
+                        loadReviews();
+                    } else {
+                        rToast(data.message || "Có lỗi xảy ra!", "error");
+                    }
+                })
+                .catch(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Gửi đánh giá`;
+                    rToast("Lỗi kết nối server!", "error");
+                });
+            }
+
+            // Close modal on overlay click
+            document.getElementById("reviewModal").addEventListener("click", function(e) {
+                if (e.target === this) closeReviewForm();
+            });
+
+            function rToast(msg, type) {
+                const icon = type === "success" ? "fa-circle-check" : "fa-circle-xmark";
+                const div = document.createElement("div");
+                div.className = `r-toast ${type}`;
+                div.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+                document.body.appendChild(div);
+                setTimeout(() => div.remove(), 3500);
+            }
+
+            // Load khi trang load xong
+            document.addEventListener("DOMContentLoaded", loadReviews);
+            </script>
+        </main>
+
+
+
+
+        <!-- footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>VỀ CHÚNG TÔI</h2>
+                    </div>
+                    <div class="column-content">
+                        <p>Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng hàng đầu. Cam kết 100% sản phẩm authentic.</p>
+                        <div class="media-icon-container">
+                            <a href="#" class="media-icon"><i class="fa-brands fa-facebook" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-shopify" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-square-twitter" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-instagram" style="margin-top: 10px;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>DANH MỤC</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><a href="#">Giày bóng đá</a></li>
+                            <li><a href="#">Giày chạy bộ</a></li>
+                            <li><a href="#">Quần áo thể thao</a></li>
+                            <li><a href="#">Phụ kiện</a></li>
+                            <li><a href="#">Thiết bị luyện tập</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>HỖ TRỢ</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Câu hỏi thường gặp</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Điều khoản sử dụng</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>LIÊN HỆ</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><i class="connect-icon fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận Ninh Kiều, Thành Phố Cần Thơ</li>
+                            <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
+                            <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+    </div>
+    <script src="search.js"></script>
+<script src="index.js"></script>
+<script>
+    // Khởi tạo thanh tìm kiếm sau khi trang đã load
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof initSearch === "function") {
+            initSearch("");
+        }
+    });
+</script>
+
+</body>
+</html>

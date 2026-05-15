@@ -1,0 +1,470 @@
+<!-- Tác giả: Võ Hoài Thông -->
+<!-- MSSV: B2306587 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+
+    <!-- font awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="./asset/favivon/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="sanphamgiamgia.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Header -->
+        <header class="header">
+            <div class="slogan"><p>Ở đây chúng tôi có chất lượng!!!</p></div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item#"><a href="../index.html"><div class="logo"></div></a></li>
+                    <li class="nav-item">
+                        <a href="./index.html" target="_self">Trang chủ</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./trangchu/index.html" target="_self">Trang chủ FB</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Shopee</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Địa chỉ liên hệ</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Đặt quảng cáo</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./sanpham_giohang/sanpham.html" target="_self">Sản phẩm</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Đồ thể thao nam</a></li>
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Đồ thể thao nữ</a></li>
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Giày thể thao</a></li>
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Vợt cầu lông</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Lịch sử hình thành</a></li>
+                        </ul>
+                    </li>
+                </ul>   
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="/giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                    <li class="nav-item" id="userMenu">
+                        <a href="./dangky/dangky.html" target="_self">
+                            Đăng ký/Đăng nhập 
+                            <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item">
+                                <a href="./dangky/dangky.html">Đăng ký</a>
+                            </li>
+                            <li class="sub-menu-item">
+                                <a href="./dangnhap/dangnhap.html">Đăng nhập</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>           
+        </header>
+        
+        <!-- Main Container -->
+        <main class="main-container">
+            <div class="main main-1">
+                <div class="main-header">
+                    <h1>DEAL HOT THIS SEASON 🤑🤑🤑</h1>
+                             <div class="sorting-dropdown">
+                            <button class="sorting-btn">
+                                <span>Recommended</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <ul class="sorting-menu">
+                                <li data-sort="recommended" class="active">Recommended</li>
+                                <li data-sort="bestsellers">Bestsellers</li>
+                                <li data-sort="newest">Newest</li>
+                                <li data-sort="price-low-high">Price: Low - High</li>
+                                <li data-sort="price-high-low">Price: High - Low</li>
+                                <li data-sort="sale">Sale</li>
+                                <li data-sort="name-asc">Name: A - Z</li>
+                                <li data-sort="name-desc">Name: Z - A</li>
+                            </ul>
+                        </div>
+                    
+                </div>
+
+                <!-- Product List -->
+                <div class="product">
+                    <!-- Sản phẩm 1 -->
+                         <div class="product-card" data-id="1040">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_57/ao9.avif');">
+
+                                    <div class="sale-percentage">-62%</div>
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_57/ao99.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <div class="sale-percentage">-62%</div>
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">Manchester United Womens MUFC Sweatshirt Grey</p>
+
+                                <div class="price">
+                                    <p class="price-org">1.849.000đ</p>
+                                    <p class="old-price">1.849.000đ</p>
+                                    <p class="new-price">702.620đ</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="product-card" data-id="1041">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_58/ao10.avif');">
+
+                                    <div class="sale-percentage">-58%</div>
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_58/ao1010.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <div class="sale-percentage">-58%</div>
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">Manchester United Womens MUFC Overhead Hoodie Burgundy</p>
+
+                                <div class="price">
+                                    <p class="price-org">2.149.000đ</p>
+                                    <p class="old-price">2.149.000đ</p>
+                                    <p class="new-price">902.580đ</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-id="1042">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_59/ao111.avif');">
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_59/ao1111.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">
+Manchester United Womens MUFC Overhead Hoodie Black</p>
+
+                                <div class="price">
+                                    <p class="price-org">2.149.000đ</p>
+                                    <p>2.149.000đ</p>
+                                    <!-- <p class="new-price">800.000đ</p> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-id="1043">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_60/ao12.avif');">
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_60/ao1212.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">Manchester United Womens Back Print Sweatshirt Black</p>
+
+                                <div class="price">
+                                    <p class="price-org">1.149.000đ</p>
+                                    <p>1.149.000đ</p>
+                                    <!-- <p class="new-price">800.000đ</p> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-id="1044">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_61/ao13.avif');">
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_61/ao1313.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">Manchester United x adidas Womens Future Icons 3-Stripes Sweatshirt Black</p>
+
+                                <div class="price">
+                                    <p class="price-org">2.019.000đ</p>
+                                    <p>2.019.000đ</p>
+                                    <!-- <p class="new-price">800.000đ</p> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-id="1045">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_62/ao14.avif');">
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_62/ao1414.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">
+Manchester United x adidas Womens Z.N.E. Full-Zip Hoodie Purple</p>
+
+                                <div class="price">
+                                    <p class="price-org">3.219.000đ</p>
+                                    <p>3.219.000đ</p>
+                                    <!-- <p class="new-price">800.000đ</p> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-id="1046">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_63/ao15.avif');">
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_63/ao1515.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">
+Manchester United x adidas Womens Stadium Crewneck Sweatshirt Black</p>
+
+                                <div class="price">
+                                    <p class="price-org">1.832.000đ</p>
+                                    <p>1.832.000đ</p>
+                                    <!-- <p class="new-price">800.000đ</p> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-id="1047">
+                            <div class="image-container">
+
+                                <div class="product-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_64/ao16.avif');">
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                                <div class="sub-image"
+                                    style="background-image: url('/sanpham/hoodies_and_sweatshirts/pic_64/ao1616.avif');">
+
+                                    <div class="like-icon">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+
+                                    <!-- <div class="sale-percentage">-50%</div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="product-infor">
+                                <p class="title">Manchester United x adidas Womens Essentials Feelcozy Sweatshirt Red</p>
+
+                                <div class="price">
+                                    <p class="price-org">1.432.000đ</p>
+                                    <p>1.432.000đ</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    <!-- PHÂN TRANG - Thêm 20 sản phẩm giả để test (bạn có thể xóa sau) -->
+                    <!-- Sản phẩm 2 -->
+                    
+                     
+                    
+
+                    <!-- Thêm sản phẩm 4-20 (copy từ sản phẩm 1 và đổi tên) -->
+                    <!-- ... (tôi sẽ viết gọn lại để dễ đọc) ... -->
+                    
+                </div> <!-- Đóng product -->
+
+                <!-- PHÂN TRANG - ĐÃ THÊM VÀO ĐÂY -->
+                <div class="product-stats">
+                    <!-- <div class="total-products">
+                        Tổng số: <span class="product-count" id="totalProducts">20</span> sản phẩm
+                    </div> -->
+                    <div class="items-per-page">
+                        <label for="itemsPerPage">Hiển thị:</label>
+                        <select id="itemsPerPage">
+                            <option value="5">5 sản phẩm</option>
+                            <option value="10">10 sản phẩm</option>
+                            <option value="15" selected>15 sản phẩm</option>
+                            <option value="20">20 sản phẩm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pagination-container">
+                    <div class="pagination" id="pagination">
+                        <!-- Các nút sẽ được JavaScript tạo -->
+                    </div>
+                    <!-- <div class="page-info" id="pageInfo"></div> -->
+                </div>
+
+            </div> <!-- Đóng main-1 -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>VỀ CHÚNG TÔI</h2>
+                    </div>
+                    <div class="column-content">
+                        <p>Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng hàng đầu. Cam kết 100% sản phẩm authentic.</p>
+                        <div class="media-icon-container">
+                            <a href="#" class="media-icon"><i class="fa-brands fa-facebook" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-shopify" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-square-twitter" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-instagram" style="margin-top: 10px;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>DANH MỤC</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><a href="#">Giày bóng đá</a></li>
+                            <li><a href="#">Giày chạy bộ</a></li>
+                            <li><a href="#">Quần áo thể thao</a></li>
+                            <li><a href="#">Phụ kiện</a></li>
+                            <li><a href="#">Thiết bị luyện tập</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>HỖ TRỢ</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Câu hỏi thường gặp</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Điều khoản sử dụng</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>LIÊN HỆ</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><i class="connect-icon fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận Ninh Kiều, Thành Phố Cần Thơ</li>
+                            <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
+                            <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="sanphamgiamgia.js"></script>
+</body>
+</html>

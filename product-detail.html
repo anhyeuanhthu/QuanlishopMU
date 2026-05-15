@@ -1,0 +1,238 @@
+
+<!-- Tác giả: Võ Hoài Thông -->
+<!-- MSSV: B2306587 -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+
+    <!-- font awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="./asset/favivon/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="reset.css"> <!-- Xóa bỏ các thuộc tính CSS mặc định của các thẻ HTMl -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+    <!-- .page chứa toàn bộ nội dung trang web -->
+    <div class="page">
+        <!-- Phần Header: .header chứa slogan và thanh nav để link đến các trang còn lại -->
+        <header class="header">
+            <div class="slogan"><p>Ở đây chúng tôi có chất lượng!!!</p></div> <!-- slogan -->
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item#"><a href="./index.html"><div class="logo"></div></a></li>
+                    <!-- link đến trang chủ -->
+                    <li class="nav-item">
+                        <a href="./index.html" target="_self">Trang chủ</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Trang chủ FB</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Shopee</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Địa chỉ liên hệ</a></li>
+                            <li class="sub-menu-item"><a href="./index.html" target="_self">Đặt quảng cáo</a></li>
+                        </ul>
+                    </li>
+                    <!-- link đến trang sản phẩm -->
+                    <li class="nav-item">
+                        <a href="./sanpham_giohang/sanpham.html" target="_self">Sản phẩm</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Đồ thể thao nam</a></li>
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Đồ thể thao nữ</a></li>
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Giày thể thao</a></li>
+                            <li class="sub-menu-item"><a href="./sanpham_giohang/sanpham.html" target="_self">Vợt cầu lông</a></li>
+                        </ul>
+                    </li>
+                    <!-- link đến trang giới thiệu -->
+                    <li class="nav-item">
+                        <a href="./gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
+                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Lịch sử hình thành</a></li>
+                        </ul>
+                    </li>
+                </ul>   
+                <ul class="nav-list">
+                    <!-- link đến trang giỏ hàng -->
+                    <li class="nav-item"><a href="./giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                    <!-- link đến trang đăng ký và đăng nhập -->
+                   <li class="nav-item" id="userMenu">
+                        <a href="./dangky/dangky.html" target="_self">
+                            Đăng ký/Đăng nhập 
+                            <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item">
+                                <a href="./dangky/dangky.html">Đăng ký</a>
+                            </li>
+                            <li class="sub-menu-item">
+                                <a href="./dangnhap/dangnhap.html">Đăng nhập</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>           
+        </header>
+        <!-- Phần Banner cùng cấp với .header, .main-container và .footer-->
+    
+        <!-- Phần Main cùng cấp với .header, .banner-container và .footer, chứa 4 main con-->
+        <body>
+
+<div class="detail-container">
+
+    <!-- LEFT -->
+    <div class="detail-left">
+        <img id="img1">
+        <img id="img2">
+    </div>
+
+    <!-- RIGHT -->
+    <div class="detail-right">
+
+        <div id="sale" class="sale-badge"></div>
+
+        <h1 id="name"></h1>
+
+        <div class="price-box">
+            <span id="oldPrice" class="old-price"></span>
+            <span id="newPrice" class="new-price"></span>
+        </div>
+
+        <div id="sizes" class="size-box"></div>
+
+        <button id="addToCart" class="add-btn">
+            ADD TO BAG
+        </button>
+
+        <div class="desc">
+            <h3>Description</h3>
+            <p id="description"></p>
+        </div>
+
+    </div>
+
+</div>
+<!-- SIZE MODAL -->
+<div id="sizeModal" class="modal">
+    <div class="modal-content">
+        <h2>Chọn size</h2>
+
+        <div id="modalSizes" class="modal-sizes"></div>
+
+        <p id="stockInfo"></p>
+
+        <div class="quantity-box">
+            <label>Số lượng:</label>
+            <input type="number" id="buyQuantity" value="1" min="1">
+        </div>
+
+        <button id="confirmAdd" class="confirm-btn">
+            ADD TO BAG
+        </button>
+
+        <button id="closeModal" class="close-btn">
+            Hủy
+        </button>
+    </div>
+</div>
+
+<script src="search.js"></script>
+<script src="product-detail.js"></script>
+<script>
+    // Khởi tạo thanh tìm kiếm sau khi trang đã load
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof initSearch === "function") {
+            initSearch("");
+        }
+    });
+</script>
+</body>
+            <!-- main con thứ 4, giới thiệu các dịch vụ khác của trang web -->
+           
+        </main>
+
+
+
+
+        <!-- footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>VỀ CHÚNG TÔI</h2>
+                    </div>
+                    <div class="column-content">
+                        <p>Chuyên cung cấp các sản phẩm thể thao chính hãng với chất lượng hàng đầu. Cam kết 100% sản phẩm authentic.</p>
+                        <div class="media-icon-container">
+                            <a href="#" class="media-icon"><i class="fa-brands fa-facebook" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-shopify" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-square-twitter" style="margin-top: 10px;"></i></a>
+                            <a href="#" class="media-icon"><i class="fa-brands fa-instagram" style="margin-top: 10px;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>DANH MỤC</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><a href="#">Giày bóng đá</a></li>
+                            <li><a href="#">Giày chạy bộ</a></li>
+                            <li><a href="#">Quần áo thể thao</a></li>
+                            <li><a href="#">Phụ kiện</a></li>
+                            <li><a href="#">Thiết bị luyện tập</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>HỖ TRỢ</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Câu hỏi thường gặp</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Điều khoản sử dụng</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-columns">
+                    <div class="footer-column-header">
+                        <h2>LIÊN HỆ</h2>
+                    </div>
+                    <div class="column-content">
+                        <ul>
+                            <li><i class="connect-icon fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận Ninh Kiều, Thành Phố Cần Thơ</li>
+                            <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
+                            <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+    </div>
+    
+
+</body>
+</html>

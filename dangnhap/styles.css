@@ -1,0 +1,527 @@
+
+
+
+
+/* Tác giả: Nguyễn Thanh Lợi */
+/* MSSV: B2305586 */
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* de mot rem = 10px neu su dung luon don vi px thi k can quan tam */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.5;
+}
+
+
+.slogan {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.slogan p {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #000;
+
+}
+
+/* Thanh dieu duong (header) */
+.nav {
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  height: 70px;
+  background-color: #222;
+}
+
+/* Thanh dieu huong con */
+.nav-list {
+  justify-content: space-around;
+  display: flex;
+  list-style: none;
+  margin: auto 0;
+}
+
+/* Thanh dieu huong con-1 */
+.nav-list:first-child {
+  flex-basis: 50%;
+}
+/* Thanh dieu huong con-2 */
+.nav-list:last-child {
+  flex-basis: 30%;
+}
+
+
+.logo {
+  width: calc(2437px * 0.085);
+  height: calc(432px * 0.085);
+  background-image: url(https://theme.hstatic.net/200000293662/1001283807/14/logo.png?v=580);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* hieu ung thanh truot mau cam */
+.nav-item > a {
+  color: #fff;
+  position: relative;
+  list-style: none;
+}
+
+
+.nav-item > a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  background: #ff7e5f;
+  border-radius: 999px;
+  top: 105%;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav-item > a:hover {
+  color: #ff7e5f;
+}
+
+.nav-item > a:hover::after {
+  width: 100%;
+}
+
+/* hieu ung hien sub-menu */
+.nav-item {
+  position: relative;
+}
+.sub-menu {
+  position: absolute;
+  width: 210%;
+  top: 100%;
+  left: 0;
+}
+.sub-menu {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 2;
+}
+
+.sub-menu-item a{
+  display: block;
+  color: #fff;
+  padding: 20px 20px;
+}
+
+.sub-menu-item a:hover {
+  color: #ff7e5f;
+}
+
+.nav-item:hover .sub-menu {
+  border-top: 10px #cd3812 solid;
+  background-color: #222;
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+}
+#message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: none;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.login-wrapper {
+  font-size: 'Open Sans';
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px;
+}
+
+.login-container {
+  width: 400px;
+  padding: 32px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 28px;
+  color: #444;
+  cursor: pointer;
+}
+
+/* h2 {
+  text-align: center;
+  margin-bottom: 28px;
+  color: #222;
+  font-weight: 500;
+  letter-spacing: 1px;
+} */
+
+#loginForm input[type="text"],
+#loginForm input[type="password"] {
+  width: 100%;
+  height: 48px;
+  padding: 12px 14px;
+  margin: 8px 0 18px 0;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fafafa;
+  color: #222;
+  font-size: 15px;
+  transition: border 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+#loginForm input:focus {
+  border-color: #888;
+  outline: none;
+  background: #fff;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-size: 14px;
+  color: #444;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.options .forgot {
+  color: #444;
+  text-decoration: none;
+}
+
+.options .forgot:hover {
+  text-decoration: underline;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: #ff4415;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #cd3812;
+}
+
+.register {
+  text-align: center;
+  color: #888;
+  font-size: 15px;
+  margin-bottom: 18px;
+}
+
+.register a {
+  color: #444;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: #388e3c;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.media-icon-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.media-icon {
+  color: white;
+  margin-right: 20px;
+  font-size: 2.2rem;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #757575;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.media-icon:hover {
+  background-color: #ff4415;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* footer */
+
+
+.footer {
+  width: 100%;
+  height: 400px;
+  background: #222;
+  color: #fff;
+  margin-top: 125px; /* neu muon chinh sua footer cach phan tu ben tren cua no bao nhieu thi chinh o day  */
+}
+
+
+.footer-container {
+  padding: 30px 70px;
+  font-family: 'Open Sans';
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 45px;
+}
+
+.footer-column-header h2 {
+  position: relative;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.footer-column-header h2::after {
+  display: inline-block;
+  position: absolute;
+  content: "";
+  width: 20%;
+  height: 3px;
+  background-color: #ff4415;
+  top: 150%;
+  left: 0;
+}
+
+
+.column-content {
+  margin-top: 40px;
+  font-size: 1.5rem;
+}
+
+.column-content ul {
+    list-style: none;
+}
+
+.media-icon-container {
+  margin-top: 40px;
+}
+
+.media-icon {
+  color: white;
+  margin-right: 20px;
+  font-size: 2.4rem;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 999px;
+  background-color: #757575;
+  display: inline-block;
+}
+
+.media-icon:hover {
+  background-color: #ff4415;
+}
+
+.column-content li {
+  margin-top: 15px;
+}
+
+.column-content li a {
+    color: white;
+}
+
+.connect-icon {
+  color: #ff4415;
+  margin-right: 10px;
+  font-size: 2rem;
+}

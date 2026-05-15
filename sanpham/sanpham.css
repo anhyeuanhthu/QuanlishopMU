@@ -1,0 +1,419 @@
+
+
+/* Tác giả: Nguyễn Tường Vân Anh */
+/* MSSV: B2205329 */
+
+/* de mot rem = 10px neu su dung luon don vi px thi k can quan tam */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.5;
+}
+
+/* slogan */
+.slogan {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.slogan p {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #000;
+
+}
+
+/* Thanh dieu duong */
+.nav {
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  background-color: #222;
+}
+
+/* Thanh dieu huong con */
+.nav-list{
+  justify-content: space-around;
+  display: flex;
+  list-style: none;
+  margin: auto 0;
+}
+
+/* Thanh dieu huong con-1 */
+.nav-list:first-child {
+  flex-basis: 50%;
+}
+/* Thanh dieu huong con-2 */
+.nav-list:last-child {
+  flex-basis: 30%;
+}
+
+
+.logo {
+  width: calc(2437px * 0.085);
+  height: calc(432px * 0.085);
+  background-image: url(https://theme.hstatic.net/200000293662/1001283807/14/logo.png?v=580);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* hieu ung thanh truot mau cam */
+.nav-item > a {
+  color: #fff;
+  position: relative;
+
+}
+
+
+.nav-item > a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  background: #ff7e5f;
+  border-radius: 999px;
+  top: 105%;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav-item > a:hover {
+  color: #ff7e5f;
+}
+
+.nav-item > a:hover::after {
+  width: 100%;
+}
+
+/* hieu ung hien sub-menu */
+.nav-item {
+  position: relative;
+}
+.sub-menu {
+  position: absolute;
+  width: 210%;
+  top: 100%;
+  left: 0;
+}
+.sub-menu {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.sub-menu-item a{
+  display: block;
+  color: #fff;
+  padding: 20px 20px;
+}
+
+.sub-menu-item a:hover {
+  color: #ff7e5f;
+}
+
+.nav-item:hover .sub-menu {
+  border-top: 10px #cd3812 solid;
+  background-color: #222;
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+/* Product page styling */
+.product-page {
+  padding: 30px 60px;
+  background-color: #ffffff;
+}
+
+.filter-fav {
+  display: flex;
+  justify-content: space-between; /* Căn 2 bên */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-bar select {
+  padding: 8px 16px;
+  font-size: 1.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-left: 8px;
+}
+
+/*Mục yêu thích*/
+.favorite-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  background-color: #ffffff;
+  color: #e12e2e; 
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: 2px solid #e12e2e;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.favorite-tag i {
+  font-size: 1.8rem;
+}
+
+.favorite-tag.active {
+  background-color: #f8c5c5; 
+  border-color: #a50000;      
+  color: #a50000;             
+}
+
+.favorite-tag.active i {
+  color: #a50000;
+}
+
+/* Thích/Bỏ thích sản phẩm */
+/* Đổi màu trái tim khi đã thích */
+.favorite-btn.active i {
+  color: red;
+}
+
+/* Thông báo nổi khi thêm vào yêu thích */
+.favorite-message {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+.favorite-message.show {
+  opacity: 1;
+}
+
+.product-grid {
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));;
+  gap: 30px;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.product-card h3 {
+  margin-top: 12px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.product-card p {
+  margin-top: 4px;
+  font-size: 1.6rem;
+  color: #e74c3c;
+}
+
+
+/* FLASH PRODUCT STYLING */
+.flash-product {
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.flash-product:hover {
+  transform: translateY(-5px);
+}
+.flash-image-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.flash-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.discount-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: #ff471a;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.flash-title {
+  margin: 10px 0 4px;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.flash-price {
+  font-size: 1.4rem;
+}
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 8px;
+}
+.sale-price {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+
+/* Thêm vào giỏ hàng */
+.add-to-cart-btn {
+  margin-top: 10px;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 1.4rem;
+  color: white;
+  background-color: #333;
+  cursor: pointer;
+  z-index: 2;
+}
+
+
+
+/* footer */
+
+.footer {
+  width: 100%;
+  height: 400px;
+  background: #222;
+  color: #fff;
+  margin-top: 125px; /* neu muon chinh sua footer cach phan tu ben tren cua no bao nhieu thi chinh o day  */
+}
+
+
+.footer-container {
+  padding: 30px 70px;
+  font-family: 'Open Sans';
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 45px;
+}
+
+.footer-column-header h2 {
+  position: relative;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.footer-column-header h2::after {
+  display: inline-block;
+  position: absolute;
+  content: "";
+  width: 20%;
+  height: 3px;
+  background-color: #ff4415;
+  top: 150%;
+  left: 0;
+}
+
+
+.column-content {
+  margin-top: 40px;
+  font-size: 1.5rem;
+}
+
+.column-content ul {
+    list-style: none;
+}
+
+.media-icon-container {
+  margin-top: 40px;
+}
+
+.media-icon {
+  color: white;
+  margin-right: 20px;
+  font-size: 2.4rem;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 999px;
+  background-color: #757575;
+  display: inline-block;
+}
+
+.media-icon:hover {
+  background-color: #ff4415;
+}
+
+.column-content li {
+  margin-top: 15px;
+}
+
+.column-content li a {
+    color: white;
+}
+
+.connect-icon {
+  color: #ff4415;
+  margin-right: 10px;
+  font-size: 2rem;
+}
+
+
+
