@@ -105,7 +105,7 @@
         /* Từng kết quả */
         .sd-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
             padding: 10px 16px;
             cursor: pointer;
@@ -148,9 +148,10 @@
             font-size: 13px;
             font-weight: 600;
             color: #e8eaf0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+            line-height: 1.35;
             font-family: 'Montserrat', sans-serif;
             margin-bottom: 3px;
         }
@@ -282,7 +283,7 @@
     // ================================================================
     // Sửa lại phần tìm vị trí trong hàm initSearch
 function initSearch(basePath) {
-    basePath = basePath || "";
+    basePath = basePath || getDefaultBasePath();
 
     // Kiểm tra xem đã có thanh tìm kiếm chưa (tránh chèn nhiều lần)
     if (document.querySelector(".search-wrapper")) return;
@@ -453,8 +454,9 @@ function initSearch(basePath) {
                     : "";
 
                 const highlightedName = highlightMatch(esc(p.Name), esc(q));
-                const thumb = p.Image
-                    ? `<img src="${esc(p.Image)}" class="sd-thumb" onerror="this.style.display='none'" alt="">`
+                const imageUrl = getAssetUrl(p.Image);
+                const thumb = imageUrl
+                    ? `<img src="${esc(imageUrl)}" class="sd-thumb" onerror="this.style.display='none'" alt="">`
                     : `<div class="sd-thumb-placeholder"><i class="fa-solid fa-shirt"></i></div>`;
 
                 return `
@@ -547,7 +549,7 @@ function initSearch(basePath) {
                     return `
                         <div class="product-card">
                             <div class="image-container">
-                                <div class="product-image" style="background-image:url('${escHtml(p.Image || "")}')">
+                                <div class="product-image" style="background-image:url('${escHtml(getAssetUrl(p.Image))}')">
                                     <div class="like-icon"><i class="fa-regular fa-heart"></i></div>
                                     ${discount > 0 ? `<div class="sale-percentage">${discount}%</div>` : ""}
                                 </div>
@@ -599,6 +601,13 @@ function initSearch(basePath) {
             .replace(/"/g, "&quot;");
     }
 
+    function getAssetUrl(path) {
+        path = String(path || "").trim();
+        if (!path) return "";
+        if (/^(https?:|data:|\/)/i.test(path)) return path;
+        return `/${path.replace(/^(\.\/|\/)+/, "")}`;
+    }
+
     function highlightMatch(text, query) {
         if (!query) return text;
         try {
@@ -614,5 +623,9 @@ function initSearch(basePath) {
     // ================================================================
     window.initSearch       = initSearch;
     window.initResultsPage  = initResultsPage;
+
+    function getDefaultBasePath() {
+        return window.location.pathname.includes("/sanpham/") ? "../" : "";
+    }
 
 })();

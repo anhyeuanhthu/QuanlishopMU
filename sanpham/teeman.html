@@ -29,7 +29,7 @@
             <div class="slogan"><p>Ở đây chúng tôi có chất lượng!!!</p></div> <!-- slogan -->
             <nav class="nav">
                 <ul class="nav-list">
-                    <li class="nav-item#"><a href="./index.html"><div class="logo"></div></a></li>
+                    <li class="nav-item#"><a href="/index.html"><div class="logo"></div></a></li>
                     <!-- link đến trang chủ -->
                     <li class="nav-item">
                         <a href="/sanpham/jersey.html" target="_self">Jerseys</a>
@@ -104,7 +104,7 @@
                                 <a href="./dangky/dangky.html">Đăng ký</a>
                             </li>
                             <li class="sub-menu-item">
-                                <a href="./dangnhap/dangnhap.html">Đăng nhập</a>
+                                <a href="/dangnhap/dangnhap.html">Đăng nhập</a>
                             </li>
                         </ul>
                     </li>
@@ -498,5 +498,14 @@ Manchester United x adidas Bring Back 1991 T-Shirt White</p>
 
     <!-- JavaScript -->
     <script src="sanphamgiamgia.js"></script>
+    <script src="/search.js"></script>
+    <script>
+    // Khởi tạo thanh tìm kiếm sau khi trang đã load
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof initSearch === "function") {
+            initSearch("");
+        }
+    });
+</script>
 </body>
 </html>

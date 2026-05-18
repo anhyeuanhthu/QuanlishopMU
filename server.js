@@ -501,9 +501,11 @@ app.get("/search", async (req, res) => {
     try {
         const result = await sql.query`
             SELECT TOP 20
-                p.Id, p.Name, p.Price, p.Image, p.DiscountPercent, p.CategoryId, p.IsClothing
+                p.Id, p.Name, p.Price, p.Image, p.DiscountPercent, p.CategoryId, p.IsClothing,
+                c.Name AS Category
             FROM Products p
-            WHERE p.Name LIKE ${"%" + q + "%"} OR p.Description LIKE ${"%" + q + "%"}
+            LEFT JOIN Categories c ON p.CategoryId = c.Id
+            WHERE p.Name LIKE ${"%" + q + "%"}
             ORDER BY CASE WHEN p.Name LIKE ${q + "%"} THEN 0 ELSE 1 END, p.Name ASC
         `;
         res.json(result.recordset);

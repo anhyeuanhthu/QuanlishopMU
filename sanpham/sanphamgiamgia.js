@@ -1,5 +1,38 @@
+function initUserMenu() {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const menu = document.getElementById("userMenu");
+
+    if (!menu) return;
+
+    if (user) {
+        menu.innerHTML = `
+            <a href="#">
+                ${user.Username}
+                <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i>
+            </a>
+
+            <ul class="sub-menu">
+                <li class="sub-menu-item"><a href="../account.html">Account</a></li>
+                <li class="sub-menu-item"><a href="../giohang/giohang.html">Orders</a></li>
+                <li class="sub-menu-item">
+                    <a href="#" id="logoutBtn">Log Out</a>
+                </li>
+            </ul>
+        `;
+
+        document.getElementById("logoutBtn").addEventListener("click", function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem("user");
+            localStorage.removeItem("user");
+            window.location.href = "../dangnhap/dangnhap.html";
+        });
+    }
+}
+
 // ===== SORTING DROPDOWN =====
 document.addEventListener('DOMContentLoaded', function() {
+    initUserMenu();
+
     // Xử lý dropdown sorting
     const sortingBtn = document.querySelector('.sorting-btn');
     const sortingDropdown = document.querySelector('.sorting-dropdown');
@@ -384,29 +417,4 @@ document.querySelectorAll(".product-card").forEach(card => {
         const id = this.dataset.id;
         window.location.href = `../product-detail.html?id=${id}`;
     });
-    const user = JSON.parse(localStorage.getItem("user"));
-const menu = document.getElementById("userMenu");
-
-if (user && menu) {
-    menu.innerHTML = `
-        <a href="#">
-            ${user.Username} 
-            <i style="font-size: 24px;" class="fa-solid fa-circle-user"></i>
-        </a>
-
-        <ul class="sub-menu">
-            <li class="sub-menu-item"><a href="./account.html">Account</a></li>
-            <li class="sub-menu-item"><a href="#">Orders</a></li>
-            <li class="sub-menu-item">
-                <a href="#" id="logoutBtn">Log Out</a>
-            </li>
-        </ul>
-    `;
-
-    // logout
-    document.getElementById("logoutBtn").addEventListener("click", function () {
-        localStorage.removeItem("user");
-        window.location.href = "./dangnhap/dangnhap.html";
-    });
-}
 });
