@@ -1032,3 +1032,80 @@ body {
 .main-container {
     row-gap: 60px;
 }
+
+/* ===== Unified account dropdown ===== */
+#userMenu { position: relative; }
+
+#userMenu > a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+#userMenu .sub-menu {
+    left: auto;
+    right: 0;
+    width: auto;
+    min-width: 210px;
+    padding: 8px 0;
+    margin-top: 8px;
+    background: #fff;
+    border-top: 3px solid #ff4415;
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+    z-index: 2000;
+}
+
+#userMenu .sub-menu::before {
+    left: auto;
+    right: 20px;
+    border-bottom-color: #fff;
+}
+
+#userMenu .sub-menu-item { list-style: none; }
+
+#userMenu .sub-menu-item a,
+#userMenu .sub-menu > li > a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    color: #333 !important;
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none !important;
+    border-left: 3px solid transparent;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+#userMenu .sub-menu-item:not(:last-child) a,
+#userMenu .sub-menu > li:not(:last-child) > a {
+    border-bottom: 1px solid #eee;
+}
+
+#userMenu .sub-menu-item a:hover,
+#userMenu .sub-menu > li > a:hover {
+    background: #fff5f1;
+    color: #ff4415 !important;
+    border-left-color: #ff4415;
+    padding-left: 22px;
+}
+
+#userMenu .sub-menu-item a::before,
+#userMenu .sub-menu > li > a::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    width: 16px;
+    color: #ff4415;
+    text-align: center;
+}
+
+#userMenu .sub-menu-item:nth-child(1) a::before,
+#userMenu .sub-menu > li:nth-child(1) > a::before { content: "\f007"; }
+#userMenu .sub-menu-item:nth-child(2) a::before,
+#userMenu .sub-menu > li:nth-child(2) > a::before { content: "\f291"; }
+#userMenu .sub-menu-item:nth-child(3) a::before,
+#userMenu .sub-menu > li:nth-child(3) > a::before { content: "\f2f5"; }

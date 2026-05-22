@@ -73,6 +73,27 @@ if (user) {
     if (emailInput && user.Email) emailInput.value = user.Email;
     const fullnameInput = document.getElementById('fullname');
     if (fullnameInput && user.Username) fullnameInput.value = user.Username;
+
+    const userMenu = document.getElementById("userMenu");
+    if (userMenu) {
+        userMenu.innerHTML = `
+            <a href="#">
+                ${user.Username}
+                <i class="fa-solid fa-circle-user"></i>
+            </a>
+            <ul class="sub-menu">
+                <li class="sub-menu-item"><a href="../account.html">Account</a></li>
+                <li class="sub-menu-item"><a href="../account.html?tab=orders">Orders</a></li>
+                <li class="sub-menu-item"><a href="#" id="logoutBtn">Log Out</a></li>
+            </ul>
+        `;
+
+        document.getElementById("logoutBtn").addEventListener("click", function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem("user");
+            window.location.href = "../dangnhap/dangnhap.html";
+        });
+    }
 }
 
 // QR MODAL (giữ nguyên, không liên quan đến session)

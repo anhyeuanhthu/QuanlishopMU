@@ -13,7 +13,7 @@ function initUserMenu() {
 
             <ul class="sub-menu">
                 <li class="sub-menu-item"><a href="../account.html">Account</a></li>
-                <li class="sub-menu-item"><a href="../giohang/giohang.html">Orders</a></li>
+                <li class="sub-menu-item"><a href="../account.html?tab=orders">Orders</a></li>
                 <li class="sub-menu-item">
                     <a href="#" id="logoutBtn">Log Out</a>
                 </li>

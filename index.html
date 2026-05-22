@@ -460,6 +460,15 @@
                                 <span id="reviewCharCount">0</span>/500
                             </div>
                         </div>
+                        <div class="review-form-group">
+                            <label>Ảnh sản phẩm (tùy chọn)</label>
+                            <input type="file" id="reviewImage" class="review-file-input" accept="image/jpeg,image/png,image/webp">
+                            <div class="review-image-preview" id="reviewImagePreview" style="display:none">
+                                <img id="reviewImagePreviewImg" src="" alt="Ảnh sản phẩm đã chọn">
+                                <button type="button" class="review-remove-image-btn" onclick="clearReviewImage()">Xóa</button>
+                            </div>
+                            <small class="review-file-help">Hỗ trợ JPG, PNG, WEBP. Tối đa 5MB.</small>
+                        </div>
                     </div>
                     <div class="review-modal-footer">
                         <button class="review-cancel-btn" onclick="closeReviewForm()">Huỷ</button>
@@ -686,7 +695,8 @@
                 display: none;
                 align-items: center;
                 justify-content: center;
-                padding: 20px;
+                padding: 16px;
+                overflow: hidden;
             }
 
             .review-modal-overlay.open { display: flex; }
@@ -694,9 +704,11 @@
             .review-modal {
                 background: #fff;
                 border-radius: 18px;
-                width: 100%;
+                box-sizing: border-box;
+                width: min(500px, calc(100vw - 32px));
                 max-width: 500px;
                 max-height: 90vh;
+                overflow-x: hidden;
                 overflow-y: auto;
                 animation: rmDrop 0.22s ease;
                 box-shadow: 0 24px 64px rgba(0,0,0,0.25);
@@ -744,6 +756,7 @@
                 display: flex;
                 gap: 10px;
                 justify-content: flex-end;
+                flex-wrap: wrap;
             }
 
             .review-form-group {
@@ -772,10 +785,65 @@
                 outline: none;
                 transition: border-color 0.2s;
                 width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
 
             .review-select:focus, .review-textarea:focus { border-color: #6c63ff; }
             .review-textarea { resize: vertical; min-height: 100px; }
+
+            .review-file-input {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                font-size: 13px;
+                color: #555;
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            .review-file-help {
+                color: #999;
+                font-size: 11px;
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            .review-image-preview {
+                align-items: center;
+                gap: 12px;
+                margin-top: 8px;
+            }
+
+            .review-image-preview img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 10px;
+                border: 1px solid #e8e8e8;
+            }
+
+            .review-remove-image-btn {
+                padding: 8px 14px;
+                border: none;
+                border-radius: 8px;
+                background: #f5f5f5;
+                color: #666;
+                cursor: pointer;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+            .review-remove-image-btn:hover { background: #ffe0e0; color: #e05; }
+
+            .review-attached-image {
+                display: block;
+                max-width: 300px;
+                width: 100%;
+                height: auto;
+                margin-top: 12px;
+                border-radius: 10px;
+                border: 1px solid #eee;
+            }
 
             /* Star picker */
             .star-picker {
@@ -818,6 +886,7 @@
             .review-submit-btn {
                 display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 gap: 6px;
                 padding: 9px 20px;
                 background: #1a1d26;
@@ -829,6 +898,7 @@
                 font-family: 'Montserrat', sans-serif;
                 cursor: pointer;
                 transition: background 0.2s;
+                white-space: nowrap;
             }
 
             .review-submit-btn:hover { background: #333; }
@@ -866,6 +936,25 @@
                 .review-stats-bar { flex-direction: column; gap: 16px; }
                 .review-list { grid-template-columns: 1fr; }
                 .review-section-header { flex-direction: column; }
+                .review-modal-overlay { padding: 8px; }
+                .review-modal {
+                    width: calc(100vw - 16px);
+                    max-height: calc(100vh - 16px);
+                    border-radius: 14px;
+                }
+                .review-modal-header,
+                .review-modal-body,
+                .review-modal-footer {
+                    padding-left: 18px;
+                    padding-right: 18px;
+                }
+                .review-modal-footer {
+                    justify-content: stretch;
+                }
+                .review-cancel-btn,
+                .review-submit-btn {
+                    flex: 1 1 120px;
+                }
             }
             </style>
 
@@ -875,6 +964,7 @@
             // ================================================================
             const REVIEW_API = "http://localhost:8888";
             let selectedRating = 0;
+            let reviewImageFile = null;
 
             // ---- Load reviews ----
             function loadReviews() {
@@ -945,6 +1035,9 @@
                             <div class="reply-text">${escHtml(r.Reply)}</div>
                         </div>
                     ` : "";
+                    const imageHTML = r.ImageUrl ? `
+                        <img class="review-attached-image" src="${escHtml(reviewImageSrc(r.ImageUrl))}" alt="Ảnh sản phẩm trong đánh giá">
+                    ` : "";
 
                     return `
                         <div class="review-card">
@@ -957,6 +1050,7 @@
                                 <div class="review-stars">${stars}</div>
                             </div>
                             <div class="review-content">${escHtml(r.Content)}</div>
+                            ${imageHTML}
                             <div class="review-date"><i class="fa-regular fa-calendar" style="margin-right:4px"></i>${date}</div>
                             ${replyHTML}
                         </div>
@@ -970,9 +1064,13 @@
                     .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
             }
 
+            function reviewImageSrc(url) {
+                return String(url || "").startsWith("/") ? `${REVIEW_API}${url}` : url;
+            }
+
             // ---- Modal ----
             function openReviewForm() {
-                const user = JSON.parse(localStorage.getItem("user"));
+                const user = JSON.parse(sessionStorage.getItem("user"));
                 if (!user) {
                     rToast("Vui lòng đăng nhập để viết đánh giá!", "error");
                     setTimeout(() => window.location.href = "./dangnhap/dangnhap.html", 1500);
@@ -992,11 +1090,53 @@
                 updateStarPicker(0);
                 document.getElementById("reviewContent").value = "";
                 document.getElementById("reviewCharCount").textContent = "0";
+                clearReviewImage();
                 document.getElementById("reviewModal").classList.add("open");
             }
 
             function closeReviewForm() {
                 document.getElementById("reviewModal").classList.remove("open");
+            }
+
+            function handleReviewImageUpload() {
+                const input = document.getElementById("reviewImage");
+                const file = input.files && input.files[0];
+                if (!file) {
+                    clearReviewImage();
+                    return;
+                }
+
+                const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+                if (!allowedTypes.includes(file.type)) {
+                    rToast("Chỉ hỗ trợ ảnh JPG, PNG hoặc WEBP!", "error");
+                    clearReviewImage();
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    rToast("Ảnh không được vượt quá 5MB!", "error");
+                    clearReviewImage();
+                    return;
+                }
+
+                reviewImageFile = file;
+                const preview = document.getElementById("reviewImagePreview");
+                const previewImg = document.getElementById("reviewImagePreviewImg");
+                previewImg.src = URL.createObjectURL(file);
+                preview.style.display = "flex";
+            }
+
+            function clearReviewImage() {
+                const input = document.getElementById("reviewImage");
+                const preview = document.getElementById("reviewImagePreview");
+                const previewImg = document.getElementById("reviewImagePreviewImg");
+                reviewImageFile = null;
+                if (input) input.value = "";
+                if (previewImg) {
+                    if (previewImg.src) URL.revokeObjectURL(previewImg.src);
+                    previewImg.src = "";
+                }
+                if (preview) preview.style.display = "none";
             }
 
             // Star picker
@@ -1028,13 +1168,15 @@
             document.getElementById("reviewContent").addEventListener("input", function() {
                 document.getElementById("reviewCharCount").textContent = this.value.length;
             });
+            document.getElementById("reviewImage").addEventListener("change", handleReviewImageUpload);
 
             // Submit
             function submitReview() {
-                const user = JSON.parse(localStorage.getItem("user"));
+                const user = JSON.parse(sessionStorage.getItem("user"));
                 const productId = document.getElementById("reviewProductId").value;
                 const content   = document.getElementById("reviewContent").value.trim();
 
+                if (!user) { rToast("Vui lòng đăng nhập để viết đánh giá!", "error"); return; }
                 if (!productId) { rToast("Vui lòng chọn sản phẩm!", "error"); return; }
                 if (!selectedRating) { rToast("Vui lòng chọn số sao!", "error"); return; }
                 if (!content) { rToast("Vui lòng nhập nội dung đánh giá!", "error"); return; }
@@ -1043,21 +1185,34 @@
                 btn.disabled = true;
                 btn.innerHTML = `<span class="review-spinner"></span> Đang gửi...`;
 
-                fetch(`${REVIEW_API}/reviews`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        userId: user.Id,
-                        productId: parseInt(productId),
-                        rating: selectedRating,
-                        content
-                    })
-                })
+                const requestOptions = reviewImageFile
+                    ? (() => {
+                        const formData = new FormData();
+                        formData.append("userId", user.Id);
+                        formData.append("productId", parseInt(productId));
+                        formData.append("rating", selectedRating);
+                        formData.append("content", content);
+                        formData.append("reviewImage", reviewImageFile);
+                        return { method: "POST", body: formData };
+                    })()
+                    : {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            userId: user.Id,
+                            productId: parseInt(productId),
+                            rating: selectedRating,
+                            content
+                        })
+                    };
+
+                fetch(`${REVIEW_API}/reviews`, requestOptions)
                 .then(r => r.json())
                 .then(data => {
                     btn.disabled = false;
                     btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Gửi đánh giá`;
                     if (data.success) {
+                        clearReviewImage();
                         closeReviewForm();
                         rToast("Cảm ơn bạn đã đánh giá! 🎉", "success");
                         loadReviews();

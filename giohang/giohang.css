@@ -619,3 +619,28 @@ a {
 .summary-note {
     animation: slideIn 0.3s ease;
 }
+
+/* Unified account dropdown */
+#userMenu { position: relative; }
+#userMenu > a { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+#userMenu .sub-menu {
+  left: auto; right: 0; width: auto; min-width: 210px; padding: 8px 0;
+  margin-top: 8px; background: #fff; border-top: 3px solid #ff4415;
+  border-radius: 8px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16); z-index: 2000;
+}
+#userMenu .sub-menu-item { list-style: none; }
+#userMenu .sub-menu-item a {
+  display: flex; align-items: center; gap: 10px; padding: 12px 18px;
+  color: #333; font-size: 1.45rem; font-weight: 600; line-height: 1.2;
+  border-left: 3px solid transparent; background: transparent;
+}
+#userMenu .sub-menu-item:not(:last-child) a { border-bottom: 1px solid #eee; }
+#userMenu .sub-menu-item a:hover {
+  background: #fff5f1; color: #ff4415; border-left-color: #ff4415; padding-left: 22px;
+}
+#userMenu .sub-menu-item a::before {
+  font-family: "Font Awesome 6 Free"; font-weight: 900; width: 16px; color: #ff4415; text-align: center;
+}
+#userMenu .sub-menu-item:nth-child(1) a::before { content: "\f007"; }
+#userMenu .sub-menu-item:nth-child(2) a::before { content: "\f291"; }
+#userMenu .sub-menu-item:nth-child(3) a::before { content: "\f2f5"; }

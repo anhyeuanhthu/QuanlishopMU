@@ -6,6 +6,31 @@
   flex-direction: column;
 }
 
+/* Unified account dropdown */
+#userMenu { position: relative; }
+#userMenu > a { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+#userMenu .sub-menu {
+  left: auto; right: 0; width: auto; min-width: 210px; padding: 8px 0;
+  margin-top: 8px; background: #fff; border-top: 3px solid #ff4415;
+  border-radius: 8px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16); z-index: 2000;
+}
+#userMenu .sub-menu-item { list-style: none; }
+#userMenu .sub-menu-item a {
+  display: flex; align-items: center; gap: 10px; padding: 12px 18px;
+  color: #333; font-size: 1.45rem; font-weight: 600; line-height: 1.2;
+  border-left: 3px solid transparent; background: transparent;
+}
+#userMenu .sub-menu-item:not(:last-child) a { border-bottom: 1px solid #eee; }
+#userMenu .sub-menu-item a:hover {
+  background: #fff5f1; color: #ff4415; border-left-color: #ff4415; padding-left: 22px;
+}
+#userMenu .sub-menu-item a::before {
+  font-family: "Font Awesome 6 Free"; font-weight: 900; width: 16px; color: #ff4415; text-align: center;
+}
+#userMenu .sub-menu-item:nth-child(1) a::before { content: "\f007"; }
+#userMenu .sub-menu-item:nth-child(2) a::before { content: "\f291"; }
+#userMenu .sub-menu-item:nth-child(3) a::before { content: "\f2f5"; }
+
 /* Main là flex container cấp 2, chứa các section, đảm bảo chiều cao tối thiểu toàn màn hình */
 .main{
   display: flex;
@@ -332,6 +357,43 @@ a {
   margin-bottom: 50px;
 }
 
+.reviews-loading,
+.reviews-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 120px;
+  color: #6c757d;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.reviews-empty {
+  flex-direction: column;
+}
+
+.reviews-empty i {
+  color: #ff7e5f;
+  font-size: 3rem;
+}
+
+.review-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #eee;
+  border-top-color: #ff7e5f;
+  border-radius: 50%;
+  animation: review-spin 0.8s linear infinite;
+}
+
+@keyframes review-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .review-card {
   background: #ffffff;
   border: 1px solid #e9ecef;
@@ -382,6 +444,12 @@ a {
   margin-bottom: 5px;
 }
 
+.review-product {
+  color: #777;
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+
 .review-stars {
   display: flex;
   gap: 2px;
@@ -407,6 +475,27 @@ a {
 .review-content p {
   margin: 0;
   font-style: italic;
+}
+
+.review-reply {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #fff5f1;
+  border-left: 4px solid #ff7e5f;
+  border-radius: 8px;
+  color: #555;
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+.review-attached-image {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: 1px solid #eee;
 }
 
 /* Thống kê đánh giá khách hàng */

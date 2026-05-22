@@ -1,14 +1,54 @@
 const express = require("express");
 const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+const multer = require("multer");
 const { sql, connectDB } = require("./backend/db");
 
 const app = express();
+const reviewUploadDir = path.join(__dirname, "uploads", "reviews");
+
+fs.mkdirSync(reviewUploadDir, { recursive: true });
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.static(__dirname));
 
-connectDB();
+async function ensureReviewImageColumn() {
+    try {
+        await sql.query`
+            IF COL_LENGTH('Reviews', 'ImageUrl') IS NULL
+            BEGIN
+                ALTER TABLE Reviews ADD ImageUrl VARCHAR(255) NULL
+            END
+        `;
+    } catch (err) {
+        console.error("Review ImageUrl migration error:", err);
+    }
+}
+
+connectDB().then(ensureReviewImageColumn);
+
+const reviewImageUpload = multer({
+    storage: multer.diskStorage({
+        destination: (_req, _file, cb) => cb(null, reviewUploadDir),
+        filename: (_req, file, cb) => {
+            const ext = path.extname(file.originalname).toLowerCase();
+            const random = crypto.randomBytes(6).toString("hex");
+            cb(null, `review_${Date.now()}_${random}${ext}`);
+        }
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+        if (!allowedTypes.includes(file.mimetype)) {
+            return cb(new Error("Chỉ hỗ trợ ảnh JPG, PNG hoặc WEBP!"));
+        }
+        cb(null, true);
+    }
+}).single("reviewImage");
 
 // ==================== AUTH ====================
 app.post("/login", async (req, res) => {
@@ -528,7 +568,7 @@ app.get("/products/list", async (req, res) => {
 app.get("/reviews", async (req, res) => {
     try {
         const r = await sql.query`
-            SELECT rv.Id, rv.Rating, rv.Content, rv.Reply, rv.CreatedAt, u.Username, p.Name AS ProductName
+            SELECT rv.Id, rv.Rating, rv.Content, rv.Reply, rv.ImageUrl, rv.CreatedAt, u.Username, p.Name AS ProductName
             FROM Reviews rv
             LEFT JOIN Users u ON rv.UserId = u.Id
             LEFT JOIN Products p ON rv.ProductId = p.Id
@@ -540,36 +580,51 @@ app.get("/reviews", async (req, res) => {
     }
 });
 
-app.post("/reviews", async (req, res) => {
-    const { userId, productId, rating, content } = req.body;
-    if (!userId || !productId || !rating || !content) {
-        return res.json({ success: false, message: "Thiếu thông tin đánh giá!" });
-    }
-    if (rating < 1 || rating > 5) {
-        return res.json({ success: false, message: "Số sao không hợp lệ!" });
-    }
-    try {
-        const existing = await sql.query`
-            SELECT Id FROM Reviews WHERE UserId = ${userId} AND ProductId = ${productId}
-        `;
-        if (existing.recordset.length > 0) {
-            return res.json({ success: false, message: "Bạn đã đánh giá sản phẩm này rồi!" });
+app.post("/reviews", (req, res) => {
+    reviewImageUpload(req, res, async (uploadErr) => {
+        if (uploadErr) {
+            return res.status(400).json({ success: false, message: uploadErr.message });
         }
-        await sql.query`
-            INSERT INTO Reviews (UserId, ProductId, Rating, Content, CreatedAt)
-            VALUES (${userId}, ${productId}, ${rating}, ${content}, GETDATE())
-        `;
-        res.json({ success: true });
-    } catch (err) {
-        console.error("Review error:", err);
-        res.status(500).json({ success: false, message: err.message });
-    }
+
+        const { userId, productId, rating, content } = req.body;
+        const ratingNum = Number(rating);
+        const productIdNum = Number(productId);
+        const userIdNum = Number(userId);
+        const imageUrl = req.file ? `/uploads/reviews/${req.file.filename}` : null;
+
+        if (!userIdNum || !productIdNum || !ratingNum || !content) {
+            if (req.file) fs.unlink(req.file.path, () => {});
+            return res.json({ success: false, message: "Thiếu thông tin đánh giá!" });
+        }
+        if (ratingNum < 1 || ratingNum > 5) {
+            if (req.file) fs.unlink(req.file.path, () => {});
+            return res.json({ success: false, message: "Số sao không hợp lệ!" });
+        }
+        try {
+            const existing = await sql.query`
+                SELECT Id FROM Reviews WHERE UserId = ${userIdNum} AND ProductId = ${productIdNum}
+            `;
+            if (existing.recordset.length > 0) {
+                if (req.file) fs.unlink(req.file.path, () => {});
+                return res.json({ success: false, message: "Bạn đã đánh giá sản phẩm này rồi!" });
+            }
+            await sql.query`
+                INSERT INTO Reviews (UserId, ProductId, Rating, Content, ImageUrl, CreatedAt)
+                VALUES (${userIdNum}, ${productIdNum}, ${ratingNum}, ${content}, ${imageUrl}, GETDATE())
+            `;
+            res.json({ success: true, imageUrl });
+        } catch (err) {
+            if (req.file) fs.unlink(req.file.path, () => {});
+            console.error("Review error:", err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    });
 });
 
 app.get("/admin/reviews", async (req, res) => {
     try {
         const r = await sql.query`
-            SELECT rv.Id, rv.Rating, rv.Content, rv.Reply, rv.CreatedAt, u.Username, p.Name AS ProductName
+            SELECT rv.Id, rv.Rating, rv.Content, rv.Reply, rv.ImageUrl, rv.CreatedAt, u.Username, p.Name AS ProductName
             FROM Reviews rv
             LEFT JOIN Users u ON rv.UserId = u.Id
             LEFT JOIN Products p ON rv.ProductId = p.Id

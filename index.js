@@ -47,9 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <i style="font-size: 20px;" class="fa-solid fa-circle-user"></i>
             </a>
             <ul class="sub-menu">
-                <li><a href="/account.html">Account</a></li>
-                <li><a href="/giohang/giohang.html">Orders</a></li>
-                <li><a href="#" id="logoutBtn">Log Out</a></li>
+                <li class="sub-menu-item"><a href="/account.html">Account</a></li>
+                <li class="sub-menu-item"><a href="/account.html?tab=orders">Orders</a></li>
+                <li class="sub-menu-item"><a href="#" id="logoutBtn">Log Out</a></li>
             </ul>
         `;
 
