@@ -14,9 +14,11 @@
   "dependencies": {
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mssql": "^12.2.0",
     "multer": "^2.1.1",
+    "nodemailer": "^8.0.7",
     "tedious": "^19.2.1"
   }
 }

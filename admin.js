@@ -817,7 +817,7 @@ function switchTab(name, btn) {
     document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
     document.getElementById("tab-" + name).classList.add("active");
     if (btn) btn.classList.add("active");
-    const titles = { overview: "Dashboard", orders: "Đơn hàng", products: "Sản phẩm", reviews: "Đánh giá" };
+    const titles = { overview: "Dashboard", orders: "Đơn hàng", products: "Sản phẩm", reviews: "Đánh giá", contacts: "Thắc mắc & Liên hệ" };
     document.getElementById("topbarTitle").textContent = titles[name] || name;
 }
 
@@ -1237,7 +1237,7 @@ function renderReviews(list) {
                 <td style="max-width:220px;"><div style="font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(r.Content)}</div>${replyPreview}</td>
                 <td>${r.CreatedAt ? new Date(r.CreatedAt).toLocaleDateString("vi-VN") : "—"}</td>
                 <td>${hasReply ? '<span class="badge badge-delivered">Đã phản hồi</span>' : '<span class="badge badge-pending">Chưa phản hồi</span>'}</td>
-                <td><button class="btn btn-info btn-sm" onclick="openReplyModal(${r.Id})"><i class="fas fa-${hasReply ? 'pen' : 'reply'}"></i> ${hasReply ? "Sửa" : "Phản hồi"}</button></td>
+                <td><button class="btn btn-info btn-sm" onclick="openReviewReplyModal(${r.Id})"><i class="fas fa-${hasReply ? 'pen' : 'reply'}"></i> ${hasReply ? "Sửa" : "Phản hồi"}</button></td>
             </tr>
         `;
     }).join("");
@@ -1255,7 +1255,7 @@ function filterReviews() {
     document.getElementById("reviewCount").textContent = `${filtered.length} / ${allReviews.length} đánh giá`;
 }
 
-function openReplyModal(id) {
+function openReviewReplyModal(id) {
     const r = allReviews.find(x => x.Id === id);
     if (!r) return;
     currentReplyId = id;
@@ -1291,11 +1291,141 @@ function escHtml(s) {
     return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
+// ========== CONTACTS ==========
+let currentContactId = null;
+
+function contactStatusBadge(replied) {
+    return replied
+        ? '<span class="badge badge-delivered">Đã trả</span>'
+        : '<span class="badge badge-cancelled">Chưa trả</span>';
+}
+
+function loadContacts(status = "") {
+    const selectedStatus = status || document.getElementById("contactStatusFilter")?.value || "";
+    fetch(`${API}/admin/contacts?status=${encodeURIComponent(selectedStatus)}`)
+        .then(r => r.json())
+        .then(data => {
+            const contacts = Array.isArray(data.contacts) ? data.contacts : [];
+            const unanswered = Number(data.pendingCount ?? contacts.filter(c => !c.Replied).length);
+            const badge = document.getElementById("contactCount");
+            if (badge) {
+                badge.textContent = unanswered;
+                badge.style.display = unanswered > 0 ? "inline-flex" : "none";
+            }
+            const summary = document.getElementById("contactSummary");
+            if (summary) {
+                summary.textContent = `${contacts.length} thắc mắc${selectedStatus ? "" : ` · ${unanswered} chưa trả lời`}`;
+            }
+            renderContacts(contacts);
+        })
+        .catch(() => {
+            const tbody = document.getElementById("contactsBody");
+            if (tbody) tbody.innerHTML = `<tr class="loading-row"><td colspan="7">Không thể tải danh sách thắc mắc</td></tr>`;
+        });
+}
+
+function renderContacts(contacts) {
+    const tbody = document.getElementById("contactsBody");
+    if (!tbody) return;
+    if (!contacts.length) {
+        tbody.innerHTML = `<tr class="loading-row"><td colspan="7">Chưa có thắc mắc nào</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = contacts.map(contact => {
+        const content = String(contact.Content || "");
+        const preview = content.length > 50 ? `${content.slice(0, 50)}...` : content;
+        return `
+            <tr>
+                <td><strong>${escHtml(contact.Name || "Khách")}</strong></td>
+                <td>${escHtml(contact.Email || "—")}</td>
+                <td>${escHtml(contact.Phone || "—")}</td>
+                <td style="max-width:240px"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text2)">${escHtml(preview)}</div></td>
+                <td>${contact.CreatedAt ? new Date(contact.CreatedAt).toLocaleDateString("vi-VN") : "—"}</td>
+                <td>${contactStatusBadge(contact.Replied)}</td>
+                <td>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap">
+                        <button class="btn btn-info btn-sm" onclick="openReplyModal(${contact.Id})"><i class="fas fa-reply"></i> Xem & Trả lời</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteContact(${contact.Id})"><i class="fas fa-trash"></i> Xóa</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function openReplyModal(contactId) {
+    currentContactId = contactId;
+    fetch(`${API}/admin/contacts/${contactId}`)
+        .then(r => r.json())
+        .then(contact => {
+            if (contact.success === false) {
+                toast(contact.message || "Không tìm thấy thắc mắc", "error");
+                return;
+            }
+            document.getElementById("replyContactName").textContent = contact.Name || "Khách";
+            document.getElementById("replyContactEmail").textContent = contact.Email || "—";
+            document.getElementById("replyContactEmailDisplay").textContent = contact.Email || "—";
+            document.getElementById("replyContactPhone").textContent = contact.Phone || "—";
+            document.getElementById("replyContactContent").textContent = contact.Content || "";
+            document.getElementById("replyContactText").value = "";
+            openModal("replyContactModal");
+        })
+        .catch(() => toast("Không thể tải chi tiết thắc mắc", "error"));
+}
+
+function sendReplyContact() {
+    const replyText = document.getElementById("replyContactText").value.trim();
+    if (!replyText) {
+        alert("Vui lòng nhập phản hồi!");
+        return;
+    }
+    const btn = document.querySelector("#replyContactModal .btn-primary");
+    if (btn) btn.disabled = true;
+    fetch(`${API}/admin/contacts/${currentContactId}/reply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reply: replyText })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            toast("Phản hồi đã được gửi qua email!", "success");
+            closeModal("replyContactModal");
+            loadContacts();
+        } else {
+            toast(data.message || "Lỗi gửi phản hồi", "error");
+        }
+    })
+    .catch(() => toast("Lỗi gửi phản hồi", "error"))
+    .finally(() => { if (btn) btn.disabled = false; });
+}
+
+function deleteContact(contactId) {
+    if (!confirm("Bạn chắc chắn muốn xóa?")) return;
+    fetch(`${API}/admin/contacts/${contactId}`, { method: "DELETE" })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                toast("Đã xóa");
+                loadContacts();
+            } else {
+                toast(data.message || "Không thể xóa thắc mắc", "error");
+            }
+        })
+        .catch(() => toast("Không thể xóa thắc mắc", "error"));
+}
+
+document.getElementById("contactStatusFilter")?.addEventListener("change", function(e) {
+    loadContacts(e.target.value);
+});
+
 // ========== INIT ==========
 function loadAll() {
     loadRevenue();
     loadOrders();
     loadProducts();
     loadReviews();
+    loadContacts();
 }
 loadAll();
+setInterval(() => loadContacts(), 30000);

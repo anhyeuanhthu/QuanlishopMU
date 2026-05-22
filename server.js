@@ -4,10 +4,19 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 const multer = require("multer");
+require("dotenv").config();
+const nodemailer = require("nodemailer");
 const { sql, connectDB } = require("./backend/db");
 
 const app = express();
 const reviewUploadDir = path.join(__dirname, "uploads", "reviews");
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.GMAIL_EMAIL,
+        pass: process.env.GMAIL_PASSWORD
+    }
+});
 
 fs.mkdirSync(reviewUploadDir, { recursive: true });
 
@@ -29,7 +38,35 @@ async function ensureReviewImageColumn() {
     }
 }
 
-connectDB().then(ensureReviewImageColumn);
+async function ensureContactsTable() {
+    try {
+        await sql.query`
+            IF OBJECT_ID('Contacts', 'U') IS NULL
+            BEGIN
+                CREATE TABLE Contacts (
+                    Id INT PRIMARY KEY IDENTITY(1,1),
+                    Name NVARCHAR(100),
+                    Email NVARCHAR(100),
+                    Phone NVARCHAR(20),
+                    Content NVARCHAR(MAX),
+                    CreatedAt DATETIME DEFAULT GETDATE(),
+                    Replied BIT DEFAULT 0
+                )
+            END
+            ELSE IF COL_LENGTH('Contacts', 'Replied') IS NULL
+            BEGIN
+                ALTER TABLE Contacts ADD Replied BIT DEFAULT 0
+            END
+        `;
+    } catch (err) {
+        console.error("Contacts migration error:", err);
+    }
+}
+
+connectDB().then(async () => {
+    await ensureReviewImageColumn();
+    await ensureContactsTable();
+});
 
 const reviewImageUpload = multer({
     storage: multer.diskStorage({
@@ -648,6 +685,138 @@ app.post("/admin/replyReview", async (req, res) => {
         res.json({ ok: true });
     } catch (err) {
         res.status(500).json({ ok: false, message: err.message });
+    }
+});
+
+// ==================== CONTACTS ====================
+function escapeHtml(value) {
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+function contactReplyTemplate(name, replyText) {
+    const safeName = escapeHtml(name || "quy khach");
+    const safeReply = escapeHtml(replyText).replace(/\n/g, "<br>");
+    return `
+<html>
+<body style="font-family:Open Sans,Arial,sans-serif;background:#f5f5f5;padding:20px">
+  <div style="max-width:600px;margin:0 auto;background:#fff;border-radius:10px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+    <h2 style="color:#333;margin-bottom:16px">Xin chao ${safeName}!</h2>
+    <p style="color:#666;line-height:1.6">Cam on ban da lien he voi <strong>UNITED STORE</strong></p>
+    <div style="background:#f9f9f9;border-left:4px solid #C70101;padding:16px;margin:20px 0;border-radius:4px">
+      <strong style="color:#C70101">Phan hoi tu UNITED STORE:</strong>
+      <p style="margin-top:12px;color:#333;line-height:1.6">${safeReply}</p>
+    </div>
+    <p style="color:#999;font-size:13px;margin-top:24px">Neu co thac mac khac, vui long reply email nay hoac ghe tham website cua chung toi.</p>
+    <p style="color:#999;font-size:13px">Tran trong,<br><strong>UNITED STORE Team</strong></p>
+  </div>
+</body>
+</html>`;
+}
+
+app.post("/contacts", async (req, res) => {
+    const { name, email, phone, content } = req.body;
+    if (!name || !email || !phone || !content) {
+        return res.status(400).json({ success: false, message: "Vui long nhap day du thong tin!" });
+    }
+    try {
+        await sql.query`
+            INSERT INTO Contacts (Name, Email, Phone, Content, CreatedAt, Replied)
+            VALUES (${name}, ${email}, ${phone}, ${content}, GETDATE(), 0)
+        `;
+        res.json({ success: true, message: "Da gui thac mac thanh cong!" });
+    } catch (err) {
+        console.error("Create contact error:", err);
+        res.status(500).json({ success: false, message: "Khong the gui thac mac!" });
+    }
+});
+
+app.get("/admin/contacts", async (req, res) => {
+    const status = req.query.status || "";
+    let where = "";
+    if (status === "new") where = "WHERE Replied = 0";
+    if (status === "replied") where = "WHERE Replied = 1";
+
+    try {
+        const r = await sql.query(`
+            SELECT Id, Name, Email, Phone, Content, CreatedAt, Replied
+            FROM Contacts
+            ${where}
+            ORDER BY CreatedAt DESC
+        `);
+        const count = await sql.query`SELECT COUNT(*) AS PendingCount FROM Contacts WHERE Replied = 0`;
+        res.json({
+            success: true,
+            total: r.recordset.length,
+            pendingCount: count.recordset[0].PendingCount,
+            contacts: r.recordset
+        });
+    } catch (err) {
+        console.error("Load contacts error:", err);
+        res.status(500).json({ success: false, message: err.message, contacts: [] });
+    }
+});
+
+app.get("/admin/contacts/:id", async (req, res) => {
+    try {
+        const r = await sql.query`
+            SELECT Id, Name, Email, Phone, Content, CreatedAt, Replied
+            FROM Contacts
+            WHERE Id = ${req.params.id}
+        `;
+        if (!r.recordset.length) {
+            return res.status(404).json({ success: false, message: "Khong tim thay thac mac!" });
+        }
+        res.json(r.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.delete("/admin/contacts/:id", async (req, res) => {
+    try {
+        await sql.query`DELETE FROM Contacts WHERE Id = ${req.params.id}`;
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.post("/admin/contacts/:id/reply", async (req, res) => {
+    const { reply } = req.body;
+    if (!reply || !reply.trim()) {
+        return res.status(400).json({ success: false, message: "Vui long nhap phan hoi!" });
+    }
+    if (!process.env.GMAIL_EMAIL || !process.env.GMAIL_PASSWORD) {
+        return res.status(500).json({ success: false, message: "Chua cau hinh GMAIL_EMAIL/GMAIL_PASSWORD trong .env" });
+    }
+
+    try {
+        const r = await sql.query`
+            SELECT Id, Name, Email
+            FROM Contacts
+            WHERE Id = ${req.params.id}
+        `;
+        if (!r.recordset.length) {
+            return res.status(404).json({ success: false, message: "Khong tim thay thac mac!" });
+        }
+
+        const contact = r.recordset[0];
+        await transporter.sendMail({
+            from: process.env.GMAIL_EMAIL,
+            to: contact.Email,
+            subject: `Phan hoi tu UNITED STORE: ${contact.Name || ""}`,
+            html: contactReplyTemplate(contact.Name, reply.trim())
+        });
+
+        await sql.query`UPDATE Contacts SET Replied = 1 WHERE Id = ${req.params.id}`;
+        res.json({ success: true, message: "Da gui phan hoi qua email!" });
+    } catch (err) {
+        console.error("Send contact reply error:", err);
+        res.status(500).json({ success: false, message: "Loi gui email. Vui long thu lai" });
     }
 });
 

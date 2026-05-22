@@ -35,11 +35,13 @@ const nav = document.querySelector('.nav');
     });
 
     // Kiểm tra và gửi form liên hệ
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
       event.preventDefault();
       
+      const name = document.getElementById('user').value.trim();
       const tel = document.getElementById('tel').value.trim();
       const email = document.getElementById('email').value.trim();
+      const content = document.getElementById('content').value.trim();
       // Định dạng: bắt đầu bằng 0, có thể có dấu cách, 10 số
       const phoneRegex = /^0\d{3}\s?\d{3}\s?\d{3}$/;
 
@@ -56,7 +58,22 @@ const nav = document.querySelector('.nav');
       }
 
       // Nếu hợp lệ, hiện popup thành công
-      showSuccessPopup();
+      try {
+        const response = await fetch("http://localhost:8888/contacts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, phone: tel, content })
+        });
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          alert(data.message || "Không thể gửi thắc mắc. Vui lòng thử lại!");
+          return false;
+        }
+        showSuccessPopup();
+        event.target.reset();
+      } catch (err) {
+        alert("Lỗi kết nối server. Vui lòng thử lại!");
+      }
       // Có thể reset form nếu muốn: event.target.reset();
       return false;
     }

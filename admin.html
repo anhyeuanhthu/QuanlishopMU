@@ -157,6 +157,16 @@ body {
   border-radius: 20px;
   display: none;
 }
+.nav-badge.badge-red {
+  background: #8B0000;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.45);
+}
+.nav-item.active .nav-badge.badge-red {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
 
 /* Footer user */
 .sidebar-footer {
@@ -809,6 +819,11 @@ textarea.form-control { resize: vertical; min-height: 80px; }
         <span>Đánh giá</span>
         <span class="nav-badge" id="reviewBadge">0</span>
       </button>
+      <button class="nav-item" onclick="switchTab('contacts', this)">
+        <i class="fas fa-envelope"></i>
+        <span>Thắc mắc & Liên hệ</span>
+        <span class="nav-badge badge-red" id="contactCount">0</span>
+      </button>
     </div>
   </nav>
 
@@ -1002,6 +1017,34 @@ textarea.form-control { resize: vertical; min-height: 80px; }
       </div>
     </div>
 
+    <!-- CONTACTS -->
+    <div class="tab-panel" id="tab-contacts">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Quản lý Thắc mắc & Liên hệ</div>
+          <div class="section-subtitle" id="contactSummary">Đang tải...</div>
+        </div>
+        <select class="form-control" id="contactStatusFilter" style="width:170px;padding:8px 12px;font-size:13px">
+          <option value="">Tất cả</option>
+          <option value="new">Chưa trả lời</option>
+          <option value="replied">Đã trả lời</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tên khách</th><th>Email</th><th>Số điện thoại</th>
+              <th>Nội dung</th><th>Ngày gửi</th><th>Trạng thái</th><th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="contactsBody">
+            <tr class="loading-row"><td colspan="7"><span class="loading-spinner"></span> Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div><!-- /content -->
 </main>
 
@@ -1156,6 +1199,43 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   </div>
 </div>
 
+<!-- CONTACT REPLY MODAL -->
+<div class="modal-overlay" id="replyContactModal">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title">Xem & Trả lời thắc mắc</div>
+      <button class="modal-close" onclick="closeModal('replyContactModal')"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="order-detail-grid">
+        <div class="info-card">
+          <div class="info-card-title"><i class="fas fa-user"></i> Thông tin khách</div>
+          <div class="info-row"><span class="label">Tên</span><span class="value" id="replyContactName"></span></div>
+          <div class="info-row"><span class="label">Email</span><span class="value" id="replyContactEmail"></span></div>
+          <div class="info-row"><span class="label">Điện thoại</span><span class="value" id="replyContactPhone"></span></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title"><i class="fas fa-comment-dots"></i> Nội dung thắc mắc</div>
+          <div id="replyContactContent" style="white-space:pre-wrap;color:var(--text2);line-height:1.6;font-size:13px;font-weight:600"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phản hồi *</label>
+        <textarea class="form-control" id="replyContactText" placeholder="Nhập phản hồi..." style="min-height:140px"></textarea>
+        <div style="font-size:12px;color:#059669;margin-top:8px;font-weight:700">
+          ✓ Email sẽ được tự động gửi tới: <span id="replyContactEmailDisplay"></span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('replyContactModal')">Huỷ</button>
+      <button class="btn btn-primary" onclick="sendReplyContact()">
+        <i class="fas fa-paper-plane"></i> Gửi phản hồi
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
 
@@ -1171,7 +1251,8 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   // Cập nhật breadcrumb khi switch tab
   const TAB_NAMES = {
     overview: 'Dashboard', orders: 'Đơn hàng',
-    products: 'Sản phẩm', reviews: 'Đánh giá'
+    products: 'Sản phẩm', reviews: 'Đánh giá',
+    contacts: 'Thắc mắc & Liên hệ'
   };
   const _origSwitchTab = window.switchTab;
   document.addEventListener('DOMContentLoaded', () => {
