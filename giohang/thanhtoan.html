@@ -496,6 +496,8 @@
             margin-top: 12px;
         }
     </style>
+    <link rel="stylesheet" href="../modals.css">
+
 </head>
 
 <!-- ===== QR PAYMENT MODAL ===== -->
@@ -556,7 +558,7 @@
                 <li><a href="../index.html">Trang chủ</a></li>
                 <li><a href="../sanpham_giohang/sanpham.html">Sản phẩm</a></li>
                 <li><a href="../gioithieu/gioithieu.html">Giới thiệu</a></li>
-                <li><a href="../sanpham_giohang/giohang.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                            <li><a href="./giohang.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
             </ul>
             <ul class="nav-list">
                 <li id="userMenu">
@@ -684,20 +686,11 @@
                 </div>
                 <div class="column-content">
                     <ul>
-                        <li><a href="#">Giày bóng đá</a></li>
-                        <li><a href="#">Giày chạy bộ</a></li>
-                        <li><a href="#">Quần áo thể thao</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-columns">
-                <div class="footer-column-header">
-                    <h2>HỖ TRỢ</h2>
-                </div>
-                <div class="column-content">
-                    <ul>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#" onclick="openModal('return-policy'); return false;">Chính Sách Đổi Trả</a></li>
+                    <li><a href="#" onclick="openModal('shopping-guide'); return false;">Hướng Dẫn Mua Hàng</a></li>
+                    <li><a href="#" onclick="openModal('faq'); return false;">Câu Hỏi Thường Gặp</a></li>
+                    <li><a href="#" onclick="openModal('privacy'); return false;">Chính Sách Bảo Mật</a></li>
+                    <li><a href="#" onclick="openModal('terms'); return false;">Điều Khoản Sử Dụng</a></li>
                     </ul>
                 </div>
             </div>
@@ -707,9 +700,9 @@
                 </div>
                 <div class="column-content">
                     <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Cần Thơ</li>
-                        <li><i class="fas fa-phone"></i> 123 456 789</li>
-                        <li><i class="fas fa-envelope"></i> nhom2@gmail.com</li>
+                        <li><i class="connect-icon fas fa-map-marker-alt"></i> Học Viện Kỹ quân sự, Hà Nội</li>
+                        <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
+                        <li><i class="connect-icon fas fa-envelope"></i> watermangamer593@gmail.com</li>
                     </ul>
                 </div>
             </div>
@@ -717,5 +710,6 @@
     </footer>
     
     <script src="thanhtoan.js"></script>
+    <script src="../modals.js"></script>
 </body>
 </html>

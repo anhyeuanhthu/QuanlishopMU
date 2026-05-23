@@ -21,6 +21,8 @@
     <!-- CSS reset và style chính -->
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../modals.css">
+
 </head>
 <body class="body">
   <!-- Phần đầu trang: Header gồm slogan, menu, logo, nút burger cho mobile -->
@@ -35,7 +37,39 @@
             <ul class="nav-list">
                 <li class="nav-item#"><a href="../index.html"><div class="logo"></div></a></li>
                 <li class="nav-item"><a href="../sanpham/jersey.html" target="_self">Jerseys</a></li>
-                <li class="nav-item"><a href="../sanpham/sanphamgiamgia.html" target="_self">Products</a></li>
+                <li class="nav-item products">
+                    <a href="../sanpham/sanphamgiamgia.html" target="_self">Products</a>
+                    <div class="mega-menu">
+                        <div class="mega-column">
+                            <h4>Mens</h4>
+                            <a href="../sanpham/teeman.html">T-Shirts</a>
+                            <a href="../sanpham/hoodieman.html">Hoodies &amp; Sweatshirts</a>
+                            <a href="../sanpham/jacketman.html">Jackets</a>
+                            <a href="../sanpham/pantsman.html">Pants &amp; Shorts</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Womens</h4>
+                            <a href="../sanpham/teewoman.html">T-Shirts</a>
+                            <a href="../sanpham/hoodiewoman.html">Hoodies &amp; Sweatshirts</a>
+                            <a href="../sanpham/jacketwomen.html">Jackets</a>
+                            <a href="../sanpham/pantswoman.html">Pants &amp; Shorts</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Accessories</h4>
+                            <a href="../sanpham/non.html">Headwears</a>
+                            <a href="../sanpham/giay.html">Footwears</a>
+                            <a href="../sanpham/chai.html">Bottles</a>
+                            <a href="../sanpham/vo.html">Socks</a>
+                            <a href="../sanpham/bong.html">Footballs</a>
+                        </div>
+                        <div class="mega-column">
+                            <h4>Collections</h4>
+                            <a href="../sanpham/stoneroses.html">STONE ROSES</a>
+                            <a href="../sanpham/dramacall.html">DRAMACALL</a>
+                            <a href="../sanpham/adidasorg.html">ADIDAS ORIGINAL</a>
+                        </div>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a href="../gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
                 </li>
@@ -82,7 +116,7 @@
    <section class="about-section">
   <div class="container">
     <h2 class="section-title">Giới thiệu về <strong>UNITED STORE</strong></h2>
-  <div class="about-history-row" style="display:flex;align-items:center;gap:48px;margin:48px 0;">
+  <div class="about-history-row" id="lich-su-hinh-thanh" style="display:flex;align-items:center;gap:48px;margin:48px 0;">
     <div style="flex:1;display:flex;align-items:center;">
       <p style="margin:0;font-size:2.1rem;line-height:1.5;"><strong style="font-size:2.3rem;">Lịch sử hình thành:</strong> Được thành lập vào năm 2024, UNITED STORE ra đời với mục tiêu mang đến trải nghiệm mua sắm hiện đại, tin cậy và dễ tiếp cận cho khách hàng. Từ những sản phẩm thể thao, thời trang đến phụ kiện thiết yếu, chúng tôi luôn chú trọng chất lượng, nguồn gốc rõ ràng và dịch vụ tận tâm. Sự tin tưởng của khách hàng là động lực để UNITED STORE liên tục hoàn thiện và phát triển bền vững.</p>
     </div>
@@ -247,26 +281,11 @@
                 </div>
                 <div class="column-content">
                     <ul>
-                        <li><a href="#">Giày bóng đá</a></li>
-                        <li><a href="#">Giày chạy bộ</a></li>
-                        <li><a href="#">Quần áo thể thao</a></li>
-                        <li><a href="#">Phụ kiện</a></li>
-                        <li><a href="#">Thiết bị luyện tập</a></li>
-                    </ul>
-                </div>
-                
-            </div>
-            <div class="footer-columns">
-                <div class="footer-column-header">
-                    <h2>HỖ TRỢ</h2>
-                </div>
-                <div class="column-content">
-                    <ul>
-                        <li><a href="#">Chính sách đổi trả</a></li>
-                        <li><a href="#">Hướng dẫn mua hàng</a></li>
-                        <li><a href="#">Câu hỏi thường gặp</a></li>
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                        <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#" onclick="openModal('return-policy'); return false;">Chính Sách Đổi Trả</a></li>
+                    <li><a href="#" onclick="openModal('shopping-guide'); return false;">Hướng Dẫn Mua Hàng</a></li>
+                    <li><a href="#" onclick="openModal('faq'); return false;">Câu Hỏi Thường Gặp</a></li>
+                    <li><a href="#" onclick="openModal('privacy'); return false;">Chính Sách Bảo Mật</a></li>
+                    <li><a href="#" onclick="openModal('terms'); return false;">Điều Khoản Sử Dụng</a></li>
                     </ul>
                 </div>
             </div>
@@ -278,7 +297,7 @@
                     <ul>
                         <li><i class="connect-icon fas fa-map-marker-alt"></i> Học Viện Kỹ quân sự, Hà Nội</li>
                         <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
-                        <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                        <li><i class="connect-icon fas fa-envelope"></i> watermangamer593@gmail.com</li>
                     </ul>
                 </div>
             </div>
@@ -302,5 +321,6 @@
       <button onclick="closeEmailErrorPopup()" style="margin-top:12px; padding:12px 32px; background:#222; color:#fff; border:none; border-radius:6px; font-size:1.2rem; cursor:pointer;" aria-label="Đóng thông báo">Đóng</button>
     </div>
     <script src="gioithieu.js"></script>
+    <script src="../modals.js"></script>
 </body>
 </html>

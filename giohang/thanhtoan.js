@@ -1,9 +1,17 @@
 // Lấy danh sách sản phẩm từ localStorage (dùng chung)
+const checkoutUser = JSON.parse(sessionStorage.getItem("user"));
+if (!checkoutUser) {
+    sessionStorage.setItem("redirectAfterLogin", "/giohang/giohang.html");
+    alert("Vui lòng đăng nhập để thanh toán!");
+    window.location.replace("../dangnhap/dangnhap.html");
+    throw new Error("Login required for checkout");
+}
+
 let checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
 
 if (checkoutItems.length === 0) {
     alert("Không có sản phẩm nào để thanh toán!");
-    window.location.href = "./sanpham_giohang/giohang.html";
+    window.location.href = "./giohang.html";
 }
 
 const orderItemsDiv = document.getElementById("orderItems");
@@ -276,7 +284,7 @@ async function placeOrder() {
     });
     if (!itemsToSend.length) {
         alert("Không có sản phẩm nào để thanh toán! Vui lòng quay lại giỏ hàng.");
-        window.location.href = "./sanpham_giohang/giohang.html";
+        window.location.href = "./giohang.html";
         return;
     }
     const shippingFee = calculateShippingFee(city).fee;

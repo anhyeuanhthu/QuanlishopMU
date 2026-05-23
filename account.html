@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="account.css">
+    <link rel="stylesheet" href="modals.css">
+
 </head>
 <body>
 <div class="page">
@@ -205,24 +207,19 @@
             <div class="footer-columns">
                 <div class="footer-column-header"><h2>DANH MỤC</h2></div>
                 <div class="column-content"><ul>
-                    <li><a href="#">Giày bóng đá</a></li>
-                    <li><a href="#">Quần áo thể thao</a></li>
-                    <li><a href="#">Phụ kiện</a></li>
-                </ul></div>
-            </div>
-            <div class="footer-columns">
-                <div class="footer-column-header"><h2>HỖ TRỢ</h2></div>
-                <div class="column-content"><ul>
-                    <li><a href="#">Chính sách đổi trả</a></li>
-                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#" onclick="openModal('return-policy'); return false;">Chính Sách Đổi Trả</a></li>
+                    <li><a href="#" onclick="openModal('shopping-guide'); return false;">Hướng Dẫn Mua Hàng</a></li>
+                    <li><a href="#" onclick="openModal('faq'); return false;">Câu Hỏi Thường Gặp</a></li>
+                    <li><a href="#" onclick="openModal('privacy'); return false;">Chính Sách Bảo Mật</a></li>
+                    <li><a href="#" onclick="openModal('terms'); return false;">Điều Khoản Sử Dụng</a></li>
                 </ul></div>
             </div>
             <div class="footer-columns">
                 <div class="footer-column-header"><h2>LIÊN HỆ</h2></div>
                 <div class="column-content"><ul>
-                    <li><i class="connect-icon fas fa-map-marker-alt"></i> 123 Đường ABC, Cần Thơ</li>
-                    <li><i class="connect-icon fas fa-phone"></i> 123 456 789</li>
-                    <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                    <li><i class="connect-icon fas fa-map-marker-alt"></i> Học Viện Kỹ quân sự, Hà Nội</li>
+                    <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
+                    <li><i class="connect-icon fas fa-envelope"></i> watermangamer593@gmail.com</li>
                 </ul></div>
             </div>
         </div>
@@ -231,5 +228,6 @@
 
 <script src="account.js"></script>
 <script src="index.js"></script>
+    <script src="modals.js"></script>
 </body>
 </html>

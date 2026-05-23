@@ -104,7 +104,7 @@ body {
 .logo {
   width: calc(2437px * 0.085);
   height: calc(432px * 0.085);
-  background-image: url(https://theme.hstatic.net/200000293662/1001283807/14/logo.png?v=580);
+  background-image: url(https://store.manutd.com/img/logo.svg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -177,6 +177,66 @@ a {
   max-height: 500px;
   opacity: 1;
   transform: translateY(0);
+}
+
+.nav-item.products {
+  position: relative;
+  z-index: 100;
+}
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 600px;
+  background: #fff;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 10px solid #cd3812;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.nav-item.products:hover .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mega-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 130px;
+}
+
+.mega-column h4 {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #ff4415;
+  color: #000;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.mega-column a {
+  padding: 5px 0;
+  color: #333;
+  font-size: 1.4rem;
+  text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.mega-column a:hover {
+  color: #ff4415;
+  padding-left: 5px;
 }
 
 

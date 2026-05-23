@@ -1,8 +1,25 @@
 // Tác giả: Võ Hoài Thông
 // MSSV: B2306587
 
+function getCurrentUser() {
+    try {
+        return JSON.parse(sessionStorage.getItem("user"));
+    } catch (error) {
+        return null;
+    }
+}
+
+function requireCartLogin() {
+    if (getCurrentUser()) return true;
+
+    sessionStorage.setItem("redirectAfterLogin", "/giohang/giohang.html");
+    alert("Vui lòng đăng nhập để vào giỏ hàng!");
+    window.location.replace("../dangnhap/dangnhap.html");
+    return false;
+}
+
 // Sản phẩm sẽ được lưu trong localStorage (dùng chung giữa các tab)
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let cart = getCurrentUser() ? (JSON.parse(localStorage.getItem('cart')) || []) : [];
 
 // Thêm thuộc tính selected cho mỗi sản phẩm nếu chưa có
 cart = cart.map(item => ({
@@ -150,6 +167,8 @@ function goToCheckout() {
 
 // Khởi tạo khi trang load
 document.addEventListener('DOMContentLoaded', () => {
+    if (!requireCartLogin()) return;
+
     renderCart();
     
     // Xử lý nút thanh toán
@@ -162,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Xử lý user menu (dùng sessionStorage)
-    const user = JSON.parse(sessionStorage.getItem("user"));
+    const user = getCurrentUser();
     const menu = document.getElementById("userMenu");
     if (user && menu) {
         menu.innerHTML = `

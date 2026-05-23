@@ -28,7 +28,9 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             if (data.isAdmin) {
                 window.location.href = "../admin.html";
             } else {
-                window.location.href = "../index.html";
+                const redirectAfterLogin = sessionStorage.getItem("redirectAfterLogin");
+                sessionStorage.removeItem("redirectAfterLogin");
+                window.location.href = redirectAfterLogin || "../index.html";
             }
         } else {
             messageDiv.textContent = "Sai tên đăng nhập hoặc mật khẩu!";

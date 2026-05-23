@@ -23,6 +23,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="sanphamgiamgia.css">
+    <link rel="stylesheet" href="../modals.css">
+
 </head>
 <body>
     <header class="header">
@@ -82,17 +84,17 @@
 </li>
                     <!-- link đến trang giới thiệu -->
                     <li class="nav-item">
-                        <a href="./gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
+                        <a href="../gioithieu/gioithieu.html" target="_self">Giới thiệu</a>
                         <ul class="sub-menu">
-                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
-                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
-                            <li class="sub-menu-item"><a href="./gioithieu/gioithieu.html" target="_self">Lịch sử hình thành</a></li>
+                            <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Tổ chức sự kiện</a></li>
+                            <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html" target="_self">Xem bóng đá offline</a></li>
+                            <li class="sub-menu-item"><a href="../gioithieu/gioithieu.html#lich-su-hinh-thanh" target="_self">Lịch sử hình thành</a></li>
                         </ul>
                     </li>
                 </ul>   
                 <ul class="nav-list">
                     <!-- link đến trang giỏ hàng -->
-                    <li class="nav-item"><a href="./sanpham_giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                    <li class="nav-item"><a href="../giohang/giohang.html" target="_self"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
                     <!-- link đến trang đăng ký và đăng nhập -->
                    <li class="nav-item" id="userMenu">
                         <a href="./dangky/dangky.html" target="_self">
@@ -459,25 +461,11 @@ Manchester United x adidas Womens Stadium Crewneck Sweatshirt Black</p>
                     </div>
                     <div class="column-content">
                         <ul>
-                            <li><a href="#">Giày bóng đá</a></li>
-                            <li><a href="#">Giày chạy bộ</a></li>
-                            <li><a href="#">Quần áo thể thao</a></li>
-                            <li><a href="#">Phụ kiện</a></li>
-                            <li><a href="#">Thiết bị luyện tập</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-columns">
-                    <div class="footer-column-header">
-                        <h2>HỖ TRỢ</h2>
-                    </div>
-                    <div class="column-content">
-                        <ul>
-                            <li><a href="#">Chính sách đổi trả</a></li>
-                            <li><a href="#">Hướng dẫn mua hàng</a></li>
-                            <li><a href="#">Câu hỏi thường gặp</a></li>
-                            <li><a href="#">Chính sách bảo mật</a></li>
-                            <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#" onclick="openModal('return-policy'); return false;">Chính Sách Đổi Trả</a></li>
+                    <li><a href="#" onclick="openModal('shopping-guide'); return false;">Hướng Dẫn Mua Hàng</a></li>
+                    <li><a href="#" onclick="openModal('faq'); return false;">Câu Hỏi Thường Gặp</a></li>
+                    <li><a href="#" onclick="openModal('privacy'); return false;">Chính Sách Bảo Mật</a></li>
+                    <li><a href="#" onclick="openModal('terms'); return false;">Điều Khoản Sử Dụng</a></li>
                         </ul>
                     </div>
                 </div>
@@ -487,9 +475,9 @@ Manchester United x adidas Womens Stadium Crewneck Sweatshirt Black</p>
                     </div>
                     <div class="column-content">
                         <ul>
-                            <li><i class="connect-icon fas fa-map-marker-alt"></i> Số 123, Đường ABC, Quận Ninh Kiều, Thành Phố Cần Thơ</li>
+                            <li><i class="connect-icon fas fa-map-marker-alt"></i> Học Viện Kỹ quân sự, Hà Nội</li>
                             <li><i class="connect-icon fas fa-phone"></i> 123 456 789 (8:00 - 18:00)</li>
-                            <li><i class="connect-icon fas fa-envelope"></i> nhom2@gmail.com</li>
+                            <li><i class="connect-icon fas fa-envelope"></i> watermangamer593@gmail.com</li>
                         </ul>
                     </div>
                 </div>
@@ -508,5 +496,6 @@ Manchester United x adidas Womens Stadium Crewneck Sweatshirt Black</p>
         }
     });
 </script>
+    <script src="../modals.js"></script>
 </body>
 </html>
