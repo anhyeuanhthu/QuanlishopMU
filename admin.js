@@ -1201,6 +1201,230 @@ function deleteProduct(id, name) {
     .catch(() => toast("Lỗi kết nối server!", "error"));
 }
 
+// ========== COUPONS ==========
+let allCoupons = [];
+
+function couponDiscountLabel(c) {
+    if (c.DiscountType === "percentage") {
+        const cap = c.MaxDiscountAmount ? `, tối đa ${fmt(c.MaxDiscountAmount)}` : "";
+        return `${Number(c.DiscountValue)}%${cap}`;
+    }
+    return fmt(c.DiscountValue);
+}
+
+function couponStatusBadge(c) {
+    const expired = new Date(c.EndDate) < new Date();
+    if (!c.IsActive) return '<span class="badge badge-cancelled">Đã tắt</span>';
+    if (expired) return '<span class="badge badge-cancelled">Hết hạn</span>';
+    return '<span class="badge badge-delivered">Đang hoạt động</span>';
+}
+
+function dateInputValue(value) {
+    if (!value) return "";
+    const d = new Date(value);
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 16);
+}
+
+function loadCoupons() {
+    fetch(`${API}/api/admin/coupons`)
+        .then(r => r.json())
+        .then(list => {
+            allCoupons = Array.isArray(list) ? list : [];
+            const active = allCoupons.filter(c => c.IsActive).length;
+            const totalDiscount = allCoupons.reduce((sum, c) => sum + Number(c.TotalDiscount || 0), 0);
+            const best = [...allCoupons].sort((a, b) => Number(b.CurrentUsage || 0) - Number(a.CurrentUsage || 0))[0];
+            document.getElementById("couponTotal").textContent = allCoupons.length;
+            document.getElementById("couponActive").textContent = active;
+            document.getElementById("couponDiscountTotal").textContent = fmt(totalDiscount);
+            document.getElementById("couponBest").textContent = best ? best.Code : "-";
+            document.getElementById("couponCount").textContent = `${allCoupons.length} mã`;
+            renderCoupons(allCoupons);
+        })
+        .catch(() => {
+            const body = document.getElementById("couponsBody");
+            if (body) body.innerHTML = `<tr class="loading-row"><td colspan="7">Không thể tải mã giảm giá</td></tr>`;
+        });
+}
+
+function renderCoupons(list) {
+    const tbody = document.getElementById("couponsBody");
+    if (!tbody) return;
+    if (!list.length) {
+        tbody.innerHTML = `<tr class="loading-row"><td colspan="7">Chưa có mã giảm giá</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = list.map(c => `
+        <tr>
+            <td><strong style="font-family:monospace;font-size:14px;color:var(--red)">${escHtml(c.Code)}</strong><div style="font-size:11px;color:var(--text3);margin-top:3px">${escHtml(c.Title || "")}</div></td>
+            <td>${couponDiscountLabel(c)}</td>
+            <td>${fmt(c.MinOrderAmount)}</td>
+            <td>${c.EndDate ? new Date(c.EndDate).toLocaleDateString("vi-VN") : "-"}</td>
+            <td><strong>${c.CurrentUsage || 0}</strong> / ${c.MaxTotalUsage || 0}</td>
+            <td>${couponStatusBadge(c)}</td>
+            <td>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <button class="btn btn-warning btn-sm" onclick="openEditCoupon(${c.Id})"><i class="fas fa-pen"></i> Sửa</button>
+                    <button class="btn btn-${c.IsActive ? "info" : "success"} btn-sm" onclick="toggleCoupon(${c.Id})"><i class="fas fa-power-off"></i></button>
+                    <button class="btn btn-danger btn-sm" onclick="confirmDeleteCoupon(${c.Id}, '${String(c.Code).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    `).join("");
+}
+
+function filterCoupons() {
+    const q = (document.getElementById("couponSearch").value || "").toLowerCase();
+    const st = document.getElementById("couponStatusFilter").value;
+    const filtered = allCoupons.filter(c => {
+        const matchQ = !q || String(c.Code || "").toLowerCase().includes(q) || String(c.Title || "").toLowerCase().includes(q);
+        const matchSt = !st || (st === "active" ? c.IsActive : !c.IsActive);
+        return matchQ && matchSt;
+    });
+    renderCoupons(filtered);
+    document.getElementById("couponCount").textContent = `${filtered.length} / ${allCoupons.length} mã`;
+}
+
+function openAddCoupon() {
+    document.getElementById("couponModalTitle").textContent = "Tạo mã giảm giá";
+    document.getElementById("cEditId").value = "";
+    document.getElementById("cCode").value = "";
+    document.getElementById("cTitle").value = "";
+    document.getElementById("cDescription").value = "";
+    document.getElementById("cDiscountType").value = "percentage";
+    document.getElementById("cDiscountValue").value = "";
+    document.getElementById("cMaxDiscount").value = "";
+    document.getElementById("cMinOrder").value = "0";
+    document.getElementById("cMaxOrder").value = "";
+    document.getElementById("cMaxTotalUsage").value = "100";
+    document.getElementById("cMaxUsagePerCustomer").value = "1";
+    document.getElementById("cApplicableTo").value = "all";
+    document.getElementById("cIsActive").checked = true;
+    document.getElementById("cIsVisible").checked = true;
+    const now = new Date();
+    const end = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    document.getElementById("cStartDate").value = dateInputValue(now);
+    document.getElementById("cEndDate").value = dateInputValue(end);
+    openModal("couponModal");
+}
+
+function openEditCoupon(id) {
+    const c = allCoupons.find(x => x.Id === id);
+    if (!c) return;
+    document.getElementById("couponModalTitle").textContent = "Sửa mã giảm giá";
+    document.getElementById("cEditId").value = c.Id;
+    document.getElementById("cCode").value = c.Code || "";
+    document.getElementById("cTitle").value = c.Title || "";
+    document.getElementById("cDescription").value = c.Description || "";
+    document.getElementById("cDiscountType").value = c.DiscountType || "percentage";
+    document.getElementById("cDiscountValue").value = c.DiscountValue || "";
+    document.getElementById("cMaxDiscount").value = c.MaxDiscountAmount || "";
+    document.getElementById("cMinOrder").value = c.MinOrderAmount || 0;
+    document.getElementById("cMaxOrder").value = c.MaxOrderAmount || "";
+    document.getElementById("cStartDate").value = dateInputValue(c.StartDate);
+    document.getElementById("cEndDate").value = dateInputValue(c.EndDate);
+    document.getElementById("cMaxTotalUsage").value = c.MaxTotalUsage || 1;
+    document.getElementById("cMaxUsagePerCustomer").value = c.MaxUsagePerCustomer || 1;
+    document.getElementById("cApplicableTo").value = c.ApplicableTo || "all";
+    document.getElementById("cIsActive").checked = !!c.IsActive;
+    document.getElementById("cIsVisible").checked = !!c.IsVisible;
+    openModal("couponModal");
+}
+
+function couponPayload() {
+    return {
+        code: document.getElementById("cCode").value.trim(),
+        title: document.getElementById("cTitle").value.trim(),
+        description: document.getElementById("cDescription").value.trim(),
+        discount_type: document.getElementById("cDiscountType").value,
+        discount_value: Number(document.getElementById("cDiscountValue").value),
+        max_discount_amount: document.getElementById("cMaxDiscount").value ? Number(document.getElementById("cMaxDiscount").value) : null,
+        min_order_amount: Number(document.getElementById("cMinOrder").value) || 0,
+        max_order_amount: document.getElementById("cMaxOrder").value ? Number(document.getElementById("cMaxOrder").value) : null,
+        start_date: document.getElementById("cStartDate").value,
+        end_date: document.getElementById("cEndDate").value,
+        max_total_usage: Number(document.getElementById("cMaxTotalUsage").value) || 1,
+        max_usage_per_customer: Number(document.getElementById("cMaxUsagePerCustomer").value) || 1,
+        applicable_to: document.getElementById("cApplicableTo").value,
+        is_active: document.getElementById("cIsActive").checked,
+        is_visible: document.getElementById("cIsVisible").checked,
+        created_by: user?.Id || null
+    };
+}
+
+function saveCoupon() {
+    const editId = document.getElementById("cEditId").value;
+    const payload = couponPayload();
+    if (!payload.code || !payload.discount_value || payload.discount_value <= 0) {
+        toast("Vui lòng nhập mã và giá trị giảm hợp lệ", "error");
+        return;
+    }
+    if (!payload.start_date || !payload.end_date || new Date(payload.start_date) >= new Date(payload.end_date)) {
+        toast("Ngày kết thúc phải sau ngày bắt đầu", "error");
+        return;
+    }
+    const url = editId ? `${API}/api/admin/coupons/${editId}` : `${API}/api/admin/coupons`;
+    fetch(url, {
+        method: editId ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(async r => {
+        const data = await r.json();
+        if (!r.ok || !data.success) throw new Error(data.message || "Không lưu được mã");
+        closeModal("couponModal");
+        toast(editId ? "Đã cập nhật mã" : "Đã tạo mã giảm giá");
+        loadCoupons();
+    })
+    .catch(err => toast(err.message, "error"));
+}
+
+function toggleCoupon(id) {
+    const c = allCoupons.find(x => x.Id === id);
+    if (!c) return;
+    const payload = {
+        code: c.Code,
+        title: c.Title,
+        description: c.Description,
+        discount_type: c.DiscountType,
+        discount_value: c.DiscountValue,
+        max_discount_amount: c.MaxDiscountAmount,
+        min_order_amount: c.MinOrderAmount,
+        max_order_amount: c.MaxOrderAmount,
+        start_date: dateInputValue(c.StartDate),
+        end_date: dateInputValue(c.EndDate),
+        max_total_usage: c.MaxTotalUsage,
+        max_usage_per_customer: c.MaxUsagePerCustomer,
+        applicable_to: c.ApplicableTo,
+        is_active: !c.IsActive,
+        is_visible: c.IsVisible
+    };
+    fetch(`${API}/api/admin/coupons/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    }).then(() => { toast("Đã cập nhật trạng thái mã"); loadCoupons(); })
+      .catch(() => toast("Không thể cập nhật mã", "error"));
+}
+
+function confirmDeleteCoupon(id, code) {
+    document.getElementById("confirmText").innerHTML = `Bạn có chắc muốn xóa mã<br><strong>${escHtml(code)}</strong>?`;
+    document.getElementById("confirmOkBtn").onclick = () => deleteCoupon(id);
+    openModal("confirmModal");
+}
+
+function deleteCoupon(id) {
+    fetch(`${API}/api/admin/coupons/${id}`, { method: "DELETE" })
+        .then(async r => {
+            const data = await r.json();
+            if (!r.ok || !data.success) throw new Error(data.message || "Không thể xóa mã");
+            closeModal("confirmModal");
+            toast("Đã xóa mã");
+            loadCoupons();
+        })
+        .catch(err => toast(err.message, "error"));
+}
+
 // ========== REVIEWS (giữ nguyên) ==========
 let allReviews = [];
 let currentReplyId = null;
@@ -1424,6 +1648,7 @@ function loadAll() {
     loadRevenue();
     loadOrders();
     loadProducts();
+    loadCoupons();
     loadReviews();
     loadContacts();
 }

@@ -63,9 +63,94 @@ async function ensureContactsTable() {
     }
 }
 
+async function ensureCouponTables() {
+    try {
+        await sql.query`
+            IF OBJECT_ID('Coupons', 'U') IS NULL
+            BEGIN
+                CREATE TABLE Coupons (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    Code VARCHAR(50) COLLATE Latin1_General_BIN2 NOT NULL UNIQUE,
+                    Title NVARCHAR(255) NULL,
+                    Description NVARCHAR(MAX) NULL,
+                    DiscountType VARCHAR(20) NOT NULL,
+                    DiscountValue DECIMAL(18,2) NOT NULL,
+                    MaxDiscountAmount DECIMAL(18,2) NULL,
+                    MinOrderAmount DECIMAL(18,2) NOT NULL DEFAULT 0,
+                    MaxOrderAmount DECIMAL(18,2) NULL,
+                    StartDate DATETIME NOT NULL,
+                    EndDate DATETIME NOT NULL,
+                    MaxTotalUsage INT NOT NULL DEFAULT 1,
+                    MaxUsagePerCustomer INT NOT NULL DEFAULT 1,
+                    CurrentUsage INT NOT NULL DEFAULT 0,
+                    ApplicableTo VARCHAR(20) NOT NULL DEFAULT 'all',
+                    ApplicableCategories NVARCHAR(MAX) NULL,
+                    IsActive BIT NOT NULL DEFAULT 1,
+                    IsVisible BIT NOT NULL DEFAULT 1,
+                    CreatedBy INT NULL,
+                    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+                    UpdatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+                    CONSTRAINT CK_Coupons_DiscountType CHECK (DiscountType IN ('percentage', 'fixed')),
+                    CONSTRAINT CK_Coupons_ApplicableTo CHECK (ApplicableTo IN ('all', 'new_customer')),
+                    CONSTRAINT CK_Coupons_Dates CHECK (StartDate < EndDate),
+                    CONSTRAINT CK_Coupons_Values CHECK (DiscountValue > 0 AND MaxTotalUsage > 0 AND MaxUsagePerCustomer > 0 AND CurrentUsage >= 0)
+                )
+                CREATE INDEX IX_Coupons_Code ON Coupons(Code)
+                CREATE INDEX IX_Coupons_EndDate ON Coupons(EndDate)
+                CREATE INDEX IX_Coupons_ActiveVisible ON Coupons(IsActive, IsVisible)
+            END
+
+            IF OBJECT_ID('CustomerCoupons', 'U') IS NULL
+            BEGIN
+                CREATE TABLE CustomerCoupons (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    UserId INT NOT NULL,
+                    CouponId INT NOT NULL,
+                    UsageCount INT NOT NULL DEFAULT 0,
+                    ObtainedAt DATETIME NOT NULL DEFAULT GETDATE(),
+                    CONSTRAINT UQ_CustomerCoupons_UserCoupon UNIQUE (UserId, CouponId),
+                    CONSTRAINT FK_CustomerCoupons_User FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE,
+                    CONSTRAINT FK_CustomerCoupons_Coupon FOREIGN KEY (CouponId) REFERENCES Coupons(Id) ON DELETE CASCADE,
+                    CONSTRAINT CK_CustomerCoupons_Usage CHECK (UsageCount >= 0)
+                )
+                CREATE INDEX IX_CustomerCoupons_UserId ON CustomerCoupons(UserId)
+                CREATE INDEX IX_CustomerCoupons_CouponId ON CustomerCoupons(CouponId)
+            END
+
+            IF OBJECT_ID('CouponUsage', 'U') IS NULL
+            BEGIN
+                CREATE TABLE CouponUsage (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    CouponId INT NOT NULL,
+                    UserId INT NOT NULL,
+                    OrderId INT NOT NULL,
+                    DiscountAmount DECIMAL(18,2) NOT NULL DEFAULT 0,
+                    UsedAt DATETIME NOT NULL DEFAULT GETDATE(),
+                    CONSTRAINT FK_CouponUsage_Coupon FOREIGN KEY (CouponId) REFERENCES Coupons(Id),
+                    CONSTRAINT FK_CouponUsage_User FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE,
+                    CONSTRAINT FK_CouponUsage_Order FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE,
+                    CONSTRAINT CK_CouponUsage_Discount CHECK (DiscountAmount >= 0)
+                )
+                CREATE INDEX IX_CouponUsage_CouponUser ON CouponUsage(CouponId, UserId)
+                CREATE INDEX IX_CouponUsage_OrderId ON CouponUsage(OrderId)
+            END
+
+            IF COL_LENGTH('Orders', 'CouponId') IS NULL
+                ALTER TABLE Orders ADD CouponId INT NULL
+            IF COL_LENGTH('Orders', 'CouponCode') IS NULL
+                ALTER TABLE Orders ADD CouponCode VARCHAR(50) COLLATE Latin1_General_BIN2 NULL
+            IF COL_LENGTH('Orders', 'DiscountAmount') IS NULL
+                ALTER TABLE Orders ADD DiscountAmount DECIMAL(18,2) NOT NULL DEFAULT 0
+        `;
+    } catch (err) {
+        console.error("Coupon migration error:", err);
+    }
+}
+
 connectDB().then(async () => {
     await ensureReviewImageColumn();
     await ensureContactsTable();
+    await ensureCouponTables();
 });
 
 const reviewImageUpload = multer({
@@ -86,6 +171,78 @@ const reviewImageUpload = multer({
         cb(null, true);
     }
 }).single("reviewImage");
+
+function toMoney(value, fallback = 0) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+}
+
+function calculateDiscount(coupon, orderTotal) {
+    const base = Math.max(0, toMoney(orderTotal));
+    let discount = 0;
+    if (coupon.DiscountType === "percentage") {
+        discount = Math.floor(base * toMoney(coupon.DiscountValue) / 100);
+        if (coupon.MaxDiscountAmount != null) {
+            discount = Math.min(discount, toMoney(coupon.MaxDiscountAmount));
+        }
+    } else {
+        discount = toMoney(coupon.DiscountValue);
+    }
+    return Math.min(Math.max(0, discount), base);
+}
+
+async function validateCouponForUser(request, { code, userId, orderTotal }) {
+    const couponResult = await request
+        .input("couponCode", sql.VarChar(50), code)
+        .query(`
+            SELECT TOP 1 *
+            FROM Coupons
+            WHERE Code = @couponCode
+        `);
+
+    if (couponResult.recordset.length === 0) {
+        return { valid: false, status: 404, message: "Ma khong ton tai" };
+    }
+
+    const coupon = couponResult.recordset[0];
+    const now = new Date();
+    const total = toMoney(orderTotal);
+
+    if (!coupon.IsActive) return { valid: false, status: 400, message: "Ma da bi vo hieu hoa" };
+    if (now < new Date(coupon.StartDate)) return { valid: false, status: 400, message: "Ma chua den thoi gian su dung" };
+    if (now > new Date(coupon.EndDate)) return { valid: false, status: 400, message: "Ma da het han" };
+    if (coupon.CurrentUsage >= coupon.MaxTotalUsage) return { valid: false, status: 400, message: "Ma da het luot" };
+    if (total < toMoney(coupon.MinOrderAmount)) {
+        return { valid: false, status: 400, message: `Don hang phai tu ${Number(coupon.MinOrderAmount).toLocaleString("vi-VN")}d` };
+    }
+    if (coupon.MaxOrderAmount != null && total > toMoney(coupon.MaxOrderAmount)) {
+        return { valid: false, status: 400, message: `Don hang khong duoc vuot qua ${Number(coupon.MaxOrderAmount).toLocaleString("vi-VN")}d` };
+    }
+
+    const usageResult = await request
+        .input("couponIdForUsage", sql.Int, coupon.Id)
+        .input("couponUserId", sql.Int, userId)
+        .query(`
+            SELECT ISNULL(SUM(UsageCount), 0) AS UsedCount
+            FROM CustomerCoupons
+            WHERE CouponId = @couponIdForUsage AND UserId = @couponUserId
+        `);
+    const userUsed = usageResult.recordset[0]?.UsedCount || 0;
+    if (userUsed >= coupon.MaxUsagePerCustomer) {
+        return { valid: false, status: 400, message: "Ban da dung het luot cho ma nay" };
+    }
+
+    if (coupon.ApplicableTo === "new_customer") {
+        const oldOrders = await request
+            .input("newCustomerUserId", sql.Int, userId)
+            .query(`SELECT COUNT(*) AS OrderCount FROM Orders WHERE UserId = @newCustomerUserId`);
+        if ((oldOrders.recordset[0]?.OrderCount || 0) > 0) {
+            return { valid: false, status: 400, message: "Ma chi ap dung cho khach hang moi" };
+        }
+    }
+
+    return { valid: true, coupon, discountAmount: calculateDiscount(coupon, total) };
+}
 
 // ==================== AUTH ====================
 app.post("/login", async (req, res) => {
@@ -273,6 +430,217 @@ app.post("/admin/updateOrder", async (req, res) => {
     res.json({ ok: true });
 });
 
+// ==================== COUPONS ====================
+app.get("/api/admin/coupons", async (_req, res) => {
+    try {
+        const r = await sql.query(`
+            SELECT c.*,
+                   ISNULL(u.TotalDiscount, 0) AS TotalDiscount,
+                   ISNULL(u.CustomerCount, 0) AS CustomerCount
+            FROM Coupons c
+            OUTER APPLY (
+                SELECT SUM(DiscountAmount) AS TotalDiscount, COUNT(DISTINCT UserId) AS CustomerCount
+                FROM CouponUsage
+                WHERE CouponId = c.Id
+            ) u
+            ORDER BY c.Id DESC
+        `);
+        res.json(r.recordset);
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.get("/api/admin/coupons/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const r = await sql.query`
+            SELECT c.*,
+                   ISNULL((SELECT SUM(DiscountAmount) FROM CouponUsage WHERE CouponId = c.Id), 0) AS TotalDiscount,
+                   ISNULL((SELECT COUNT(*) FROM CouponUsage WHERE CouponId = c.Id), 0) AS UsageRows
+            FROM Coupons c
+            WHERE c.Id = ${id}
+        `;
+        if (!r.recordset.length) return res.status(404).json({ success: false, message: "Khong tim thay ma" });
+        res.json(r.recordset[0]);
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.post("/api/admin/coupons", async (req, res) => {
+    try {
+        const b = req.body;
+        if (!b.code || !b.discount_type || !b.discount_value || !b.start_date || !b.end_date) {
+            return res.status(400).json({ success: false, message: "Thieu thong tin bat buoc" });
+        }
+        if (!["percentage", "fixed"].includes(b.discount_type)) {
+            return res.status(400).json({ success: false, message: "Loai giam gia khong hop le" });
+        }
+        if (new Date(b.start_date) >= new Date(b.end_date)) {
+            return res.status(400).json({ success: false, message: "Ngay ket thuc phai sau ngay bat dau" });
+        }
+
+        const result = await new sql.Request()
+            .input("code", sql.VarChar(50), b.code)
+            .input("title", sql.NVarChar(255), b.title || null)
+            .input("description", sql.NVarChar(sql.MAX), b.description || null)
+            .input("discountType", sql.VarChar(20), b.discount_type)
+            .input("discountValue", sql.Decimal(18, 2), toMoney(b.discount_value))
+            .input("maxDiscountAmount", sql.Decimal(18, 2), b.max_discount_amount ? toMoney(b.max_discount_amount) : null)
+            .input("minOrderAmount", sql.Decimal(18, 2), toMoney(b.min_order_amount))
+            .input("maxOrderAmount", sql.Decimal(18, 2), b.max_order_amount ? toMoney(b.max_order_amount) : null)
+            .input("startDate", sql.DateTime, new Date(b.start_date))
+            .input("endDate", sql.DateTime, new Date(b.end_date))
+            .input("maxTotalUsage", sql.Int, Number(b.max_total_usage) || 1)
+            .input("maxUsagePerCustomer", sql.Int, Number(b.max_usage_per_customer) || 1)
+            .input("applicableTo", sql.VarChar(20), b.applicable_to || "all")
+            .input("applicableCategories", sql.NVarChar(sql.MAX), b.applicable_categories ? JSON.stringify(b.applicable_categories) : null)
+            .input("isActive", sql.Bit, b.is_active !== false)
+            .input("isVisible", sql.Bit, b.is_visible !== false)
+            .input("createdBy", sql.Int, b.created_by || null)
+            .query(`
+                INSERT INTO Coupons
+                (Code, Title, Description, DiscountType, DiscountValue, MaxDiscountAmount,
+                 MinOrderAmount, MaxOrderAmount, StartDate, EndDate, MaxTotalUsage,
+                 MaxUsagePerCustomer, ApplicableTo, ApplicableCategories, IsActive, IsVisible, CreatedBy)
+                OUTPUT INSERTED.Id
+                VALUES
+                (@code, @title, @description, @discountType, @discountValue, @maxDiscountAmount,
+                 @minOrderAmount, @maxOrderAmount, @startDate, @endDate, @maxTotalUsage,
+                 @maxUsagePerCustomer, @applicableTo, @applicableCategories, @isActive, @isVisible, @createdBy)
+            `);
+        res.json({ success: true, id: result.recordset[0].Id });
+    } catch (err) {
+        const status = err.number === 2627 ? 409 : 500;
+        res.status(status).json({ success: false, message: err.number === 2627 ? "Ma coupon da ton tai" : err.message });
+    }
+});
+
+app.put("/api/admin/coupons/:id", async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+        const b = req.body;
+        if (new Date(b.start_date) >= new Date(b.end_date)) {
+            return res.status(400).json({ success: false, message: "Ngay ket thuc phai sau ngay bat dau" });
+        }
+        await new sql.Request()
+            .input("id", sql.Int, id)
+            .input("code", sql.VarChar(50), b.code)
+            .input("title", sql.NVarChar(255), b.title || null)
+            .input("description", sql.NVarChar(sql.MAX), b.description || null)
+            .input("discountType", sql.VarChar(20), b.discount_type)
+            .input("discountValue", sql.Decimal(18, 2), toMoney(b.discount_value))
+            .input("maxDiscountAmount", sql.Decimal(18, 2), b.max_discount_amount ? toMoney(b.max_discount_amount) : null)
+            .input("minOrderAmount", sql.Decimal(18, 2), toMoney(b.min_order_amount))
+            .input("maxOrderAmount", sql.Decimal(18, 2), b.max_order_amount ? toMoney(b.max_order_amount) : null)
+            .input("startDate", sql.DateTime, new Date(b.start_date))
+            .input("endDate", sql.DateTime, new Date(b.end_date))
+            .input("maxTotalUsage", sql.Int, Number(b.max_total_usage) || 1)
+            .input("maxUsagePerCustomer", sql.Int, Number(b.max_usage_per_customer) || 1)
+            .input("applicableTo", sql.VarChar(20), b.applicable_to || "all")
+            .input("applicableCategories", sql.NVarChar(sql.MAX), b.applicable_categories ? JSON.stringify(b.applicable_categories) : null)
+            .input("isActive", sql.Bit, !!b.is_active)
+            .input("isVisible", sql.Bit, !!b.is_visible)
+            .query(`
+                UPDATE Coupons SET
+                    Code = @code, Title = @title, Description = @description,
+                    DiscountType = @discountType, DiscountValue = @discountValue,
+                    MaxDiscountAmount = @maxDiscountAmount, MinOrderAmount = @minOrderAmount,
+                    MaxOrderAmount = @maxOrderAmount, StartDate = @startDate, EndDate = @endDate,
+                    MaxTotalUsage = @maxTotalUsage, MaxUsagePerCustomer = @maxUsagePerCustomer,
+                    ApplicableTo = @applicableTo, ApplicableCategories = @applicableCategories,
+                    IsActive = @isActive, IsVisible = @isVisible, UpdatedAt = GETDATE()
+                WHERE Id = @id
+            `);
+        res.json({ success: true });
+    } catch (err) {
+        const status = err.number === 2627 ? 409 : 500;
+        res.status(status).json({ success: false, message: err.number === 2627 ? "Ma coupon da ton tai" : err.message });
+    }
+});
+
+app.delete("/api/admin/coupons/:id", async (req, res) => {
+    try {
+        await sql.query`DELETE FROM Coupons WHERE Id = ${Number(req.params.id)}`;
+        res.json({ success: true });
+    } catch (_err) {
+        res.status(500).json({ success: false, message: "Khong the xoa ma da phat sinh su dung. Hay disable thay vi xoa." });
+    }
+});
+
+app.get("/api/coupons", async (_req, res) => {
+    try {
+        const r = await sql.query(`
+            SELECT *
+            FROM Coupons
+            WHERE IsActive = 1
+              AND IsVisible = 1
+              AND StartDate <= GETDATE()
+              AND EndDate >= GETDATE()
+              AND CurrentUsage < MaxTotalUsage
+            ORDER BY EndDate ASC
+        `);
+        res.json(r.recordset);
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.post("/api/coupons/validate", async (req, res) => {
+    try {
+        const { code, user_id, order_total } = req.body;
+        const result = await validateCouponForUser(new sql.Request(), { code, userId: user_id, orderTotal: order_total });
+        if (!result.valid) return res.status(result.status).json({ success: false, message: result.message });
+        res.json({ success: true, coupon: result.coupon, discount_amount: result.discountAmount });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+app.post("/api/coupons/claim", async (req, res) => {
+    try {
+        const { user_id, coupon_id } = req.body;
+        const available = await sql.query`
+            SELECT * FROM Coupons
+            WHERE Id = ${Number(coupon_id)}
+              AND IsActive = 1
+              AND IsVisible = 1
+              AND StartDate <= GETDATE()
+              AND EndDate >= GETDATE()
+              AND CurrentUsage < MaxTotalUsage
+        `;
+        if (!available.recordset.length) return res.status(400).json({ success: false, message: "Ma khong kha dung" });
+        await sql.query`
+            INSERT INTO CustomerCoupons (UserId, CouponId)
+            VALUES (${Number(user_id)}, ${Number(coupon_id)})
+        `;
+        res.json({ success: true, message: "Da nhan ma" });
+    } catch (err) {
+        const status = err.number === 2627 ? 409 : 500;
+        res.status(status).json({ success: false, message: err.number === 2627 ? "Ban da nhan ma nay roi" : err.message });
+    }
+});
+
+app.get("/api/customers/:userId/coupons", async (req, res) => {
+    try {
+        const userId = Number(req.params.userId);
+        const r = await sql.query`
+            SELECT cc.Id AS CustomerCouponId, cc.UsageCount, cc.ObtainedAt,
+                   c.*
+            FROM CustomerCoupons cc
+            JOIN Coupons c ON c.Id = cc.CouponId
+            WHERE cc.UserId = ${userId}
+              AND c.IsActive = 1
+              AND c.EndDate >= GETDATE()
+            ORDER BY cc.ObtainedAt DESC
+        `;
+        res.json(r.recordset);
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 // ==================== PRODUCTS MANAGEMENT ====================
 app.get("/categories", async (req, res) => {
     try {
@@ -454,7 +822,7 @@ app.get("/product/:id", async (req, res) => {
 
 // ==================== CREATE ORDER ====================
 app.post("/createOrder", async (req, res) => {
-    const { userId, items, total, customerName, phone, email, address, paymentMethod } = req.body;
+    const { userId, items, total, customerName, phone, email, address, paymentMethod, shippingFee, couponCode } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
         console.error("❌ Order rejected: no items");
@@ -470,21 +838,44 @@ app.post("/createOrder", async (req, res) => {
     const transaction = new sql.Transaction();
     try {
         await transaction.begin();
+        const itemsSubtotal = items.reduce((sum, item) => sum + (toMoney(item.price) * toMoney(item.quantity)), 0);
+        const ship = Math.max(0, toMoney(shippingFee, Math.max(0, toMoney(total) - itemsSubtotal)));
+        let finalTotal = itemsSubtotal + ship;
+        let appliedCoupon = null;
+        let discountAmount = 0;
+
+        if (couponCode) {
+            const validation = await validateCouponForUser(new sql.Request(transaction), {
+                code: couponCode,
+                userId,
+                orderTotal: itemsSubtotal
+            });
+            if (!validation.valid) {
+                throw new Error(validation.message);
+            }
+            appliedCoupon = validation.coupon;
+            discountAmount = validation.discountAmount;
+            finalTotal = Math.max(0, itemsSubtotal + ship - discountAmount);
+        }
+
         const orderRequest = new sql.Request(transaction);
         const orderResult = await orderRequest
             .input("userId", sql.Int, userId)
-            .input("total", sql.Decimal(18, 2), total)
+            .input("total", sql.Decimal(18, 2), finalTotal)
             .input("customerName", sql.NVarChar(100), customerName)
             .input("phone", sql.NVarChar(20), phone)
             .input("address", sql.NVarChar(255), address)
             .input("paymentMethod", sql.NVarChar(50), paymentMethod)
             .input("email", sql.NVarChar(100), email)
+            .input("couponId", sql.Int, appliedCoupon ? appliedCoupon.Id : null)
+            .input("couponCode", sql.VarChar(50), appliedCoupon ? appliedCoupon.Code : null)
+            .input("discountAmount", sql.Decimal(18, 2), discountAmount)
             .query(`
                 INSERT INTO Orders
-                (UserId, OrderDate, Total, Status, CustomerName, Phone, Address, PaymentMethod, Note, Email)
+                (UserId, OrderDate, Total, Status, CustomerName, Phone, Address, PaymentMethod, Note, Email, CouponId, CouponCode, DiscountAmount)
                 OUTPUT INSERTED.Id
                 VALUES
-                (@userId, GETDATE(), @total, 'Pending', @customerName, @phone, @address, @paymentMethod, NULL, @email)
+                (@userId, GETDATE(), @total, 'Pending', @customerName, @phone, @address, @paymentMethod, NULL, @email, @couponId, @couponCode, @discountAmount)
             `);
         const orderId = orderResult.recordset[0].Id;
 
@@ -541,8 +932,34 @@ app.post("/createOrder", async (req, res) => {
             }
         }
 
+        if (appliedCoupon) {
+            await new sql.Request(transaction)
+                .input("couponId", sql.Int, appliedCoupon.Id)
+                .query(`UPDATE Coupons SET CurrentUsage = CurrentUsage + 1, UpdatedAt = GETDATE() WHERE Id = @couponId`);
+
+            await new sql.Request(transaction)
+                .input("userId", sql.Int, userId)
+                .input("couponId", sql.Int, appliedCoupon.Id)
+                .query(`
+                    IF EXISTS (SELECT 1 FROM CustomerCoupons WHERE UserId = @userId AND CouponId = @couponId)
+                        UPDATE CustomerCoupons SET UsageCount = UsageCount + 1 WHERE UserId = @userId AND CouponId = @couponId
+                    ELSE
+                        INSERT INTO CustomerCoupons (UserId, CouponId, UsageCount) VALUES (@userId, @couponId, 1)
+                `);
+
+            await new sql.Request(transaction)
+                .input("couponId", sql.Int, appliedCoupon.Id)
+                .input("userId", sql.Int, userId)
+                .input("orderId", sql.Int, orderId)
+                .input("discountAmount", sql.Decimal(18, 2), discountAmount)
+                .query(`
+                    INSERT INTO CouponUsage (CouponId, UserId, OrderId, DiscountAmount)
+                    VALUES (@couponId, @userId, @orderId, @discountAmount)
+                `);
+        }
+
         await transaction.commit();
-        res.json({ success: true, orderId: orderId });
+        res.json({ success: true, orderId: orderId, total: finalTotal, discountAmount });
     } catch (err) {
         await transaction.rollback();
         console.error("CreateOrder error:", err);

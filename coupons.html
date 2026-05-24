@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mã giảm giá</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Montserrat", "Open Sans", Arial, sans-serif;
+      background: #f6f6f6;
+      color: #222;
+    }
+    .top-strip {
+      background: #fff;
+      color: #111;
+      text-align: center;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-bottom: 1px solid #eee;
+    }
+    header {
+      background: #222;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    }
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 70px;
+      padding: 0 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand {
+      display: block;
+      width: 207px;
+      height: 37px;
+      background-image: url(https://store.manutd.com/img/logo.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      text-indent: -9999px;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+    .nav-links { display: flex; gap: 22px; align-items: center; }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 115%;
+      height: 2px;
+      width: 0;
+      background: #ff7e5f;
+      transition: width .25s ease;
+    }
+    .nav-links a:hover { color: #ffb39f; }
+    .nav-links a:hover::after { width: 100%; }
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 34px 20px 64px;
+    }
+    .hero {
+      background:
+        linear-gradient(135deg, rgba(34,34,34,.94), rgba(34,34,34,.74)),
+        linear-gradient(135deg, #ff4415, #ff7a45);
+      color: #fff;
+      padding: 34px;
+      border-radius: 8px;
+      box-shadow: 0 16px 34px rgba(0,0,0,.16);
+      border-left: 8px solid #ff4415;
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.1;
+      font-weight: 900;
+    }
+    .hero p {
+      margin: 0;
+      max-width: 720px;
+      color: rgba(255,255,255,.9);
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .toolbar {
+      margin: 22px 0;
+      display: grid;
+      grid-template-columns: 1fr 190px 220px;
+      gap: 12px;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+      background: #fff;
+      font: inherit;
+      font-size: 14px;
+    }
+    input:focus, select:focus {
+      border-color: #ff4415;
+      box-shadow: 0 0 0 3px rgba(255,68,21,.12);
+    }
+    .section-title {
+      margin: 30px 0 14px;
+      color: #ff4415;
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      border-left: 8px solid #ff4415;
+      padding-left: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .coupon-card {
+      background: #fff;
+      border: 1px solid #e7e7e7;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .coupon-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 5px;
+      background: linear-gradient(90deg, #ff4415, #ff8a5f);
+    }
+    .coupon-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 28px rgba(255,68,21,.16);
+    }
+    .code {
+      font-family: Consolas, "Courier New", monospace;
+      color: #ff4415;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      word-break: break-word;
+    }
+    .coupon-title { margin-top: 4px; font-weight: 800; color: #222; }
+    .discount {
+      margin: 12px 0;
+      font-size: 30px;
+      font-weight: 900;
+      color: #ff4415;
+    }
+    .meta {
+      color: #666;
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 10px 13px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: #ff4415;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255,68,21,.22);
+    }
+    .btn-primary:hover { background: #d93812; }
+    .btn-soft {
+      background: #fff2ed;
+      color: #ff4415;
+      border: 1px solid #ffd1c5;
+    }
+    .owned {
+      background: #eeeeee;
+      color: #666;
+      cursor: default;
+    }
+    .my-list { display: grid; gap: 10px; }
+    .my-item {
+      background: #fff;
+      border: 1px solid #e7e7e7;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.06);
+    }
+    .empty {
+      background: #fff;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      padding: 22px;
+      color: #666;
+      font-weight: 700;
+      text-align: center;
+    }
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #222;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: none;
+      font-weight: 700;
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+      z-index: 100;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.52);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+    }
+    .modal.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 8px;
+      max-width: 540px;
+      width: 100%;
+      padding: 22px;
+      border-top: 6px solid #ff4415;
+      box-shadow: 0 20px 44px rgba(0,0,0,.22);
+    }
+    .modal-box h2 { margin-top: 0; }
+    @media (max-width: 840px) {
+      .toolbar, .grid { grid-template-columns: 1fr; }
+      .hero { padding: 26px 20px; }
+      .my-item, .actions { flex-direction: column; align-items: stretch; }
+      .nav { align-items: flex-start; flex-direction: column; padding: 16px 20px; }
+      .nav-links { flex-wrap: wrap; gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-strip">Ở đây chúng tôi có chất lượng!!!</div>
+  <header>
+    <div class="nav">
+      <a class="brand" href="./index.html">Manchester United Store</a>
+      <div class="nav-links">
+        <a href="./index.html">Trang chủ</a>
+        <a href="./giohang/giohang.html">Giỏ hàng</a>
+        <a href="./account.html">Tài khoản</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <h1>Mã giảm giá có sẵn</h1>
+      <p>Chọn mã phù hợp với đơn hàng của bạn, nhận mã và dùng nhanh khi thanh toán.</p>
+    </section>
+
+    <div class="toolbar">
+      <input id="searchInput" placeholder="Tìm theo mã..." oninput="renderCoupons()">
+      <select id="typeFilter" onchange="renderCoupons()">
+        <option value="">Tất cả loại</option>
+        <option value="percentage">Giảm theo %</option>
+        <option value="fixed">Giảm tiền VND</option>
+      </select>
+      <select id="sortSelect" onchange="renderCoupons()">
+        <option value="discount">Giảm nhiều nhất</option>
+        <option value="min">Đơn tối thiểu thấp nhất</option>
+        <option value="expire">Sắp hết hạn</option>
+      </select>
+    </div>
+
+    <div class="section-title">Mã có thể nhận</div>
+    <div class="grid" id="couponGrid"></div>
+
+    <div class="section-title">Mã của bạn</div>
+    <div class="my-list" id="myCoupons"></div>
+  </main>
+
+  <div class="modal" id="detailModal">
+    <div class="modal-box">
+      <h2 id="detailCode"></h2>
+      <div class="discount" id="detailDiscount"></div>
+      <p id="detailDescription"></p>
+      <div class="meta" id="detailMeta"></div>
+      <div class="actions">
+        <button class="btn-primary" id="detailClaimBtn">Nhận mã</button>
+        <button class="btn-soft" onclick="closeDetail()">Đóng</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = "http://localhost:8888";
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    if (!user) {
+      sessionStorage.setItem("redirectAfterLogin", "/coupons.html");
+      window.location.href = "./dangnhap/dangnhap.html";
+    }
+
+    let coupons = [];
+    let owned = [];
+    let detailCoupon = null;
+
+    function money(n) { return Number(n || 0).toLocaleString("vi-VN") + "₫"; }
+    function label(c) { return c.DiscountType === "percentage" ? `${Number(c.DiscountValue)}%` : money(c.DiscountValue); }
+    function daysLeft(c) { return Math.max(0, Math.ceil((new Date(c.EndDate) - new Date()) / 86400000)); }
+    function isOwned(c) { return owned.some(o => o.Id === c.Id); }
+    function safeText(value) {
+      return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.style.display = "block";
+      setTimeout(() => el.style.display = "none", 2400);
+    }
+
+    async function loadData() {
+      const [couponRes, myRes] = await Promise.all([
+        fetch(`${API}/api/coupons`),
+        fetch(`${API}/api/customers/${user.Id}/coupons`)
+      ]);
+      coupons = await couponRes.json();
+      owned = await myRes.json();
+      renderCoupons();
+      renderMyCoupons();
+    }
+
+    function renderCoupons() {
+      const q = document.getElementById("searchInput").value.toLowerCase();
+      const type = document.getElementById("typeFilter").value;
+      const sort = document.getElementById("sortSelect").value;
+      let list = coupons.filter(c => (!q || String(c.Code).toLowerCase().includes(q)) && (!type || c.DiscountType === type));
+      if (sort === "min") list.sort((a, b) => Number(a.MinOrderAmount) - Number(b.MinOrderAmount));
+      else if (sort === "expire") list.sort((a, b) => new Date(a.EndDate) - new Date(b.EndDate));
+      else list.sort((a, b) => Number(b.DiscountValue) - Number(a.DiscountValue));
+
+      document.getElementById("couponGrid").innerHTML = list.length ? list.map(c => `
+        <article class="coupon-card">
+          <div class="code">${safeText(c.Code)}</div>
+          <div class="coupon-title">${safeText(c.Title || "Mã giảm giá")}</div>
+          <div class="discount">${label(c)}</div>
+          <div class="meta">
+            Đơn từ ${money(c.MinOrderAmount)}<br>
+            Còn ${Math.max(0, Number(c.MaxTotalUsage) - Number(c.CurrentUsage))}/${c.MaxTotalUsage} lượt<br>
+            Hết hạn: ${new Date(c.EndDate).toLocaleDateString("vi-VN")} (${daysLeft(c)} ngày)
+          </div>
+          <div class="actions">
+            <button class="btn-soft" onclick="openDetail(${c.Id})">Chi tiết</button>
+            ${isOwned(c)
+              ? `<button class="owned">Đã nhận</button>`
+              : `<button class="btn-primary" onclick="claimCoupon(${c.Id})">Nhận mã</button>`}
+          </div>
+        </article>
+      `).join("") : `<div class="empty">Không có mã phù hợp.</div>`;
+    }
+
+    function renderMyCoupons() {
+      const list = owned.filter(c => Number(c.UsageCount || 0) < Number(c.MaxUsagePerCustomer || 1));
+      document.getElementById("myCoupons").innerHTML = list.length ? list.map(c => `
+        <div class="my-item">
+          <div>
+            <div class="code">${safeText(c.Code)}</div>
+            <div class="meta">Đã dùng: ${c.UsageCount}/${c.MaxUsagePerCustomer} · Hết hạn ${new Date(c.EndDate).toLocaleDateString("vi-VN")}</div>
+          </div>
+          <button class="btn-primary" onclick="useCoupon('${String(c.Code).replace(/'/g, "\\'")}')">Dùng ngay</button>
+        </div>
+      `).join("") : `<div class="empty">Bạn chưa nhận mã nào.</div>`;
+    }
+
+    async function claimCoupon(id) {
+      const res = await fetch(`${API}/api/coupons/claim`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: user.Id, coupon_id: id })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) return toast(data.message || "Không nhận được mã");
+      toast("Đã nhận mã");
+      await loadData();
+    }
+
+    function openDetail(id) {
+      detailCoupon = coupons.find(c => c.Id === id);
+      if (!detailCoupon) return;
+      document.getElementById("detailCode").textContent = detailCoupon.Code;
+      document.getElementById("detailDiscount").textContent = label(detailCoupon);
+      document.getElementById("detailDescription").textContent = detailCoupon.Description || "Không có mô tả.";
+      document.getElementById("detailMeta").innerHTML = `
+        Đơn tối thiểu: ${money(detailCoupon.MinOrderAmount)}<br>
+        Đơn tối đa: ${detailCoupon.MaxOrderAmount ? money(detailCoupon.MaxOrderAmount) : "Không giới hạn"}<br>
+        Áp dụng: ${detailCoupon.ApplicableTo === "new_customer" ? "Khách mới" : "Tất cả khách hàng"}<br>
+        Mỗi khách dùng tối đa: ${detailCoupon.MaxUsagePerCustomer} lần<br>
+        Còn lại: ${Math.max(0, Number(detailCoupon.MaxTotalUsage) - Number(detailCoupon.CurrentUsage))} lượt
+      `;
+      document.getElementById("detailClaimBtn").onclick = () => claimCoupon(detailCoupon.Id);
+      document.getElementById("detailClaimBtn").disabled = isOwned(detailCoupon);
+      document.getElementById("detailClaimBtn").textContent = isOwned(detailCoupon) ? "Đã nhận" : "Nhận mã";
+      document.getElementById("detailModal").classList.add("open");
+    }
+
+    function closeDetail() { document.getElementById("detailModal").classList.remove("open"); }
+    function useCoupon(code) { window.location.href = `./giohang/thanhtoan.html?coupon=${encodeURIComponent(code)}`; }
+
+    loadData().catch(() => toast("Không tải được mã giảm giá"));
+  </script>
+</body>
+</html>

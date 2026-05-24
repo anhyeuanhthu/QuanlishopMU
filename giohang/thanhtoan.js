@@ -18,8 +18,15 @@ const orderItemsDiv = document.getElementById("orderItems");
 const itemsTotalSpan = document.getElementById("itemsTotal");
 const shippingFeeSpan = document.getElementById("shippingFee");
 const grandTotalSpan = document.getElementById("grandTotal");
+const couponCodeInput = document.getElementById("couponCodeInput");
+const couponMessage = document.getElementById("couponMessage");
+const couponSuggestions = document.getElementById("couponSuggestions");
+const discountRow = document.getElementById("discountRow");
+const discountLabel = document.getElementById("discountLabel");
+const discountAmountSpan = document.getElementById("discountAmount");
 
 let subtotal = 0;
+let appliedCoupon = null;
 
 // Hiển thị danh sách sản phẩm
 checkoutItems.forEach(item => {
@@ -58,7 +65,8 @@ function updateShippingFee() {
     const shippingInfo = calculateShippingFee(city);
     const shippingNote = document.getElementById('shippingNote');
     shippingFeeSpan.innerText = shippingInfo.fee.toLocaleString('vi-VN') + "₫";
-    grandTotalSpan.innerText = (subtotal + shippingInfo.fee).toLocaleString('vi-VN') + "₫";
+    const discount = appliedCoupon ? Number(appliedCoupon.discount_amount || 0) : 0;
+    grandTotalSpan.innerText = Math.max(0, subtotal + shippingInfo.fee - discount).toLocaleString('vi-VN') + "₫";
     if (shippingNote) {
         shippingNote.innerHTML = `<i class="fas fa-truck"></i> ${shippingInfo.note}`;
         shippingNote.style.backgroundColor = city ? '#f8f9fa' : '#fff3cd';
@@ -73,6 +81,83 @@ if (cityInput) {
     cityInput.addEventListener('blur', updateShippingFee);
 }
 updateShippingFee();
+
+function showCouponMessage(message, type = "") {
+    if (!couponMessage) return;
+    couponMessage.textContent = message || "";
+    couponMessage.className = `coupon-message ${type}`;
+}
+
+function renderAppliedCoupon() {
+    if (!discountRow || !discountAmountSpan) return;
+    if (!appliedCoupon) {
+        discountRow.style.display = "none";
+        discountAmountSpan.textContent = "-0₫";
+        return;
+    }
+    discountRow.style.display = "flex";
+    discountLabel.textContent = `Giảm giá (-${appliedCoupon.code})`;
+    discountAmountSpan.textContent = "-" + Number(appliedCoupon.discount_amount || 0).toLocaleString("vi-VN") + "₫";
+}
+
+async function applyCoupon(codeFromChip) {
+    const code = (codeFromChip || couponCodeInput?.value || "").trim();
+    if (!code) {
+        showCouponMessage("Vui lòng nhập mã giảm giá", "error");
+        return;
+    }
+    try {
+        const res = await fetch("http://localhost:8888/api/coupons/validate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code, user_id: checkoutUser.Id, order_total: subtotal })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message || "Mã không hợp lệ");
+        appliedCoupon = {
+            id: data.coupon.Id,
+            code: data.coupon.Code,
+            discount_amount: data.discount_amount
+        };
+        if (couponCodeInput) couponCodeInput.value = data.coupon.Code;
+        renderAppliedCoupon();
+        updateShippingFee();
+        showCouponMessage(`Áp dụng thành công, giảm ${Number(data.discount_amount).toLocaleString("vi-VN")}₫`, "success");
+    } catch (err) {
+        appliedCoupon = null;
+        renderAppliedCoupon();
+        updateShippingFee();
+        showCouponMessage(err.message, "error");
+    }
+}
+
+async function loadMyCouponSuggestions() {
+    if (!couponSuggestions || !checkoutUser?.Id) return;
+    try {
+        const res = await fetch(`http://localhost:8888/api/customers/${checkoutUser.Id}/coupons`);
+        const list = await res.json();
+        const usable = Array.isArray(list) ? list.filter(c => Number(c.UsageCount || 0) < Number(c.MaxUsagePerCustomer || 1)) : [];
+        if (!usable.length) {
+            couponSuggestions.innerHTML = "";
+            return;
+        }
+        couponSuggestions.innerHTML = usable.map(c => `
+            <button type="button" class="coupon-chip" onclick="applyCoupon('${String(c.Code).replace(/'/g, "\\'")}')">
+                ${c.Code} · ${c.DiscountType === "percentage" ? Number(c.DiscountValue) + "%" : Number(c.DiscountValue).toLocaleString("vi-VN") + "₫"}
+            </button>
+        `).join("");
+    } catch (_err) {
+        couponSuggestions.innerHTML = "";
+    }
+}
+
+loadMyCouponSuggestions();
+
+const couponFromUrl = new URLSearchParams(window.location.search).get("coupon");
+if (couponFromUrl && couponCodeInput) {
+    couponCodeInput.value = couponFromUrl;
+    applyCoupon(couponFromUrl);
+}
 
 // Điền thông tin user nếu đăng nhập (dùng sessionStorage)
 const user = JSON.parse(sessionStorage.getItem("user"));
@@ -288,13 +373,16 @@ async function placeOrder() {
         return;
     }
     const shippingFee = calculateShippingFee(city).fee;
-    const total = subtotal + shippingFee;
+    const discount = appliedCoupon ? Number(appliedCoupon.discount_amount || 0) : 0;
+    const total = Math.max(0, subtotal + shippingFee - discount);
     const fullAddress = `${address}, ${district ? district + ', ' : ''}${city}`;
 
     const orderData = {
         userId: user.Id,
         items: itemsToSend,
         total,
+        shippingFee,
+        couponCode: appliedCoupon ? appliedCoupon.code : null,
         customerName: fullname,
         phone,
         email,

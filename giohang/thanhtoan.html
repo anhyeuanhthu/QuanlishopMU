@@ -189,6 +189,59 @@
             padding-top: 15px;
             margin-top: 10px;
         }
+
+        .coupon-input-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .coupon-input-row input {
+            flex: 1;
+            padding: 11px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .coupon-input-row button,
+        .coupon-chip {
+            border: none;
+            border-radius: 6px;
+            background: #e44d2e;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 10px 14px;
+        }
+
+        .coupon-chip {
+            background: #fff4f0;
+            color: #e44d2e;
+            border: 1px solid #ffd1c5;
+            font-size: 12px;
+        }
+
+        .coupon-message {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .coupon-message.success { color: #4caf50; }
+        .coupon-message.error { color: #f44336; }
+
+        .coupon-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .discount-row {
+            color: #4caf50;
+            font-weight: 700;
+        }
         
         .place-btn {
             width: 100%;
@@ -558,7 +611,8 @@
                 <li><a href="../index.html">Trang chủ</a></li>
                 <li><a href="../sanpham_giohang/sanpham.html">Sản phẩm</a></li>
                 <li><a href="../gioithieu/gioithieu.html">Giới thiệu</a></li>
-                            <li><a href="./giohang.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                            <li><a href="../coupons.html"><i class="fa-solid fa-ticket"></i> Mã giảm giá</a></li>
+                <li><a href="./giohang.html"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
             </ul>
             <ul class="nav-list">
                 <li id="userMenu">
@@ -650,6 +704,16 @@
                 <h2>Đơn hàng của bạn</h2>
                 <div id="orderItems"></div>
             </div>
+
+            <div class="card">
+                <h2>Mã giảm giá</h2>
+                <div class="coupon-input-row">
+                    <input id="couponCodeInput" placeholder="Nhập mã giảm giá">
+                    <button type="button" onclick="applyCoupon()">Áp dụng</button>
+                </div>
+                <div id="couponMessage" class="coupon-message"></div>
+                <div id="couponSuggestions" class="coupon-suggestions"></div>
+            </div>
             
             <div class="card">
                 <h2>Thanh toán</h2>
@@ -660,6 +724,10 @@
                 <div class="billing-row">
                     <span>Phí vận chuyển</span>
                     <span id="shippingFee">0₫</span>
+                </div>
+                <div class="billing-row discount-row" id="discountRow" style="display:none">
+                    <span id="discountLabel">Giảm giá</span>
+                    <span id="discountAmount">-0₫</span>
                 </div>
                 <hr>
                 <div class="billing-row total">
