@@ -163,6 +163,10 @@ async function viewOrderDetail(orderId) {
 function renderOrderDetail(order) {
     const s = statusInfo(order.Status);
     document.getElementById('detailOrderTitle').textContent = `Đơn hàng #${order.Id}`;
+    const exportInvoiceBtn = document.getElementById('exportInvoiceBtn');
+    if (exportInvoiceBtn) {
+        exportInvoiceBtn.onclick = () => exportInvoice(order.Id);
+    }
     const badge = document.getElementById('detailStatusBadge');
     badge.textContent = s.text;
     badge.className = `detail-status-badge ${s.cls}`;
@@ -233,6 +237,10 @@ function renderOrderDetail(order) {
 function backToOrders() {
     document.getElementById('tab-order-detail').style.display = 'none';
     document.getElementById('tab-orders').style.display = 'block';
+}
+
+function exportInvoice(orderId) {
+    window.open(`http://localhost:8888/invoice/${orderId}?userId=${user.Id}`, '_blank');
 }
 
 // =====================

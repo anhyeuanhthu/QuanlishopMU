@@ -191,6 +191,35 @@ function calculateDiscount(coupon, orderTotal) {
     return Math.min(Math.max(0, discount), base);
 }
 
+function htmlEscape(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function formatVnd(value) {
+    return `${Number(value || 0).toLocaleString("vi-VN")}đ`;
+}
+
+function paymentLabel(method) {
+    const map = {
+        cod: "COD",
+        banking: "Banking",
+        momo: "Momo",
+        zalopay: "ZaloPay"
+    };
+    return map[String(method || "").toLowerCase()] || method || "-";
+}
+
+function paymentStatus(method) {
+    return String(method || "").toLowerCase() === "cod"
+        ? "Chưa thanh toán (Trả khi nhận hàng)"
+        : "Đã thanh toán ✅";
+}
+
 async function validateCouponForUser(request, { code, userId, orderTotal }) {
     const couponResult = await request
         .input("couponCode", sql.VarChar(50), code)
@@ -976,7 +1005,9 @@ app.get("/order/:orderId", async (req, res) => {
         const order = orderRes.recordset[0];
         const detailRes = await sql.query`
             SELECT od.Id, od.OrderId, od.ProductId, od.Quantity, od.Price,
-                   p.Name AS ProductName, p.Image AS Image
+                   COALESCE(od.ProductName, p.Name) AS ProductName,
+                   od.Size,
+                   COALESCE(NULLIF(od.Image, ''), p.Image) AS Image
             FROM OrderDetails od
             LEFT JOIN Products p ON od.ProductId = p.Id
             WHERE od.OrderId = ${orderId}
@@ -985,6 +1016,157 @@ app.get("/order/:orderId", async (req, res) => {
         res.json(order);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+app.get("/invoice/:orderId", async (req, res) => {
+    try {
+        const orderId = Number(req.params.orderId);
+        const userId = req.query.userId ? Number(req.query.userId) : null;
+
+        const orderRequest = new sql.Request().input("orderId", sql.Int, orderId);
+        let orderQuery = "SELECT * FROM Orders WHERE Id = @orderId";
+        if (userId) {
+            orderRequest.input("userId", sql.Int, userId);
+            orderQuery += " AND UserId = @userId";
+        }
+
+        const orderRes = await orderRequest.query(orderQuery);
+        if (orderRes.recordset.length === 0) {
+            return res.status(404).send("Không tìm thấy hóa đơn");
+        }
+
+        const order = orderRes.recordset[0];
+        const detailRes = await new sql.Request()
+            .input("orderId", sql.Int, orderId)
+            .query(`
+                SELECT ProductName, Price, Size, Quantity
+                FROM OrderDetails
+                WHERE OrderId = @orderId
+                ORDER BY Id ASC
+            `);
+
+        const items = detailRes.recordset;
+        const subtotal = items.reduce((sum, item) => sum + Number(item.Price || 0) * Number(item.Quantity || 0), 0);
+        const discount = Number(order.DiscountAmount || 0);
+        const total = Number(order.Total || 0);
+        const shippingFee = Math.max(0, total + discount - subtotal);
+        const orderDate = order.OrderDate ? new Date(order.OrderDate).toLocaleString("vi-VN") : "-";
+        const couponText = order.CouponCode ? ` (${htmlEscape(order.CouponCode)})` : "";
+
+        const itemRows = items.map(item => {
+            const quantity = Number(item.Quantity || 0);
+            const price = Number(item.Price || 0);
+            return `
+                <tr>
+                    <td>${htmlEscape(item.ProductName)}</td>
+                    <td class="center">${htmlEscape(item.Size || "-")}</td>
+                    <td class="center">${quantity}x</td>
+                    <td class="right">${formatVnd(price)}</td>
+                    <td class="right">${formatVnd(price * quantity)}</td>
+                </tr>`;
+        }).join("");
+
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        res.send(`<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hóa đơn ORD-${order.Id}</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f4f4f4; font-family: Consolas, "Courier New", monospace; color: #111; }
+        .toolbar { position: sticky; top: 0; padding: 12px; background: #fff; border-bottom: 1px solid #ddd; text-align: center; }
+        .toolbar button { padding: 10px 16px; border: 0; border-radius: 6px; background: #d71920; color: #fff; font-weight: 700; cursor: pointer; }
+        .invoice { width: 620px; max-width: calc(100% - 24px); margin: 20px auto; padding: 26px; background: #fff; border: 1px solid #ddd; }
+        .line { border-top: 3px double #111; margin: 10px 0; }
+        .thin { border-top: 1px dashed #555; margin: 14px 0; }
+        h1, .tagline, .thanks { text-align: center; margin: 0; }
+        h1 { font-size: 28px; letter-spacing: 1px; }
+        .tagline { font-size: 13px; }
+        .meta, .customer { line-height: 1.7; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 8px; }
+        th, td { padding: 7px 8px; vertical-align: top; }
+        th { text-align: left; border-bottom: 1px solid #333; }
+        th:first-child, td:first-child { padding-left: 0; }
+        th:nth-child(2), td:nth-child(2) { width: 48px; }
+        th:nth-child(3), td:nth-child(3) { width: 48px; }
+        th:nth-child(4), td:nth-child(4) { width: 118px; padding-right: 18px; white-space: nowrap; }
+        th:nth-child(5), td:nth-child(5) { width: 128px; padding-left: 18px; padding-right: 0; white-space: nowrap; }
+        .center { text-align: center; }
+        .right { text-align: right; }
+        .summary-row { display: flex; justify-content: space-between; gap: 16px; margin: 7px 0; }
+        .grand { font-size: 18px; font-weight: 800; }
+        @media print {
+            body { background: #fff; }
+            .toolbar { display: none; }
+            .invoice { width: 100%; max-width: 100%; margin: 0; border: 0; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button onclick="window.print()">In / lưu PDF</button>
+    </div>
+    <main class="invoice">
+        <div class="line"></div>
+        <h1>SHOPMU</h1>
+        <p class="tagline">Nơi Tụ Hợp Những Món Hàng Dành Cho Quỷ Đỏ</p>
+        <div class="line"></div>
+
+        <section class="meta">
+            <div>Ngày: ${htmlEscape(orderDate)}</div>
+            <div>Mã đơn: ORD-${order.Id}</div>
+        </section>
+        <div class="thin"></div>
+
+        <strong>SẢN PHẨM:</strong>
+        <table>
+            <colgroup>
+                <col>
+                <col style="width:48px">
+                <col style="width:48px">
+                <col style="width:118px">
+                <col style="width:128px">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th class="center">Size</th>
+                    <th class="center">SL</th>
+                    <th class="right">Đơn giá</th>
+                    <th class="right">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>${itemRows}</tbody>
+        </table>
+
+        <div class="thin"></div>
+        <div class="summary-row"><span>Tổng tiền hàng:</span><strong>${formatVnd(subtotal)}</strong></div>
+        <div class="summary-row"><span>Phí vận chuyển:</span><strong>${formatVnd(shippingFee)}</strong></div>
+        <div class="summary-row"><span>Giảm giá${couponText}:</span><strong>-${formatVnd(discount)}</strong></div>
+        <div class="line"></div>
+        <div class="summary-row grand"><span>TỔNG CỘNG:</span><span>${formatVnd(total)}</span></div>
+        <div class="line"></div>
+
+        <section class="customer">
+            <div>Khách hàng: ${htmlEscape(order.CustomerName)}</div>
+            <div>Địa chỉ: ${htmlEscape(order.Address)}</div>
+            <div>SĐT: ${htmlEscape(order.Phone)}</div>
+            <br>
+            <div>Thanh toán: ${htmlEscape(paymentLabel(order.PaymentMethod))}</div>
+            <div>Trạng thái: ${htmlEscape(paymentStatus(order.PaymentMethod))}</div>
+        </section>
+
+        <div class="line"></div>
+        <p class="thanks">Cảm ơn quý khách!</p>
+        <p class="thanks">Liên hệ: 0123456789</p>
+    </main>
+</body>
+</html>`);
+    } catch (err) {
+        console.error("Invoice error:", err);
+        res.status(500).send("Không thể xuất hóa đơn: " + err.message);
     }
 });
 
